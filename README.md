@@ -14,3 +14,5 @@ npm run dev
 ## Deployment
 
 Push the repository's `main` branch to GitHub, enable **Settings → Pages → GitHub Actions**, and the included workflow will build and publish the `dist` folder.
+
+The deployment workflow is stored in `.github/workflows/deploy.yml`.
