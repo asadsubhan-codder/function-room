@@ -14,11 +14,17 @@ export type ResourceLink = {
 
 export type QuizQuestion = {
   id: string;
+  kind?: "choice" | "input" | "explain";
   prompt: string;
-  choices: string[];
-  answer: number;
+  choices?: string[];
+  answer?: number;
+  accepted?: string[];
+  requiredGroups?: string[][];
+  minLength?: number;
+  placeholder?: string;
   explanation: string;
   skill: string;
+  category?: "K/U" | "Thinking" | "Communication" | "Application";
 };
 
 export type MasteryLesson = {
@@ -380,7 +386,7 @@ export const saturdayPlan = [
   { time: "3:00-3:15", title: "Cold diagnostic", detail: "Take the 1.1-1.3 checkpoint without notes. Do not watch first." },
   { time: "3:15-4:00", title: "Repair the misses", detail: "Use only the video segment tied to each missed skill, then solve a new question." },
   { time: "4:00-4:10", title: "Reset", detail: "Walk, water, no scrolling." },
-  { time: "4:10-5:00", title: "Master 1.4", detail: "Primary video, parent-function table from memory, worksheet, 4/4 mastery check." },
+  { time: "4:10-5:00", title: "Master 1.4", detail: "Primary video, parent-function table from memory, worksheet, then the six-part mastery check." },
   { time: "5:00-5:10", title: "Break", detail: "Leave the screen." },
   { time: "5:10-6:00", title: "Begin 1.5", detail: "Only if 1.4 is mastered. Otherwise finish the repair loop." },
   { time: "6:00-6:30", title: "Meal", detail: "Full break." },
@@ -409,7 +415,12 @@ export const reviewLibrary: ResourceLink[] = [
 export const methodSources = [
   { label: "IES study guide: spacing, worked examples, and retrieval quizzes", url: "https://ies.ed.gov/ncee/wwc/practiceguide/1" },
   { label: "Ontario MCR3U curriculum", url: "https://www.edu.gov.on.ca/eng/curriculum/secondary/math1112currb.pdf" },
+  { label: "Ontario Growing Success: varied evidence, feedback, and follow-up", url: "https://www.edu.gov.on.ca/eng/policyfunding/growSuccess.pdf" },
+  { label: "WWC-reviewed math interleaving classroom study", url: "https://ies.ed.gov/ncee/wwc/Study/88770" },
+  { label: "High-school math study: immediate corrective feedback", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC7334720/" },
   { label: "Reddit: practise like the test and write every step", url: "https://www.reddit.com/r/learnmath/comments/1fu49zv/whats_the_best_way_to_study_for_math_tests/" },
+  { label: "Ontario student with 99: log and redo every missed question", url: "https://www.reddit.com/r/OntarioGrade12s/comments/1gpz8ka/i_got_a_99_in_advanced_functions_this_is_how_you/" },
   { label: "Reddit: active problem solving and explaining each step", url: "https://www.reddit.com/r/learnmath/comments/tdgckf/what_have_you_found_to_be_the_most_effective_way/" },
-  { label: "Ontario students: JensenMath, Ms Havrot, and daily practice", url: "https://www.reddit.com/r/OntarioGrade11s/comments/1j8di14/any_advice_for_grade_11_functions_im_really/" },
+  { label: "Ontario students: daily MCR3U practice and course-specific videos", url: "https://www.reddit.com/r/OntarioGrade12s/comments/1vhfiw8/any_advice_for_grade_11_functions_mcr3u0/" },
+  { label: "Ontario students: Jensen is a base, not the whole difficulty ceiling", url: "https://www.reddit.com/r/OntarioGrade12s/comments/1lnvk9j/using_jensenmath_for_mcr3u_how_similar_is_it_to/" },
 ];

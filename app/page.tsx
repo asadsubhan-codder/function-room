@@ -5,7 +5,6 @@ import { type Lesson as LibraryLesson, units, youtube } from "./courseData";
 import {
   courseMilestones,
   methodSources,
-  mockQuestions,
   type MasteryLesson,
   type QuizQuestion,
   reviewLibrary,
@@ -13,8 +12,10 @@ import {
   testWeekPlan,
   unit1Lessons,
 } from "./masteryData";
+import { buildDiagnostic, buildLessonCheck, buildMock } from "./questionEngine";
 
-const STORAGE_KEY = "function-room-mastery-v3";
+const STORAGE_KEY = "function-room-mastery-v4";
+const PREVIOUS_KEY = "function-room-mastery-v3";
 const LEGACY_KEY = "function-room-progress";
 const TEST_DATE = new Date(2026, 8, 24, 9, 0, 0);
 const DAY = 86400000;
@@ -41,17 +42,22 @@ type ErrorItem = {
 type TimerState = { mode: "focus" | "break"; endAt: number };
 
 type MasteryState = {
-  version: 3;
+  version: 4;
   activeLessonId: string;
   lessons: Record<string, LessonRecord>;
+  diagnosticAttempts: number;
+  diagnosticBest: number;
   mockAttempts: number;
   mockBest: number;
+  mockCleanPasses: number;
+  mockEndAt?: number;
   errors: ErrorItem[];
   timer?: TimerState;
 };
 
 type QuizResult = { score: number; total: number; missed: QuizQuestion[] };
-type DisplayQuestion = QuizQuestion & { displayChoices: string[]; displayAnswer: number };
+type QuizAnswer = number | string;
+type DisplayQuestion = QuizQuestion & { displayChoices: string[]; displayAnswer?: number };
 
 const blankLesson = (): LessonRecord => ({
   watched: [],
@@ -62,11 +68,14 @@ const blankLesson = (): LessonRecord => ({
 });
 
 const blankState = (): MasteryState => ({
-  version: 3,
+  version: 4,
   activeLessonId: unit1Lessons[0].id,
   lessons: Object.fromEntries(unit1Lessons.map((lesson) => [lesson.id, blankLesson()])),
+  diagnosticAttempts: 0,
+  diagnosticBest: 0,
   mockAttempts: 0,
   mockBest: 0,
+  mockCleanPasses: 0,
   errors: [],
 });
 
@@ -88,10 +97,16 @@ function normalizeRecord(value: unknown): LessonRecord {
 
 function normalizeState(value: unknown): MasteryState | null {
   if (!value || typeof value !== "object") return null;
+  const savedVersion = (value as { version?: number }).version;
   const item = value as Partial<MasteryState>;
-  if (item.version !== 3 || !item.lessons || typeof item.lessons !== "object") return null;
+  if ((savedVersion !== 3 && savedVersion !== 4) || !item.lessons || typeof item.lessons !== "object") return null;
   const knownIds = new Set(unit1Lessons.map((lesson) => lesson.id));
-  const lessons = Object.fromEntries(unit1Lessons.map((lesson) => [lesson.id, normalizeRecord(item.lessons?.[lesson.id])]));
+  const lessons = Object.fromEntries(unit1Lessons.map((lesson) => {
+    const record = normalizeRecord(item.lessons?.[lesson.id]);
+    if (savedVersion === 4) return [lesson.id, record];
+    const { masteredAt: _masteredAt, reviewDueAt: _reviewDueAt, lockedInAt: _lockedInAt, ...preserved } = record;
+    return [lesson.id, preserved];
+  }));
   const errors = Array.isArray(item.errors)
     ? item.errors.filter(
         (error): error is ErrorItem =>
@@ -113,11 +128,15 @@ function normalizeState(value: unknown): MasteryState | null {
       ? { mode: item.timer.mode, endAt: Number(item.timer.endAt) }
       : undefined;
   return {
-    version: 3,
+    version: 4,
     activeLessonId: knownIds.has(item.activeLessonId ?? "") ? String(item.activeLessonId) : unit1Lessons[0].id,
     lessons,
+    diagnosticAttempts: Number.isFinite(item.diagnosticAttempts) ? Math.max(0, Number(item.diagnosticAttempts)) : 0,
+    diagnosticBest: Number.isFinite(item.diagnosticBest) ? Math.min(100, Math.max(0, Number(item.diagnosticBest))) : 0,
     mockAttempts: Number.isFinite(item.mockAttempts) ? Math.max(0, Number(item.mockAttempts)) : 0,
     mockBest: Number.isFinite(item.mockBest) ? Math.min(100, Math.max(0, Number(item.mockBest))) : 0,
+    mockCleanPasses: Number.isFinite(item.mockCleanPasses) ? Math.max(0, Number(item.mockCleanPasses)) : 0,
+    ...(Number.isFinite(item.mockEndAt) ? { mockEndAt: Number(item.mockEndAt) } : {}),
     errors,
     ...(timer ? { timer } : {}),
   };
@@ -131,14 +150,42 @@ function hashText(value: string) {
 
 function prepareQuestions(questions: QuizQuestion[], seed: number): DisplayQuestion[] {
   return questions.map((question, questionIndex) => {
-    const count = question.choices.length;
+    if (!question.choices || question.answer === undefined) return { ...question, displayChoices: [] };
+    const choices = question.choices;
+    const answer = question.answer;
+    const count = choices.length;
     const shift = (hashText(question.id) + seed * 3 + questionIndex) % count;
     return {
       ...question,
-      displayChoices: question.choices.map((_, index) => question.choices[(index + shift) % count]),
-      displayAnswer: (question.answer - shift + count) % count,
+      displayChoices: choices.map((_, index) => choices[(index + shift) % count]),
+      displayAnswer: (answer - shift + count) % count,
     };
   });
+}
+
+function normalizeTyped(value: string) {
+  return value
+    .toLowerCase()
+    .replaceAll("−", "-")
+    .replaceAll("÷", "/")
+    .replaceAll(" ", "")
+    .replaceAll(";", ",")
+    .replace(/^\{(.+)\}$/, "$1")
+    .trim();
+}
+
+function answerIsCorrect(question: DisplayQuestion, answer: QuizAnswer | undefined) {
+  if (question.kind === "input") {
+    if (typeof answer !== "string" || !answer.trim()) return false;
+    const candidate = normalizeTyped(answer);
+    return Boolean(question.accepted?.some((accepted) => normalizeTyped(accepted) === candidate));
+  }
+  if (question.kind === "explain") {
+    if (typeof answer !== "string" || answer.trim().length < (question.minLength ?? 1)) return false;
+    const candidate = answer.toLowerCase().replaceAll("−", "-");
+    return Boolean(question.requiredGroups?.every((group) => group.some((term) => candidate.includes(term.toLowerCase()))));
+  }
+  return typeof answer === "number" && answer === question.displayAnswer;
 }
 
 function formatCountdown(seconds: number) {
@@ -158,78 +205,127 @@ function InlineQuiz(props: {
   seed: number;
   buttonLabel: string;
   onGrade: (result: QuizResult) => void;
+  deadline?: number;
+  now?: number;
+  onRetry?: () => void;
+  onPerfectAction?: () => void;
+  perfectActionLabel?: string;
 }) {
   const [round, setRound] = useState({ questions: props.questions, seed: props.seed });
   const prepared = useMemo(() => prepareQuestions(round.questions, round.seed), [round]);
-  const [answers, setAnswers] = useState<Record<string, number>>({});
-  const [graded, setGraded] = useState<{ result: QuizResult; questions: DisplayQuestion[]; answers: Record<string, number> } | null>(null);
+  const [answers, setAnswers] = useState<Record<string, QuizAnswer>>({});
+  const [graded, setGraded] = useState<{ result: QuizResult; questions: DisplayQuestion[]; answers: Record<string, QuizAnswer> } | null>(null);
   const [message, setMessage] = useState("");
+  const submittedRef = useRef(false);
 
   useEffect(() => {
     setRound({ questions: props.questions, seed: props.seed });
     setAnswers({});
     setGraded(null);
     setMessage("");
+    submittedRef.current = false;
   }, [props.title]);
 
-  function submitQuiz() {
-    if (prepared.some((question) => answers[question.id] === undefined)) {
+  function submitQuiz(force = false) {
+    if (submittedRef.current) return;
+    if (!force && prepared.some((question) => answers[question.id] === undefined || answers[question.id] === "")) {
       setMessage("Answer every question before you submit. No lucky gaps.");
       return;
     }
     const missed = prepared
-      .filter((question) => answers[question.id] !== question.displayAnswer)
+      .filter((question) => !answerIsCorrect(question, answers[question.id]))
       .map(({ displayChoices: _choices, displayAnswer: _answer, ...question }) => question);
     const result = { score: prepared.length - missed.length, total: prepared.length, missed };
+    submittedRef.current = true;
     setGraded({ result, questions: prepared, answers: { ...answers } });
     setMessage("");
     props.onGrade(result);
   }
 
+  useEffect(() => {
+    if (props.deadline && props.now && props.now >= props.deadline && !graded) submitQuiz(true);
+  }, [props.deadline, props.now, graded]);
+
   function retry() {
+    props.onRetry?.();
     setRound({ questions: props.questions, seed: props.seed });
     setAnswers({});
     setGraded(null);
     setMessage("");
+    submittedRef.current = false;
+    window.setTimeout(() => document.querySelector(".quiz-card")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+  }
+
+  function perfectAction() {
+    props.onPerfectAction?.();
+    setRound({ questions: props.questions, seed: props.seed });
+    setAnswers({});
+    setGraded(null);
+    setMessage("");
+    submittedRef.current = false;
     window.setTimeout(() => document.querySelector(".quiz-card")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   }
 
   const visibleQuestions = graded?.questions ?? prepared;
   const visibleAnswers = graded?.answers ?? answers;
   const perfect = graded?.result.score === graded?.result.total;
+  const secondsLeft = props.deadline && props.now ? Math.max(0, Math.ceil((props.deadline - props.now) / 1000)) : null;
 
   return (
     <section className="quiz-card">
       <div className="section-heading">
         <div><p className="eyebrow">{props.eyebrow}</p><h2>{props.title}</h2></div>
-        <span className="closed-notes">CLOSED NOTES</span>
+        <span className={"closed-notes " + (secondsLeft !== null && secondsLeft < 300 ? "urgent" : "")}>{secondsLeft === null ? "CLOSED NOTES" : formatCountdown(secondsLeft)}</span>
       </div>
-      <p className="quiz-rule">Every objective must be correct. A miss creates a repair item and a fresh form.</p>
+      <p className="quiz-rule">Every item must be correct. Type exact answers, show the full solution on paper, and explain when asked. A miss creates a repair item and a fresh parallel form.</p>
       <div className="question-stack">
         {visibleQuestions.map((question, questionIndex) => {
           const selected = visibleAnswers[question.id];
-          const correct = graded ? selected === question.displayAnswer : undefined;
+          const correct = graded ? answerIsCorrect(question, selected) : undefined;
           return (
             <fieldset className={"question " + (graded ? (correct ? "correct" : "incorrect") : "")} key={question.id}>
-              <legend><span>{String(questionIndex + 1).padStart(2, "0")}</span>{question.prompt}</legend>
-              <div className="choice-grid">
-                {question.displayChoices.map((choice, choiceIndex) => {
-                  const chosen = selected === choiceIndex;
-                  const answer = Boolean(graded && question.displayAnswer === choiceIndex);
-                  return (
-                    <label className={"choice " + (chosen ? "chosen " : "") + (answer ? "answer" : "")} key={question.id + "-" + choiceIndex}>
-                      <input
-                        type="radio"
-                        name={question.id}
-                        checked={chosen}
-                        disabled={Boolean(graded)}
-                        onChange={() => setAnswers((current) => ({ ...current, [question.id]: choiceIndex }))}
-                      />
-                      <b>{String.fromCharCode(65 + choiceIndex)}</b><span>{choice}</span>
-                    </label>
-                  );
-                })}
-              </div>
+              <legend><span>{String(questionIndex + 1).padStart(2, "0")}</span><div>{question.prompt}{question.category && <small>{question.category}</small>}</div></legend>
+              {question.kind === "input" || question.kind === "explain" ? (
+                <div className="typed-answer">
+                  {question.kind === "explain" ? (
+                    <textarea
+                      value={typeof selected === "string" ? selected : ""}
+                      disabled={Boolean(graded)}
+                      placeholder={question.placeholder}
+                      onChange={(event) => setAnswers((current) => ({ ...current, [question.id]: event.target.value }))}
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      value={typeof selected === "string" ? selected : ""}
+                      disabled={Boolean(graded)}
+                      placeholder={question.placeholder}
+                      autoComplete="off"
+                      onChange={(event) => setAnswers((current) => ({ ...current, [question.id]: event.target.value }))}
+                    />
+                  )}
+                  <small>{question.kind === "explain" ? "Use a complete sentence with the mathematical reason." : "Your paper must show the steps; enter the final answer here."}</small>
+                </div>
+              ) : (
+                <div className="choice-grid">
+                  {question.displayChoices.map((choice, choiceIndex) => {
+                    const chosen = selected === choiceIndex;
+                    const answer = Boolean(graded && question.displayAnswer === choiceIndex);
+                    return (
+                      <label className={"choice " + (chosen ? "chosen " : "") + (answer ? "answer" : "")} key={question.id + "-" + choiceIndex}>
+                        <input
+                          type="radio"
+                          name={question.id}
+                          checked={chosen}
+                          disabled={Boolean(graded)}
+                          onChange={() => setAnswers((current) => ({ ...current, [question.id]: choiceIndex }))}
+                        />
+                        <b>{String.fromCharCode(65 + choiceIndex)}</b><span>{choice}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              )}
               {graded && <p className="answer-explanation"><strong>{correct ? "Correct." : "Repair this."}</strong> {question.explanation}</p>}
             </fieldset>
           );
@@ -241,12 +337,13 @@ function InlineQuiz(props: {
           <div>
             <span>{perfect ? "MASTERED" : "REPAIR LOOP"}</span>
             <strong>{graded.result.score}/{graded.result.total}</strong>
-            <p>{perfect ? "Perfect evidence on this form. The next gate is open." : "Read the feedback, redo the miss on paper, then use the alternate form."}</p>
+            <p>{perfect ? "Perfect evidence across recognition, construction, explanation, and transfer. The next gate is open." : "Read the feedback, correct the full solution on paper, then use a fresh parallel form."}</p>
           </div>
           {!perfect && <button className="button dark" type="button" onClick={retry}>Load fresh form</button>}
+          {perfect && props.onPerfectAction && <button className="button dark" type="button" onClick={perfectAction}>{props.perfectActionLabel ?? "Continue"}</button>}
         </div>
       ) : (
-        <button className="button primary wide" type="button" onClick={submitQuiz}>{props.buttonLabel}</button>
+        <button className="button primary wide" type="button" onClick={() => submitQuiz(false)}>{props.buttonLabel}</button>
       )}
     </section>
   );
@@ -301,10 +398,9 @@ function LessonWorkspace(props: {
     setShowAnswers(false);
   }, [props.lesson.id, props.lesson.videos]);
 
-  const formIndex = mastered
-    ? props.record.reviewAttempts % props.lesson.forms.length
-    : props.record.attempts % props.lesson.forms.length;
   const quizSeed = mastered ? props.record.reviewAttempts + 41 : props.record.attempts + 1;
+  const masteryQuestions = buildLessonCheck(props.lesson.section, props.record.attempts, "mastery");
+  const retentionQuestions = buildLessonCheck(props.lesson.section, props.record.reviewAttempts, "retention");
 
   return (
     <div className="lesson-workspace">
@@ -329,7 +425,7 @@ function LessonWorkspace(props: {
       <div className="stage-strip">
         <div className={props.record.watched.length ? "done" : "active"}><b>1</b><span>Learn</span><small>{props.record.watched.length ? "Video checked" : "Watch actively"}</small></div>
         <div className={props.record.practiceDone ? "done" : props.record.watched.length ? "active" : ""}><b>2</b><span>Practise</span><small>{props.record.practiceDone ? "Paper work done" : "Independent work"}</small></div>
-        <div className={mastered ? "done" : readyToProve ? "active" : ""}><b>3</b><span>Prove</span><small>{mastered ? "4/4 passed" : "Fresh check"}</small></div>
+        <div className={mastered ? "done" : readyToProve ? "active" : ""}><b>3</b><span>Prove</span><small>{mastered ? "6/6 passed" : "Fresh mixed check"}</small></div>
         <div className={lockedIn ? "done" : props.isDue ? "active" : ""}><b>4</b><span>Retain</span><small>{lockedIn ? "Delayed pass" : mastered ? "Return later" : "After mastery"}</small></div>
       </div>
 
@@ -436,7 +532,7 @@ function LessonWorkspace(props: {
         <InlineQuiz
           title={props.lesson.section + " mastery check"}
           eyebrow="STAGE 03 · PROVE IT"
-          questions={props.lesson.forms[formIndex]}
+          questions={masteryQuestions}
           seed={quizSeed}
           buttonLabel="Grade my mastery check"
           onGrade={(result) => props.onGrade(result, "mastery")}
@@ -459,7 +555,7 @@ function LessonWorkspace(props: {
         <InlineQuiz
           title={props.lesson.section + " retention recheck"}
           eyebrow="STAGE 04 · DELAYED RETRIEVAL"
-          questions={props.lesson.forms[formIndex]}
+          questions={retentionQuestions}
           seed={quizSeed}
           buttonLabel="Lock this lesson in"
           onGrade={(result) => props.onGrade(result, "retention")}
@@ -524,7 +620,7 @@ export default function Home() {
   const [mastery, setMastery] = useState<MasteryState>(blankState);
   const [hydrated, setHydrated] = useState(false);
   const [activeUnitId, setActiveUnitId] = useState(1);
-  const [unitOneView, setUnitOneView] = useState<"mission" | "lesson" | "mock">("mission");
+  const [unitOneView, setUnitOneView] = useState<"mission" | "diagnostic" | "lesson" | "mock">("mission");
   const [libraryLessonIndex, setLibraryLessonIndex] = useState(0);
   const [now, setNow] = useState(Date.now());
   const [syncNote, setSyncNote] = useState("Loading progress…");
@@ -532,7 +628,7 @@ export default function Home() {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const saved = localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem(PREVIOUS_KEY);
       if (saved) {
         const normalized = normalizeState(JSON.parse(saved));
         if (normalized) setMastery(normalized);
@@ -582,9 +678,9 @@ export default function Home() {
   ).length;
   const readiness = Math.min(
     100,
-    Math.round((masteredCount / unit1Lessons.length) * 70 + (lockedCount / unit1Lessons.length) * 20 + (mastery.mockBest / 100) * 10),
+    Math.round((masteredCount / unit1Lessons.length) * 55 + (lockedCount / unit1Lessons.length) * 25 + Math.min(2, mastery.mockCleanPasses) * 10),
   );
-  const testReady = allMastered && lockedCount === unit1Lessons.length && mastery.mockBest === 100 && mastery.errors.length === 0;
+  const testReady = allMastered && lockedCount === unit1Lessons.length && mastery.mockCleanPasses >= 2 && mastery.errors.length === 0;
   const currentLessonIndex = Math.max(0, unit1Lessons.findIndex((lesson) => lesson.id === mastery.activeLessonId));
   const currentLesson = unit1Lessons[currentLessonIndex];
   const currentRecord = getRecord(mastery, currentLesson.id);
@@ -596,7 +692,9 @@ export default function Home() {
   );
   const nextLessonIndex = Math.max(0, unit1Lessons.findIndex((lesson) => !getRecord(mastery, lesson.id).masteredAt));
   const nextLesson = allMastered ? null : unit1Lessons[nextLessonIndex];
-  const daysToTest = Math.max(0, Math.ceil((TEST_DATE.getTime() - now) / DAY));
+  const rawDaysToTest = Math.ceil((TEST_DATE.getTime() - now) / DAY);
+  const countdownLabel = rawDaysToTest > 0 ? rawDaysToTest + " DAYS" : rawDaysToTest === 0 ? "TEST DAY" : "COMPLETE";
+  const testWindowEnded = now > TEST_DATE.getTime() + 16 * 60 * 60 * 1000;
 
   function updateLesson(lessonId: string, transform: (record: LessonRecord) => LessonRecord) {
     setMastery((current) => ({
@@ -676,12 +774,15 @@ export default function Home() {
 
   function gradeMock(result: QuizResult) {
     const percent = Math.round((result.score / result.total) * 100);
-    setMastery((current) => ({
-      ...current,
-      mockAttempts: current.mockAttempts + 1,
-      mockBest: Math.max(current.mockBest, percent),
-      ...(percent === 100 ? { errors: [] } : {}),
-    }));
+    setMastery((current) => {
+      return {
+        ...current,
+        mockAttempts: current.mockAttempts + 1,
+        mockBest: Math.max(current.mockBest, percent),
+        mockCleanPasses: current.mockCleanPasses + (percent === 100 ? 1 : 0),
+        ...(percent === 100 ? { errors: [] } : {}),
+      };
+    });
     if (percent < 100) {
       result.missed.forEach((question) => {
         const section = question.skill.split(" ")[0];
@@ -689,6 +790,39 @@ export default function Home() {
         if (lesson) addErrors(lesson.id, [question]);
       });
     }
+  }
+
+  function gradeDiagnostic(result: QuizResult) {
+    const percent = Math.round((result.score / result.total) * 100);
+    const missedSections = new Set(result.missed.map((question) => question.skill.split(" ")[0]));
+    const clearedLessonIds = new Set(
+      unit1Lessons
+        .filter((lesson) => ["1.1", "1.2", "1.3"].includes(lesson.section) && !missedSections.has(lesson.section))
+        .map((lesson) => lesson.id),
+    );
+    setMastery((current) => ({
+      ...current,
+      diagnosticAttempts: current.diagnosticAttempts + 1,
+      diagnosticBest: Math.max(current.diagnosticBest, percent),
+      errors: current.errors.filter((error) => !clearedLessonIds.has(error.lessonId)),
+    }));
+    result.missed.forEach((question) => {
+      const section = question.skill.split(" ")[0];
+      const lesson = unit1Lessons.find((candidate) => candidate.section === section);
+      if (lesson) addErrors(lesson.id, [question]);
+    });
+  }
+
+  function startMock() {
+    setMastery((current) => ({ ...current, mockEndAt: Date.now() + 40 * 60 * 1000 }));
+  }
+
+  function finishMock() {
+    setMastery((current) => {
+      const { mockEndAt: _mockEndAt, ...rest } = current;
+      return rest;
+    });
+    setUnitOneView("mission");
   }
 
   function exportProgress() {
@@ -739,7 +873,7 @@ export default function Home() {
         </button>
 
         <div className="test-countdown">
-          <span>UNIT 1 TEST</span><strong>{daysToTest === 0 ? "TEST DAY" : daysToTest + " DAYS"}</strong><small>THU · SEP 24</small>
+          <span>UNIT 1 TEST</span><strong>{countdownLabel}</strong><small>THU · SEP 24</small>
         </div>
 
         <p className="sidebar-label">CURRENT MISSION</p>
@@ -753,6 +887,18 @@ export default function Home() {
           }}
         >
           <span>⌂</span><div><b>Mission control</b><small>{readiness}% evidence</small></div>
+        </button>
+
+        <button
+          type="button"
+          className={"mission-link " + (activeUnitId === 1 && unitOneView === "diagnostic" ? "active" : "")}
+          onClick={() => {
+            setActiveUnitId(1);
+            setUnitOneView("diagnostic");
+            window.setTimeout(() => document.querySelector(".main")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+          }}
+        >
+          <span>◉</span><div><b>Cold diagnostic</b><small>{mastery.diagnosticAttempts ? mastery.diagnosticBest + "% best" : "1.1–1.3 · start here"}</small></div>
         </button>
 
         <nav className="lesson-path" aria-label="Unit 1 mastery path">
@@ -842,8 +988,8 @@ export default function Home() {
             <div className="mission-page">
               <section className="mission-hero">
                 <div className="mission-copy">
-                  <p className="eyebrow">SATURDAY · SEPTEMBER 19 · START AT 3:00</p>
-                  <h1>Build proof.<br />Walk into Thursday calm.</h1>
+                  <p className="eyebrow">{testWindowEnded ? "UNIT 1 · RETENTION ARCHIVE" : "SATURDAY · SEPTEMBER 19 · START AT 3:00"}</p>
+                  <h1>{testWindowEnded ? <>Keep the skill.<br />Carry it forward.</> : <>Build proof.<br />Walk into Thursday calm.</>}</h1>
                   <p>This room does not count passive watching as learning. Every lesson moves through video, independent practice, a perfect mastery check, and a delayed recheck.</p>
                   <div className="hero-actions">
                     <button
@@ -856,14 +1002,13 @@ export default function Home() {
                     >
                       {nextLesson ? "Start " + nextLesson.section + " · " + nextLesson.title : "Open Unit 1 mock"}
                     </button>
-                    <a
+                    <button
                       className="button secondary"
-                      href="https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_introtofunctions_quiz.docx"
-                      target="_blank"
-                      rel="noreferrer"
+                      type="button"
+                      onClick={() => setUnitOneView("diagnostic")}
                     >
-                      Take cold 1.1–1.3 diagnostic ↗
-                    </a>
+                      Take native 1.1–1.3 diagnostic →
+                    </button>
                   </div>
                   <p className="honest-promise"><span>THE STANDARD</span>The site can make gaps impossible to hide. Your test mark still depends on doing the work without notes.</p>
                 </div>
@@ -874,10 +1019,10 @@ export default function Home() {
                   <div className="readiness-stats">
                     <div><strong>{masteredCount}/7</strong><span>mastered</span></div>
                     <div><strong>{lockedCount}/7</strong><span>locked in</span></div>
-                    <div><strong>{mastery.mockBest}%</strong><span>mock best</span></div>
+                    <div><strong>{mastery.mockCleanPasses}/2</strong><span>clean mocks</span></div>
                     <div><strong>{mastery.errors.length}</strong><span>open errors</span></div>
                   </div>
-                  <p className={testReady ? "ready" : ""}>{testReady ? "Every readiness gate is passed." : "Test-ready = 7 delayed passes + 100% mock + zero open errors."}</p>
+                  <p className={testReady ? "ready" : ""}>{testReady ? "Every readiness gate is passed." : "Test-ready = 7 delayed passes + two 100% unseen mocks + zero open errors."}</p>
                 </div>
               </section>
 
@@ -886,7 +1031,7 @@ export default function Home() {
                 <div>
                   <p className="eyebrow">DO THIS NEXT</p>
                   <h2>{dueCount > 0 ? dueCount + " delayed recheck" + (dueCount === 1 ? "" : "s") + " due" : nextLesson ? nextLesson.section + " · " + nextLesson.title : "Take the full Unit 1 mock"}</h2>
-                  <p>{dueCount > 0 ? "Retrieval after a delay comes before new content. Pass the fresh form without notes." : nextLesson ? nextLesson.summary : "Use all twelve mixed questions as a strict closed-notes test."}</p>
+                  <p>{dueCount > 0 ? "Retrieval after a delay comes before new content. Pass the fresh form without notes." : nextLesson ? nextLesson.summary : "Use the 19 mixed questions as a strict, timed, closed-notes test."}</p>
                 </div>
                 <button
                   className="button dark"
@@ -905,6 +1050,7 @@ export default function Home() {
                 </button>
               </section>
 
+              {!testWindowEnded ? <>
               <section className="schedule-section">
                 <div className="section-heading">
                   <div><p className="eyebrow">YOUR 3:00 PM LOCK-IN</p><h2>Saturday execution plan</h2></div>
@@ -930,6 +1076,12 @@ export default function Home() {
                   {testWeekPlan.map((item) => <article key={item.day}><strong>{item.day}</strong><p>{item.task}</p></article>)}
                 </div>
               </section>
+              </> : (
+                <section className="locked-in-card archive-card">
+                  <span>↻</span>
+                  <div><p className="eyebrow">TEST WINDOW COMPLETE</p><h2>The September 24 plan is archived.</h2><p>Keep using delayed lesson checks and fresh mocks when later units depend on these skills.</p></div>
+                </section>
+              )}
 
               {mastery.errors.length > 0 && (
                 <section className="error-log">
@@ -973,6 +1125,27 @@ export default function Home() {
             </div>
           )}
 
+          {activeUnitId === 1 && unitOneView === "diagnostic" && (
+            <div className="diagnostic-page">
+              <section className="mock-hero diagnostic-hero">
+                <div>
+                  <p className="eyebrow">START HERE · LESSONS 1.1–1.3</p>
+                  <h1>Cold diagnostic</h1>
+                  <p>Nine closed-notes questions find the exact gaps before you spend time watching. It creates repair items but never skips or unlocks a lesson.</p>
+                </div>
+                <div><span>BEST</span><strong>{mastery.diagnosticBest}%</strong><small>{mastery.diagnosticAttempts} attempt{mastery.diagnosticAttempts === 1 ? "" : "s"}</small></div>
+              </section>
+              <InlineQuiz
+                title="1.1–1.3 cold diagnostic"
+                eyebrow="9 QUESTIONS · NO VIDEOS FIRST"
+                questions={buildDiagnostic(mastery.diagnosticAttempts)}
+                seed={mastery.diagnosticAttempts + 71}
+                buttonLabel="Grade my diagnostic"
+                onGrade={gradeDiagnostic}
+              />
+            </div>
+          )}
+
           {activeUnitId === 1 && unitOneView === "lesson" && (
             <LessonWorkspace
               lesson={currentLesson}
@@ -988,19 +1161,29 @@ export default function Home() {
           {activeUnitId === 1 && unitOneView === "mock" && (
             <div className="mock-page">
               <section className="mock-hero">
-                <div><p className="eyebrow">FINAL GATE · UNIT 1</p><h1>Closed-notes mock test</h1><p>12 mixed questions across all seven lessons. There are no chapter labels during a real test, so this form makes you choose the method.</p></div>
-                <div><span>BEST</span><strong>{mastery.mockBest}%</strong><small>{mastery.mockAttempts} attempt{mastery.mockAttempts === 1 ? "" : "s"}</small></div>
+                <div><p className="eyebrow">FINAL GATE · UNIT 1</p><h1>40-minute unseen mock</h1><p>19 mixed questions across all seven lessons: calculations, construction, explanation, and transfer. The timer auto-submits at zero. Every attempt generates new values.</p></div>
+                <div><span>CLEAN FORMS</span><strong>{mastery.mockCleanPasses}/2</strong><small>{mastery.mockBest}% best · {mastery.mockAttempts} attempt{mastery.mockAttempts === 1 ? "" : "s"}</small></div>
               </section>
               {!allMastered ? (
                 <section className="locked-panel"><span>LOCKED</span><h2>Master all seven lessons before the cumulative mock.</h2><p>{7 - masteredCount} lesson{7 - masteredCount === 1 ? "" : "s"} remaining.</p></section>
+              ) : !mastery.mockEndAt ? (
+                <section className="mock-start">
+                  <div><p className="eyebrow">TEST CONDITIONS</p><h2>Paper, pencil, no notes, 40 minutes.</h2><p>Complete every written step on paper. Two perfect performances on different generated forms are the readiness standard. This is a demanding study gate, not a promise of a school mark.</p></div>
+                  <button className="button primary" type="button" onClick={startMock}>Start 40-minute form {mastery.mockAttempts + 1}</button>
+                </section>
               ) : (
                 <InlineQuiz
                   title="Unit 1 mixed mock"
-                  eyebrow="12 QUESTIONS · FRESH ORDER"
-                  questions={mockQuestions}
+                  eyebrow="19 QUESTIONS · AUTO-SUBMITS"
+                  questions={buildMock(mastery.mockAttempts)}
                   seed={mastery.mockAttempts + 101}
                   buttonLabel="Grade my Unit 1 mock"
                   onGrade={gradeMock}
+                  deadline={mastery.mockEndAt}
+                  now={now}
+                  onRetry={startMock}
+                  onPerfectAction={mastery.mockCleanPasses >= 2 ? finishMock : startMock}
+                  perfectActionLabel={mastery.mockCleanPasses >= 2 ? "Return to mission control" : "Start the second unseen form"}
                 />
               )}
             </div>

@@ -22,7 +22,7 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--paper); }
-button, input { font: inherit; }
+button, input, textarea { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 button { color: inherit; }
 a { color: inherit; }
@@ -247,7 +247,52 @@ p { line-height: 1.65; }
   font-weight: 900;
   letter-spacing: .08em;
 }
+.closed-notes.urgent { background: #fee1dc; color: #a62f28; }
 .status-pill.done { background: var(--teal-soft); color: #147363; }
+
+.question legend > div { display: inline; }
+.question legend small {
+  display: inline-block;
+  margin-left: 9px;
+  padding: 3px 6px;
+  border-radius: 5px;
+  background: #ece7db;
+  color: #667183;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.typed-answer { display: grid; gap: 8px; }
+.typed-answer input, .typed-answer textarea {
+  width: 100%;
+  border: 1px solid #cfc8ba;
+  border-radius: 10px;
+  background: #fffefa;
+  color: var(--ink);
+  outline: none;
+  padding: 14px 15px;
+}
+.typed-answer textarea { min-height: 105px; resize: vertical; line-height: 1.55; }
+.typed-answer input:focus, .typed-answer textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(240,106,53,.12); }
+.typed-answer input:disabled, .typed-answer textarea:disabled { opacity: 1; background: #f4f0e7; }
+.typed-answer small { color: var(--muted); font-size: 10px; }
+
+.mock-start {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: clamp(24px, 4vw, 42px);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+.mock-start h2 { margin-bottom: 8px; }
+.mock-start p:not(.eyebrow) { max-width: 720px; margin-bottom: 0; color: var(--muted); }
+.mock-start .button { flex: 0 0 auto; }
+.diagnostic-hero { border-bottom-color: rgba(31,157,139,.28); }
 
 .mission-hero {
   display: grid;
@@ -608,6 +653,7 @@ p { line-height: 1.65; }
   .score-panel { align-items: stretch; flex-direction: column; }
   .retention-card, .locked-in-card { align-items: flex-start; flex-direction: column; }
   .mock-hero, .library-hero { grid-template-columns: 1fr; }
+  .mock-start { align-items: stretch; flex-direction: column; }
 }
 
 @media (prefers-reduced-motion: reduce) {
