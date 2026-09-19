@@ -212,8 +212,8 @@ function inverseQuestions(seed: number, prefix: string): QuizQuestion[] {
   ];
 }
 
-export function buildLessonCheck(section: string, attempt: number, phase: "mastery" | "retention" | "diagnostic" | "mock" = "mastery"): QuizQuestion[] {
-  const offset = phase === "retention" ? 101 : phase === "mock" ? 211 : phase === "diagnostic" ? 307 : 0;
+export function buildLessonCheck(section: string, attempt: number, phase: "mastery" | "retention" | "mock" = "mastery"): QuizQuestion[] {
+  const offset = phase === "retention" ? 101 : phase === "mock" ? 211 : 0;
   const seed = attempt * 17 + offset;
   const prefix = phase + "-" + attempt + "-" + section.replace(".", "");
   if (section === "1.1") return relationQuestions(seed, prefix);
@@ -223,14 +223,6 @@ export function buildLessonCheck(section: string, attempt: number, phase: "maste
   if (section === "1.5") return transformQuestions(seed, prefix);
   if (section === "1.6") return graphQuestions(seed, prefix);
   return inverseQuestions(seed, prefix);
-}
-
-export function buildDiagnostic(attempt: number): QuizQuestion[] {
-  const indexes = attempt % 2 === 0 ? [0, 2, 4] : [1, 3, 5];
-  return ["1.1", "1.2", "1.3"].flatMap((section, index) => {
-    const questions = buildLessonCheck(section, attempt + index, "diagnostic");
-    return indexes.map((questionIndex) => questions[questionIndex]);
-  });
 }
 
 export function buildMock(attempt: number): QuizQuestion[] {

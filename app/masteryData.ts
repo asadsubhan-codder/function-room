@@ -12,6 +12,16 @@ export type ResourceLink = {
   kind: "worksheet" | "answers" | "quiz" | "test" | "reference";
 };
 
+export type AssessmentPack = {
+  step: string;
+  title: string;
+  source: string;
+  coverage: string;
+  timing: string;
+  instructions: string;
+  links: ResourceLink[];
+};
+
 export type QuizQuestion = {
   id: string;
   kind?: "choice" | "input" | "explain";
@@ -74,8 +84,8 @@ export const unit1Lessons: MasteryLesson[] = [
     ],
     pitfall: "Repeated outputs are allowed. A function fails only when one input has more than one output.",
     videos: [
-      { id: "qgRsd_7CWOc", title: "1.1 Functions, Domain, and Range", provider: "JensenMath", role: "core", note: "Best first explanation and Ontario-style examples." },
-      { id: "BCo-07Dwpz4", title: "MCR3U 1.1 - Functions, relations, domain and range", provider: "AllThingsMathematics", role: "alternate", note: "Use if you want a second explanation before the check." },
+      { id: "8ndTq9VM6KM", title: "Functions 1.1 Nelson", provider: "Ms Havrot", role: "core", note: "Start here. It follows the Ontario Nelson lesson used by your course." },
+      { id: "BCo-07Dwpz4", title: "MCR3U 1.1 - Functions, relations, domain and range", provider: "AllThingsMathematics", role: "alternate", note: "Use for a second Ontario explanation and more challenge." },
     ],
     resources: [
       { label: "1.1 student worksheet", url: file("mcr3u_whatisafunction.docx"), kind: "worksheet" },
@@ -116,7 +126,7 @@ export const unit1Lessons: MasteryLesson[] = [
     ],
     pitfall: "f(2x) means the input is 2x. It does not mean 2f(x). In f(g(x)), g happens first.",
     videos: [
-      { id: "PtjxcbaH8VM", title: "1.2 Function Notation f(x)=", provider: "JensenMath", role: "core", note: "Core substitution, graph reading, and solving." },
+      { id: "3_WTOAB4n-s", title: "Functions 1.2 - Function Notation", provider: "Ms Havrot", role: "core", note: "Start here for the exact Ontario/Nelson sequence." },
       { id: "T2o97I3yYbw", title: "Function Notation with Composite Functions", provider: "AllThingsMathematics", role: "core", note: "Required because your class handout includes f(g(x))." },
       { id: "KS8JLof5o90", title: "Solve equations with function notation", provider: "AllThingsMathematics", role: "repair", note: "Use if solving f(x)=k is your weak spot." },
     ],
@@ -247,7 +257,7 @@ export const unit1Lessons: MasteryLesson[] = [
     pitfall: "Inside changes act horizontally and use the reciprocal scale. f(4x) compresses horizontally by 1/4.",
     videos: [
       { id: "dRIwgEtUYA0", title: "Transformations - vertical and horizontal translations", provider: "Ms Havrot", role: "core", note: "Start here for d and c." },
-      { id: "czn7KpPALC8", title: "Stretches, compressions, and reflections (Part 1)", provider: "Andrighetti Math", role: "core", note: "Required for a and k." },
+      { id: "tF4P2Y47Odk", title: "Functions 1.7 - Stretches and Compressions", provider: "Ms Havrot", role: "core", note: "Continue here for a and k after translations." },
       { id: "3lTp7weYqto", title: "MCR3U transformations overview", provider: "AllThingsMathematics", role: "alternate", note: "Use as the second explanation or repair lesson." },
     ],
     resources: [
@@ -289,7 +299,7 @@ export const unit1Lessons: MasteryLesson[] = [
     pitfall: "In the point mapping, x is divided by k before adding d. Missing the reciprocal is the most common lost-mark error.",
     videos: [
       { id: "Wkf24MjBC-U", title: "Functions 1.8 - Mapping RULES!", provider: "Ms Havrot", role: "core", note: "The mapping-rule method your Ontario course expects." },
-      { id: "MjqFvyNkoL8", title: "Transformations of Functions - Grade 11", provider: "JensenMath", role: "core", note: "Full worked graphing examples." },
+      { id: "H-IdTIi7Xr8", title: "Functions 1.7 - X's Are Weird", provider: "Ms Havrot", role: "core", note: "Targeted Ontario examples for the horizontal rules that cause most errors." },
       { id: "Tmdrjs9xufc", title: "Transformations of Functions", provider: "The Organic Chemistry Tutor", role: "repair", note: "Long-form backup explanation." },
     ],
     resources: [
@@ -332,7 +342,7 @@ export const unit1Lessons: MasteryLesson[] = [
     ],
     pitfall: "f^-1(x) means inverse function, not 1/f(x). A quadratic needs a restricted domain for its inverse to be a function.",
     videos: [
-      { id: "JDnQXEvbWck", title: "MCR3U - Inverse of a Function", provider: "JensenMath", role: "core", note: "Complete Ontario-style lesson." },
+      { id: "vfxoaiCaqk8", title: "Functions 1.5 - Inverse Functions", provider: "Ms Havrot", role: "core", note: "Complete Ontario/Nelson lesson with the course's expected notation." },
       { id: "x_aTsnglk7k", title: "Inverse of a Function Overview", provider: "AllThingsMathematics", role: "alternate", note: "A second MCR3U explanation." },
       { id: "2zeYEx4eTdc", title: "How to Find the Inverse of a Function", provider: "The Organic Chemistry Tutor", role: "repair", note: "Use for extra algebraic examples." },
     ],
@@ -383,8 +393,8 @@ export const courseMilestones = [
 ] as const;
 
 export const saturdayPlan = [
-  { time: "3:00-3:15", title: "Cold diagnostic", detail: "Take the 1.1-1.3 checkpoint without notes. Do not watch first." },
-  { time: "3:15-4:00", title: "Repair the misses", detail: "Use only the video segment tied to each missed skill, then solve a new question." },
+  { time: "3:00-3:20", title: "Authentic checkpoint", detail: "Print or mark up the Lourdes 1.1-1.3 quiz. Closed notes; open its key only after finishing." },
+  { time: "3:20-4:00", title: "Repair the misses", detail: "Use only the video segment tied to each missed skill, then solve a new question." },
   { time: "4:00-4:10", title: "Reset", detail: "Walk, water, no scrolling." },
   { time: "4:10-5:00", title: "Master 1.4", detail: "Primary video, parent-function table from memory, worksheet, then the six-part mastery check." },
   { time: "5:00-5:10", title: "Break", detail: "Leave the screen." },
@@ -408,8 +418,93 @@ export const reviewLibrary: ResourceLink[] = [
   { label: "Full Unit 1 review", url: file("mcr3u_functionsreview.doc"), kind: "test" },
   { label: "Full review solutions", url: file("mcr3u_functionsreview_soln.pdf"), kind: "answers" },
   { label: "31-question MCR3U review + key", url: "https://abawa8.wordpress.com/wp-content/uploads/2014/09/ch1-mcr3u-review.pdf", kind: "test" },
+  { label: "Ms Havrot Chapter 1 practice test", url: "https://mshavrot.pbworks.com/f/Chapter%201%20Test%20%231%20Feb%202016.pdf", kind: "test" },
   { label: "Authentic Ontario Unit 1 test B (timed mock; no key)", url: "https://300math.weebly.com/uploads/5/2/5/1/52513515/test_1_-_functions_and_transformations_version_b.pdf", kind: "test" },
   { label: "Solved MCR3U Unit 1 test video", url: "https://www.youtube.com/watch?v=Pu4LMMYA45U", kind: "reference" },
+];
+
+export const assessmentPacks: AssessmentPack[] = [
+  {
+    step: "01 · BASELINE",
+    title: "Teacher checkpoint quiz: 1.1–1.3",
+    source: "Our Lady of Lourdes Catholic High School · Ontario MCR3U",
+    coverage: "Relations and functions, function notation, domain and range",
+    timing: "20 minutes · closed notes",
+    instructions: "Do the student file on paper or with iPad markup. Show every line. Do not open the separate key until the timer ends; circle every error instead of erasing it.",
+    links: [
+      { label: "Open student quiz", url: file("mcr3u_introtofunctions_quiz.docx"), kind: "quiz" },
+      { label: "Open answer key after attempt", url: file("mcr3u_introtofunctions_quiz_soln.pdf"), kind: "answers" },
+    ],
+  },
+  {
+    step: "02 · BUILD",
+    title: "Ontario teacher lesson packet",
+    source: "Avon Maitland DSB teacher course · Nelson Functions 11",
+    coverage: "Blank notes, completed notes, homework examples, and Unit 1 review",
+    timing: "Use after each matching video",
+    instructions: "Open the blank notes first and solve. Use the completed version only to mark. This packet follows the same 1.1–1.6 Nelson sequence as the Ms Havrot core videos.",
+    links: [
+      { label: "Open Unit 1 teacher course", url: "https://sites.google.com/ed.amdsb.ca/rastorfer/mcr3u/unit-1-functions", kind: "worksheet" },
+      { label: "Open Lourdes Unit 1 lesson bank", url: "https://lourdesmath.weebly.com/unit-1---transformation-of-functions.html", kind: "reference" },
+    ],
+  },
+  {
+    step: "03 · TRANSFORM",
+    title: "Transformations precision drill",
+    source: "Ontario MCR3U teacher resource",
+    coverage: "a, k, d, c; mapping rules; transformed points and graphs",
+    timing: "30–40 minutes · after lessons 1.5 and 1.6",
+    instructions: "Predict each move and write the mapping rule before graphing. Mark with your lesson examples, then redo every missed graph from a clean page.",
+    links: [
+      { label: "Open transformations practice", url: file("mcr3u_transformationsoffunctions_part2.docx"), kind: "worksheet" },
+      { label: "Open worked solutions after attempt", url: file("mcr3u_transformationoffunctions_part2_soln.pdf"), kind: "answers" },
+    ],
+  },
+  {
+    step: "04 · FULL REVIEW",
+    title: "31-question Chapter 1 review",
+    source: "MCR3U teacher review · answer section included",
+    coverage: "Objectives 1.1, 1.2, 1.4, 1.5, 1.7, and 1.8",
+    timing: "55–70 minutes · closed notes",
+    instructions: "Complete questions 1–31 before using pages 11–13. Give yourself one repair round: study each miss, wait at least 30 minutes, then redo it without the solution visible.",
+    links: [
+      { label: "Open 31-question review + key", url: "https://abawa8.wordpress.com/wp-content/uploads/2014/09/ch1-mcr3u-review.pdf", kind: "test" },
+    ],
+  },
+  {
+    step: "05 · TEST SIMULATION",
+    title: "Ms Havrot Chapter 1 practice test",
+    source: "Ontario Functions teacher · paired with a full video take-up",
+    coverage: "Complete Chapter 1 functions and transformations test practice",
+    timing: "45–55 minutes · closed notes · one sitting",
+    instructions: "Download the test and finish it before opening the video. Then mark every line against Ms Havrot's take-up, record each error type, and redo only the misses from a blank page.",
+    links: [
+      { label: "Open Chapter 1 practice test", url: "https://mshavrot.pbworks.com/f/Chapter%201%20Test%20%231%20Feb%202016.pdf", kind: "test" },
+      { label: "Watch full test take-up after", url: "https://www.youtube.com/watch?v=pJPaVZTtiGE", kind: "answers" },
+    ],
+  },
+  {
+    step: "06 · TRANSFER TEST",
+    title: "Authentic five-page Unit 1 Test B",
+    source: "300Math · Ontario MCR3U classroom test",
+    coverage: "Knowledge, thinking, communication, and application · 55 marks",
+    timing: "50 minutes · closed notes · one sitting",
+    instructions: "Treat this as the final dress rehearsal. No answer key is published with this version. Mark comparable skills with your earlier keys, then bring any unresolved solutions to your teacher or tutoring support instead of guessing.",
+    links: [
+      { label: "Open authentic Test B", url: "https://300math.weebly.com/uploads/5/2/5/1/52513515/test_1_-_functions_and_transformations_version_b.pdf", kind: "test" },
+    ],
+  },
+  {
+    step: "07 · HARD MODE",
+    title: "Extra Ontario test bank",
+    source: "AllThingsMathematics · MCR3U course page",
+    coverage: "Unit 1 tests, tricky transformations, and video solutions",
+    timing: "Only after the full review and Test B",
+    instructions: "Use the free items that are available on the course page as extra transfer practice. Some items require enrolment, so this is an optional challenge source rather than a required gate.",
+    links: [
+      { label: "Open MCR3U Unit 1 course bank", url: "https://www.allthingsmathematics.com/p/mcr3u-grade-11-functions", kind: "reference" },
+    ],
+  },
 ];
 
 export const methodSources = [
@@ -422,5 +517,7 @@ export const methodSources = [
   { label: "Ontario student with 99: log and redo every missed question", url: "https://www.reddit.com/r/OntarioGrade12s/comments/1gpz8ka/i_got_a_99_in_advanced_functions_this_is_how_you/" },
   { label: "Reddit: active problem solving and explaining each step", url: "https://www.reddit.com/r/learnmath/comments/tdgckf/what_have_you_found_to_be_the_most_effective_way/" },
   { label: "Ontario students: daily MCR3U practice and course-specific videos", url: "https://www.reddit.com/r/OntarioGrade12s/comments/1vhfiw8/any_advice_for_grade_11_functions_mcr3u0/" },
-  { label: "Ontario students: Jensen is a base, not the whole difficulty ceiling", url: "https://www.reddit.com/r/OntarioGrade12s/comments/1lnvk9j/using_jensenmath_for_mcr3u_how_similar_is_it_to/" },
+  { label: "Ontario student advice: Ms Havrot follows the course and includes practice tests", url: "https://www.reddit.com/r/OntarioGrade12s/comments/15ljr7o/online_help_for_mcr3u1/" },
+  { label: "Ontario student report: Organic Chemistry Tutor helped produce a 97 in MCR3U", url: "https://www.reddit.com/r/OntarioGrade11s/comments/1j8di14/any_advice_for_grade_11_functions_im_really/" },
+  { label: "Ontario students: AllThingsMathematics helps on quizzes; unit tests still require hard practice", url: "https://www.reddit.com/r/OntarioGrade12s/comments/1lpe11n/how_similar_is_allthingsmathematics_to_classroom/" },
 ];

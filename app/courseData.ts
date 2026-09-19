@@ -30,7 +30,6 @@ export type Unit = {
 const lourdesRoot = "https://lourdesmath.weebly.com";
 const uploadRoot = lourdesRoot + "/uploads/5/9/7/7/5977474/";
 const lourdesFile = (file: string) => uploadRoot + file;
-const jensenFile = (file: string) => "https://www.jensenmath.ca/s/" + file;
 const youtube = (id: string) => "https://www.youtube.com/watch?v=" + id;
 
 const pages = {
@@ -53,11 +52,6 @@ const sheet = (page: string, student: string, solution?: string, extra: Resource
   solutions: solution ? [{ label: "Answer key", url: lourdesFile(solution) }] : [],
 });
 
-const jensenSheet = (label: string, student: string, solution?: string) => ({
-  practice: [{ label, url: jensenFile(student) }],
-  solutions: solution ? [{ label: "Answer key", url: jensenFile(solution) }] : [],
-});
-
 export const units: Unit[] = [
   {
     id: 1,
@@ -72,8 +66,8 @@ export const units: Unit[] = [
         id: "u1-l1",
         section: "1.1",
         title: "Relations and functions",
-        video: "qgRsd_7CWOc",
-        provider: "JensenMath",
+        video: "8ndTq9VM6KM",
+        provider: "Ms Havrot",
         focus: ["Classify tables, mappings, ordered pairs, and graphs.", "Use the one-input/one-output rule and the vertical-line test to justify your decision."],
         pause: "Before each example is explained, classify it yourself and name the repeated input or vertical line that proves your answer.",
         pitfall: "Several inputs may share one output; one input cannot have two outputs.",
@@ -83,8 +77,8 @@ export const units: Unit[] = [
         id: "u1-l2",
         section: "1.2",
         title: "Function notation",
-        video: "PtjxcbaH8VM",
-        provider: "JensenMath",
+        video: "3_WTOAB4n-s",
+        provider: "Ms Havrot",
         focus: ["Read f(x) as an output, not multiplication.", "Evaluate f(a), solve f(x)=k, and substitute expressions such as f(2-x)."],
         pause: "Pause every time an input is substituted. Write the parentheses before simplifying, then compare your line with the video.",
         pitfall: "f(2x) means the input is 2x. It is not 2f(x).",
@@ -116,8 +110,8 @@ export const units: Unit[] = [
         id: "u1-l5",
         section: "1.5",
         title: "Inverse functions",
-        video: "JDnQXEvbWck",
-        provider: "JensenMath",
+        video: "vfxoaiCaqk8",
+        provider: "Ms Havrot",
         focus: ["Swap x and y, then solve for the inverse.", "Use the horizontal-line test and connect inverse graphs by reflection in y=x."],
         pause: "Find the inverse without the video first. Verify by composing f(f⁻¹(x)) and checking the reflected graph.",
         pitfall: "A relation can have an inverse relation without having an inverse function.",
@@ -149,8 +143,8 @@ export const units: Unit[] = [
         id: "u1-l8",
         section: "1.8",
         title: "Graphing combinations of transformations",
-        video: "MjqFvyNkoL8",
-        provider: "JensenMath",
+        video: "H-IdTIi7Xr8",
+        provider: "Ms Havrot",
         focus: ["Apply transformations in a reliable order.", "Sketch a transformed graph from its parent, key points, and asymptotes."],
         pause: "Make a five-point sketch before watching the completed graph. Check the intercepts and asymptote afterward.",
         pitfall: "Changing the order of transformations can change the result; use the mapping rule when unsure.",
@@ -183,7 +177,8 @@ export const units: Unit[] = [
         focus: ["Combine only like terms.", "Add and subtract polynomials by aligning degree and sign."],
         pause: "Rewrite subtraction as adding the opposite before combining. Check the highest degree and constant term.",
         pitfall: "x and x² are different terms even though both contain x.",
-        ...jensenSheet("Polynomial operations worksheet", "36-adding-and-subtracting-polynomials-worksheet.pdf", "36-worksheet-solutions.pdf"),
+        practice: [{ label: "Ontario Unit 2 resource bank", url: pages[2] }],
+        solutions: [],
       },
       {
         id: "u2-l2",
@@ -194,7 +189,8 @@ export const units: Unit[] = [
         focus: ["Distribute every term and collect like terms.", "Use FOIL as a special case of the distributive property."],
         pause: "Multiply term by term on paper before watching the combination step.",
         pitfall: "Middle terms can cancel; do not drop them before you combine.",
-        ...jensenSheet("Polynomial multiplication package", "Chapter-2-part-1-lesson-package.pdf", "Chapter-2-part-1-lesson-package-SOLUTIONS.pdf"),
+        practice: [{ label: "Ontario Unit 2 resource bank", url: pages[2] }],
+        solutions: [],
       },
       {
         id: "u2-l3",
@@ -277,8 +273,8 @@ export const units: Unit[] = [
         id: "u2-l10",
         section: "2.7",
         title: "Adding and subtracting rational expressions",
-        video: "1hQjmCk7TtQ",
-        provider: "JensenMath",
+        video: "TGdEY0DPmnI",
+        provider: "Ms Havrot",
         focus: ["Find the least common denominator.", "Combine numerators, factor, simplify, and state restrictions."],
         pause: "Build the LCD yourself and rewrite each numerator before watching the combine step.",
         pitfall: "The LCD is a common multiple of the entire denominators, not just their visible constants.",
@@ -328,8 +324,8 @@ export const units: Unit[] = [
         id: "u3-l3",
         section: "3.2",
         title: "Completing the square",
-        video: "usqnYWN57do",
-        provider: "JensenMath",
+        video: "7m3J7vmmD3o",
+        provider: "Ms Havrot",
         focus: ["Convert standard form to vertex form.", "Use completing the square to expose the vertex and solve when factoring is awkward."],
         pause: "Add and subtract the needed constant yourself, remembering that the balance must stay equal.",
         pitfall: "When the x coefficient is not 1, factor it before completing the square.",
@@ -394,8 +390,8 @@ export const units: Unit[] = [
         id: "u3-l9",
         section: "3.8",
         title: "Linear–quadratic systems",
-        video: "NnZ65skFlAk",
-        provider: "JensenMath",
+        video: "1QuXn3hoRAU",
+        provider: "Ms Havrot",
         focus: ["Solve line–parabola intersections by substitution.", "Interpret zero, one, or two intersection points in a graph and in a context."],
         pause: "Substitute and solve the quadratic before looking at the graph. Then match each root to its y-coordinate.",
         pitfall: "A root gives an x-coordinate; use either original equation to find the corresponding y.",
@@ -657,8 +653,8 @@ export const units: Unit[] = [
         id: "u6-l3",
         section: "6.3",
         title: "Reading features of periodic functions",
-        video: "oWuEVzdAF3k",
-        provider: "JensenMath",
+        video: "xDSoGT-PESk",
+        provider: "Ms Havrot",
         focus: ["Read amplitude, period, maximum, minimum, and midline from a graph.", "Explain what each feature means in a real situation."],
         pause: "Label one cycle and the midline yourself before checking the interpretation.",
         pitfall: "The midline is the average of the maximum and minimum, not the minimum.",
@@ -690,8 +686,8 @@ export const units: Unit[] = [
         id: "u6-l6",
         section: "6.6",
         title: "Finding an equation from a graph",
-        video: "_ZcxZozR31M",
-        provider: "JensenMath",
+        video: "cpHiZ-8mxmc",
+        provider: "Ms Havrot",
         focus: ["Find midline and amplitude from extrema.", "Use a maximum or minimum to choose a convenient sine/cosine phase shift and verify a key point."],
         pause: "Read the four parameters from the graph before checking the equation.",
         pitfall: "A graph can have many equivalent equations; verify with a key point and the period.",
@@ -752,8 +748,8 @@ export const units: Unit[] = [
         id: "u7-l3",
         section: "7.5",
         title: "Arithmetic series",
-        video: "JtnMrqsA9Io",
-        provider: "JensenMath",
+        video: "1TfHHTSS1jk",
+        provider: "Ms Havrot",
         focus: ["Distinguish a sequence from its sum.", "Use Sₙ=n/2[2a₁+(n−1)d] and identify the first, last, and number of terms."],
         pause: "Write the first and last terms and count n before substituting.",
         pitfall: "The number of terms is not automatically the last term's value.",

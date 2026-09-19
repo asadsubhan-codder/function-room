@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { type Lesson as LibraryLesson, units, youtube } from "./courseData";
 import {
+  assessmentPacks,
   courseMilestones,
   methodSources,
   type MasteryLesson,
@@ -12,7 +13,7 @@ import {
   testWeekPlan,
   unit1Lessons,
 } from "./masteryData";
-import { buildDiagnostic, buildLessonCheck, buildMock } from "./questionEngine";
+import { buildLessonCheck, buildMock } from "./questionEngine";
 
 const STORAGE_KEY = "function-room-mastery-v4";
 const PREVIOUS_KEY = "function-room-mastery-v3";
@@ -45,8 +46,6 @@ type MasteryState = {
   version: 4;
   activeLessonId: string;
   lessons: Record<string, LessonRecord>;
-  diagnosticAttempts: number;
-  diagnosticBest: number;
   mockAttempts: number;
   mockBest: number;
   mockCleanPasses: number;
@@ -71,8 +70,6 @@ const blankState = (): MasteryState => ({
   version: 4,
   activeLessonId: unit1Lessons[0].id,
   lessons: Object.fromEntries(unit1Lessons.map((lesson) => [lesson.id, blankLesson()])),
-  diagnosticAttempts: 0,
-  diagnosticBest: 0,
   mockAttempts: 0,
   mockBest: 0,
   mockCleanPasses: 0,
@@ -131,8 +128,6 @@ function normalizeState(value: unknown): MasteryState | null {
     version: 4,
     activeLessonId: knownIds.has(item.activeLessonId ?? "") ? String(item.activeLessonId) : unit1Lessons[0].id,
     lessons,
-    diagnosticAttempts: Number.isFinite(item.diagnosticAttempts) ? Math.max(0, Number(item.diagnosticAttempts)) : 0,
-    diagnosticBest: Number.isFinite(item.diagnosticBest) ? Math.min(100, Math.max(0, Number(item.diagnosticBest))) : 0,
     mockAttempts: Number.isFinite(item.mockAttempts) ? Math.max(0, Number(item.mockAttempts)) : 0,
     mockBest: Number.isFinite(item.mockBest) ? Math.min(100, Math.max(0, Number(item.mockBest))) : 0,
     mockCleanPasses: Number.isFinite(item.mockCleanPasses) ? Math.max(0, Number(item.mockCleanPasses)) : 0,
@@ -460,13 +455,16 @@ function LessonWorkspace(props: {
             </div>
             <div className="now-watching">
               <div><span>{activeVideo.role} · {activeVideo.provider}</span><strong>{activeVideo.title}</strong><p>{activeVideo.note}</p></div>
-              <button
-                className={props.record.watched.includes(activeVideo.id) ? "watched" : ""}
-                type="button"
-                onClick={() => props.onToggleVideo(activeVideo.id)}
-              >
-                {props.record.watched.includes(activeVideo.id) ? "✓ Actively watched" : "Mark actively watched"}
-              </button>
+              <div className="video-actions">
+                <a href={youtube(activeVideo.id)} target="_blank" rel="noreferrer">Open on YouTube ↗</a>
+                <button
+                  className={props.record.watched.includes(activeVideo.id) ? "watched" : ""}
+                  type="button"
+                  onClick={() => props.onToggleVideo(activeVideo.id)}
+                >
+                  {props.record.watched.includes(activeVideo.id) ? "✓ Actively watched" : "Mark actively watched"}
+                </button>
+              </div>
             </div>
           </div>
           <div className="video-playlist">
@@ -620,7 +618,7 @@ export default function Home() {
   const [mastery, setMastery] = useState<MasteryState>(blankState);
   const [hydrated, setHydrated] = useState(false);
   const [activeUnitId, setActiveUnitId] = useState(1);
-  const [unitOneView, setUnitOneView] = useState<"mission" | "diagnostic" | "lesson" | "mock">("mission");
+  const [unitOneView, setUnitOneView] = useState<"mission" | "assessment" | "lesson" | "mock">("mission");
   const [libraryLessonIndex, setLibraryLessonIndex] = useState(0);
   const [now, setNow] = useState(Date.now());
   const [syncNote, setSyncNote] = useState("Loading progress…");
@@ -792,27 +790,6 @@ export default function Home() {
     }
   }
 
-  function gradeDiagnostic(result: QuizResult) {
-    const percent = Math.round((result.score / result.total) * 100);
-    const missedSections = new Set(result.missed.map((question) => question.skill.split(" ")[0]));
-    const clearedLessonIds = new Set(
-      unit1Lessons
-        .filter((lesson) => ["1.1", "1.2", "1.3"].includes(lesson.section) && !missedSections.has(lesson.section))
-        .map((lesson) => lesson.id),
-    );
-    setMastery((current) => ({
-      ...current,
-      diagnosticAttempts: current.diagnosticAttempts + 1,
-      diagnosticBest: Math.max(current.diagnosticBest, percent),
-      errors: current.errors.filter((error) => !clearedLessonIds.has(error.lessonId)),
-    }));
-    result.missed.forEach((question) => {
-      const section = question.skill.split(" ")[0];
-      const lesson = unit1Lessons.find((candidate) => candidate.section === section);
-      if (lesson) addErrors(lesson.id, [question]);
-    });
-  }
-
   function startMock() {
     setMastery((current) => ({ ...current, mockEndAt: Date.now() + 40 * 60 * 1000 }));
   }
@@ -891,14 +868,14 @@ export default function Home() {
 
         <button
           type="button"
-          className={"mission-link " + (activeUnitId === 1 && unitOneView === "diagnostic" ? "active" : "")}
+          className={"mission-link " + (activeUnitId === 1 && unitOneView === "assessment" ? "active" : "")}
           onClick={() => {
             setActiveUnitId(1);
-            setUnitOneView("diagnostic");
+            setUnitOneView("assessment");
             window.setTimeout(() => document.querySelector(".main")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
           }}
         >
-          <span>◉</span><div><b>Cold diagnostic</b><small>{mastery.diagnosticAttempts ? mastery.diagnosticBest + "% best" : "1.1–1.3 · start here"}</small></div>
+          <span>◉</span><div><b>Ontario assessment lab</b><small>Real quiz · review · test</small></div>
         </button>
 
         <nav className="lesson-path" aria-label="Unit 1 mastery path">
@@ -1005,9 +982,9 @@ export default function Home() {
                     <button
                       className="button secondary"
                       type="button"
-                      onClick={() => setUnitOneView("diagnostic")}
+                      onClick={() => setUnitOneView("assessment")}
                     >
-                      Take native 1.1–1.3 diagnostic →
+                      Open authentic Ontario assessments →
                     </button>
                   </div>
                   <p className="honest-promise"><span>THE STANDARD</span>The site can make gaps impossible to hide. Your test mark still depends on doing the work without notes.</p>
@@ -1125,24 +1102,55 @@ export default function Home() {
             </div>
           )}
 
-          {activeUnitId === 1 && unitOneView === "diagnostic" && (
-            <div className="diagnostic-page">
-              <section className="mock-hero diagnostic-hero">
+          {activeUnitId === 1 && unitOneView === "assessment" && (
+            <div className="assessment-page">
+              <section className="assessment-hero">
                 <div>
-                  <p className="eyebrow">START HERE · LESSONS 1.1–1.3</p>
-                  <h1>Cold diagnostic</h1>
-                  <p>Nine closed-notes questions find the exact gaps before you spend time watching. It creates repair items but never skips or unlocks a lesson.</p>
+                  <p className="eyebrow">REAL ONTARIO MCR3U MATERIALS</p>
+                  <h1>Assessment lab</h1>
+                  <p>These are teacher-made quizzes, review packages, and tests from Ontario course sites. Work on paper or mark them up on your iPad. Keep every answer key closed until the attempt is finished.</p>
                 </div>
-                <div><span>BEST</span><strong>{mastery.diagnosticBest}%</strong><small>{mastery.diagnosticAttempts} attempt{mastery.diagnosticAttempts === 1 ? "" : "s"}</small></div>
+                <aside>
+                  <span>THE RULE</span>
+                  <strong>Solve → mark → repair → redo</strong>
+                  <small>A score only counts when you can reproduce the corrected solution from a blank page.</small>
+                </aside>
               </section>
-              <InlineQuiz
-                title="1.1–1.3 cold diagnostic"
-                eyebrow="9 QUESTIONS · NO VIDEOS FIRST"
-                questions={buildDiagnostic(mastery.diagnosticAttempts)}
-                seed={mastery.diagnosticAttempts + 71}
-                buttonLabel="Grade my diagnostic"
-                onGrade={gradeDiagnostic}
-              />
+
+              <section className="assessment-protocol">
+                <div><b>1</b><span>Set the timer</span><small>Closed notes and one sitting.</small></div>
+                <div><b>2</b><span>Show the reasoning</span><small>Graphs, restrictions, notation, and units count.</small></div>
+                <div><b>3</b><span>Mark in another colour</span><small>Name the exact skill behind each miss.</small></div>
+                <div><b>4</b><span>Earn the redo</span><small>Wait, then solve the missed item cleanly.</small></div>
+              </section>
+
+              <section className="assessment-list">
+                {assessmentPacks.map((pack) => (
+                  <article className="assessment-pack" key={pack.step}>
+                    <div className="assessment-pack-head">
+                      <div><p className="eyebrow">{pack.step}</p><h2>{pack.title}</h2><p>{pack.source}</p></div>
+                      <span>{pack.timing}</span>
+                    </div>
+                    <div className="assessment-pack-body">
+                      <div><small>COVERAGE</small><p>{pack.coverage}</p></div>
+                      <div><small>HOW TO USE IT</small><p>{pack.instructions}</p></div>
+                    </div>
+                    <div className="assessment-actions">
+                      {pack.links.map((link) => (
+                        <a href={link.url} target="_blank" rel="noreferrer" key={link.url}>
+                          <span>{link.kind}</span><strong>{link.label}</strong><i>↗</i>
+                        </a>
+                      ))}
+                    </div>
+                  </article>
+                ))}
+              </section>
+
+              <section className="assessment-truth">
+                <p className="eyebrow">HONEST LABELS</p>
+                <h2>What counts as what</h2>
+                <p>The files in this lab are external Ontario teacher materials. The six-part checks inside each lesson and the 40-minute mock are generated by this site so you can get immediate feedback and fresh values. Use both: authentic papers for school-style difficulty, generated forms for fast retrieval and error repair.</p>
+              </section>
             </div>
           )}
 
