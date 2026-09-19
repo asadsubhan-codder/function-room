@@ -1,378 +1,1012 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { type Lesson, units, youtube } from "./courseData";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { type Lesson as LibraryLesson, units, youtube } from "./courseData";
+import {
+  courseMilestones,
+  methodSources,
+  mockQuestions,
+  type MasteryLesson,
+  type QuizQuestion,
+  reviewLibrary,
+  saturdayPlan,
+  testWeekPlan,
+  unit1Lessons,
+} from "./masteryData";
 
-const progressKey = "function-room-progress";
+const STORAGE_KEY = "function-room-mastery-v3";
+const LEGACY_KEY = "function-room-progress";
+const TEST_DATE = new Date(2026, 8, 24, 9, 0, 0);
+const DAY = 86400000;
 
-export default function Home() {
-  const [activeUnitId, setActiveUnitId] = useState(1);
-  const [activeLessonIndex, setActiveLessonIndex] = useState(0);
-  const [progress, setProgress] = useState<Record<string, boolean>>({});
-  const [syncState, setSyncState] = useState<"loading" | "local">("loading");
+type LessonRecord = {
+  watched: string[];
+  practiceDone: boolean;
+  attempts: number;
+  best: number;
+  reviewAttempts: number;
+  masteredAt?: string;
+  reviewDueAt?: string;
+  lockedInAt?: string;
+};
 
-  const activeUnit = units.find((unit) => unit.id === activeUnitId) ?? units[0];
-  const activeLesson = activeUnit.lessons[activeLessonIndex] ?? activeUnit.lessons[0];
-  const totalLessons = useMemo(() => units.reduce((sum, unit) => sum + unit.lessons.length, 0), []);
-  const completeCount = useMemo(
-    () => units.reduce((sum, unit) => sum + unit.lessons.filter((lesson) => progress[lesson.id]).length, 0),
-    [progress],
-  );
-  const unitComplete = activeUnit.lessons.filter((lesson) => progress[lesson.id]).length;
-  const coursePercent = Math.round((completeCount / totalLessons) * 100);
-  const unitPercent = Math.round((unitComplete / activeUnit.lessons.length) * 100);
+type ErrorItem = {
+  id: string;
+  lessonId: string;
+  skill: string;
+  prompt: string;
+  at: string;
+};
+
+type TimerState = { mode: "focus" | "break"; endAt: number };
+
+type MasteryState = {
+  version: 3;
+  activeLessonId: string;
+  lessons: Record<string, LessonRecord>;
+  mockAttempts: number;
+  mockBest: number;
+  errors: ErrorItem[];
+  timer?: TimerState;
+};
+
+type QuizResult = { score: number; total: number; missed: QuizQuestion[] };
+type DisplayQuestion = QuizQuestion & { displayChoices: string[]; displayAnswer: number };
+
+const blankLesson = (): LessonRecord => ({
+  watched: [],
+  practiceDone: false,
+  attempts: 0,
+  best: 0,
+  reviewAttempts: 0,
+});
+
+const blankState = (): MasteryState => ({
+  version: 3,
+  activeLessonId: unit1Lessons[0].id,
+  lessons: Object.fromEntries(unit1Lessons.map((lesson) => [lesson.id, blankLesson()])),
+  mockAttempts: 0,
+  mockBest: 0,
+  errors: [],
+});
+
+const getRecord = (state: MasteryState, lessonId: string) => state.lessons[lessonId] ?? blankLesson();
+
+function normalizeRecord(value: unknown): LessonRecord {
+  const item = value && typeof value === "object" ? (value as Partial<LessonRecord>) : {};
+  return {
+    watched: Array.isArray(item.watched) ? item.watched.filter((entry): entry is string => typeof entry === "string") : [],
+    practiceDone: item.practiceDone === true,
+    attempts: Number.isFinite(item.attempts) ? Math.max(0, Number(item.attempts)) : 0,
+    best: Number.isFinite(item.best) ? Math.min(100, Math.max(0, Number(item.best))) : 0,
+    reviewAttempts: Number.isFinite(item.reviewAttempts) ? Math.max(0, Number(item.reviewAttempts)) : 0,
+    ...(typeof item.masteredAt === "string" ? { masteredAt: item.masteredAt } : {}),
+    ...(typeof item.reviewDueAt === "string" ? { reviewDueAt: item.reviewDueAt } : {}),
+    ...(typeof item.lockedInAt === "string" ? { lockedInAt: item.lockedInAt } : {}),
+  };
+}
+
+function normalizeState(value: unknown): MasteryState | null {
+  if (!value || typeof value !== "object") return null;
+  const item = value as Partial<MasteryState>;
+  if (item.version !== 3 || !item.lessons || typeof item.lessons !== "object") return null;
+  const knownIds = new Set(unit1Lessons.map((lesson) => lesson.id));
+  const lessons = Object.fromEntries(unit1Lessons.map((lesson) => [lesson.id, normalizeRecord(item.lessons?.[lesson.id])]));
+  const errors = Array.isArray(item.errors)
+    ? item.errors.filter(
+        (error): error is ErrorItem =>
+          Boolean(
+            error &&
+              typeof error.id === "string" &&
+              typeof error.lessonId === "string" &&
+              knownIds.has(error.lessonId) &&
+              typeof error.skill === "string" &&
+              typeof error.prompt === "string" &&
+              typeof error.at === "string",
+          ),
+      )
+    : [];
+  const timer =
+    item.timer &&
+    (item.timer.mode === "focus" || item.timer.mode === "break") &&
+    Number.isFinite(item.timer.endAt)
+      ? { mode: item.timer.mode, endAt: Number(item.timer.endAt) }
+      : undefined;
+  return {
+    version: 3,
+    activeLessonId: knownIds.has(item.activeLessonId ?? "") ? String(item.activeLessonId) : unit1Lessons[0].id,
+    lessons,
+    mockAttempts: Number.isFinite(item.mockAttempts) ? Math.max(0, Number(item.mockAttempts)) : 0,
+    mockBest: Number.isFinite(item.mockBest) ? Math.min(100, Math.max(0, Number(item.mockBest))) : 0,
+    errors,
+    ...(timer ? { timer } : {}),
+  };
+}
+
+function hashText(value: string) {
+  let hash = 0;
+  for (let index = 0; index < value.length; index += 1) hash = (hash * 31 + value.charCodeAt(index)) >>> 0;
+  return hash;
+}
+
+function prepareQuestions(questions: QuizQuestion[], seed: number): DisplayQuestion[] {
+  return questions.map((question, questionIndex) => {
+    const count = question.choices.length;
+    const shift = (hashText(question.id) + seed * 3 + questionIndex) % count;
+    return {
+      ...question,
+      displayChoices: question.choices.map((_, index) => question.choices[(index + shift) % count]),
+      displayAnswer: (question.answer - shift + count) % count,
+    };
+  });
+}
+
+function formatCountdown(seconds: number) {
+  const safe = Math.max(0, seconds);
+  return String(Math.floor(safe / 60)).padStart(2, "0") + ":" + String(safe % 60).padStart(2, "0");
+}
+
+function formatReviewTime(value?: string) {
+  if (!value) return "";
+  return new Date(value).toLocaleString([], { weekday: "short", hour: "numeric", minute: "2-digit" });
+}
+
+function InlineQuiz(props: {
+  title: string;
+  eyebrow: string;
+  questions: QuizQuestion[];
+  seed: number;
+  buttonLabel: string;
+  onGrade: (result: QuizResult) => void;
+}) {
+  const [round, setRound] = useState({ questions: props.questions, seed: props.seed });
+  const prepared = useMemo(() => prepareQuestions(round.questions, round.seed), [round]);
+  const [answers, setAnswers] = useState<Record<string, number>>({});
+  const [graded, setGraded] = useState<{ result: QuizResult; questions: DisplayQuestion[]; answers: Record<string, number> } | null>(null);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
-    try {
-      const cached = localStorage.getItem(progressKey);
-      if (cached) setProgress(JSON.parse(cached) as Record<string, boolean>);
-    } catch {
-      // A damaged local cache should never prevent the study path from opening.
+    setRound({ questions: props.questions, seed: props.seed });
+    setAnswers({});
+    setGraded(null);
+    setMessage("");
+  }, [props.title]);
+
+  function submitQuiz() {
+    if (prepared.some((question) => answers[question.id] === undefined)) {
+      setMessage("Answer every question before you submit. No lucky gaps.");
+      return;
     }
-    setSyncState("local");
-  }, []);
-
-  function saveProgress(next: Record<string, boolean>) {
-    setProgress(next);
-    try {
-      localStorage.setItem(progressKey, JSON.stringify(next));
-    } catch {
-      // Progress still remains available for this open tab if storage is blocked.
-    }
+    const missed = prepared
+      .filter((question) => answers[question.id] !== question.displayAnswer)
+      .map(({ displayChoices: _choices, displayAnswer: _answer, ...question }) => question);
+    const result = { score: prepared.length - missed.length, total: prepared.length, missed };
+    setGraded({ result, questions: prepared, answers: { ...answers } });
+    setMessage("");
+    props.onGrade(result);
   }
 
-  function chooseUnit(unitId: number) {
-    setActiveUnitId(unitId);
-    setActiveLessonIndex(0);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  function retry() {
+    setRound({ questions: props.questions, seed: props.seed });
+    setAnswers({});
+    setGraded(null);
+    setMessage("");
+    window.setTimeout(() => document.querySelector(".quiz-card")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
   }
 
-  function chooseLesson(index: number) {
-    setActiveLessonIndex(index);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  function toggleLesson(lessonId: string) {
-    saveProgress({ ...progress, [lessonId]: !progress[lessonId] });
-  }
-
-  function toggleReadiness(index: number) {
-    const readinessId = "u" + activeUnit.id + "-r" + (index + 1);
-    saveProgress({ ...progress, [readinessId]: !progress[readinessId] });
-  }
-
-  const statusText = (lesson: Lesson, index: number) => {
-    if (progress[lesson.id]) return "COMPLETE";
-    if (activeLesson.id === lesson.id) return "NOW PLAYING";
-    return "WATCH " + String(index + 1).padStart(2, "0");
-  };
+  const visibleQuestions = graded?.questions ?? prepared;
+  const visibleAnswers = graded?.answers ?? answers;
+  const perfect = graded?.result.score === graded?.result.total;
 
   return (
-    <div className="study-shell">
-      <aside className="sidebar">
-        <a className="brand" href="./" aria-label="Function Room home">
-          <b className="brand-mark">
-            f<span>·</span>
-          </b>
-          <span>
-            function room
-            <small>MCR3U / GRADE 11</small>
-          </span>
-        </a>
-        <p className="sidebar-label">YOUR COURSE</p>
-        <nav aria-label="Course units">
-          {units.map((unit) => {
-            const done = unit.lessons.filter((lesson) => progress[lesson.id]).length;
-            return (
-              <button
-                className={"unit-link " + (activeUnit.id === unit.id ? "active" : "")}
-                key={unit.id}
-                onClick={() => chooseUnit(unit.id)}
-              >
-                <span className="unit-number">0{unit.id}</span>
-                <span className="unit-name">{unit.title}</span>
-                <span className="unit-count">
-                  {done}/{unit.lessons.length}
-                </span>
-              </button>
-            );
-          })}
-        </nav>
-        <div className="sidebar-foot">
-          <small>THE APPROACH</small>
-          <p>
-            Watch. Work it out.
-            <br />
-            Make it stick.
-          </p>
-          <small>Ontario Functions · Nelson 11</small>
-        </div>
-      </aside>
-
-      <main className="workspace">
-        <header className="topbar">
-          <span>YOUR STUDY SPACE</span>
-          <div className="topbar-right">
-            <span className={"sync-state " + syncState}>
-              <i />
-              {syncState === "loading" ? "Loading progress" : "Saved on this browser"}
-            </span>
-            <span className="course-badge">MCR3U · 2026–27</span>
-          </div>
-        </header>
-
-        <div className="content">
-          <div className="course-progress" aria-label={coursePercent + "% of videos complete"}>
-            <span style={{ width: coursePercent + "%" }} />
-          </div>
-
-          <div className="unit-heading">
-            <div>
-              <p className="eyebrow">
-                UNIT 0{activeUnit.id} <span className="dot-sep">·</span> {activeUnit.kicker}
-              </p>
-              <h1>{activeUnit.title}</h1>
-              <p className="lead">{activeUnit.description}</p>
-              <p className="prereq">
-                <strong>Before you start:</strong> {activeUnit.prerequisites}
-              </p>
-            </div>
-            <span className="unit-symbol" aria-hidden="true">
-              ƒ(x)
-            </span>
-          </div>
-
-          <section className="coverage-panel" aria-label="MCR3U coverage">
-            <div className="coverage-heading">
-              <span className="section-kicker">MCR3U COVERAGE</span>
-              <span className="coverage-note">Core path checked against the seven-unit course map</span>
-            </div>
-            <div className="coverage-pills">
-              {activeUnit.coverage.map((item) => (
-                <span key={item}>{item}</span>
-              ))}
-            </div>
-          </section>
-
-          {activeUnit.id === 1 ? (
-            <div className="quiz-strip">
-              <strong>Quiz checkpoint</strong>
-              <span>Thursday, September 17 · functions and relations, notation, domain and range</span>
-              <span className="quiz-tag">1.1–1.3</span>
-              <a href={activeUnit.review[2].url} target="_blank" rel="noreferrer">
-                Open practice ↗
-              </a>
-            </div>
-          ) : (
-            <div className="course-note">
-              <span className="note-icon">i</span>
-              <span>
-                <strong>Watch first, practise second.</strong> Every core video below is tagged with its MCR3U
-                section. Use the student worksheet after the video, then return here to mark it complete.
-              </span>
-              <a href={activeUnit.source.url} target="_blank" rel="noreferrer">
-                Open unit bank ↗
-              </a>
-            </div>
-          )}
-
-          <div className="lesson-layout">
-            <section className="lesson-main">
-              <div className="lesson-meta">
-                <span className="section-kicker">
-                  {String(activeLessonIndex + 1).padStart(2, "0")} / WATCH &amp; UNDERSTAND
-                </span>
-                <span className="lesson-status">{progress[activeLesson.id] ? "COMPLETED" : "IN PROGRESS"}</span>
-              </div>
-
-              <div className="lesson-title-row">
-                <div>
-                  <div className="lesson-badges">
-                    <span className="section-badge">{activeLesson.section}</span>
-                    <span className={"level-badge " + (activeLesson.level === "bridge" ? "bridge" : "")}>
-                      {activeLesson.level === "bridge" ? "GRADE 10 BRIDGE" : "MCR3U CORE"}
-                    </span>
-                  </div>
-                  <h2>{activeLesson.title}</h2>
-                </div>
-              </div>
-              <p className="muted">{activeLesson.provider} · Watch first, practise second</p>
-
-              <div className="video-frame">
-                <iframe
-                  title={activeLesson.title + " video"}
-                  src={"https://www.youtube-nocookie.com/embed/" + activeLesson.video}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                />
-              </div>
-              <div className="video-actions">
-                <a className="external-link" href={youtube(activeLesson.video)} target="_blank" rel="noreferrer">
-                  Open video on YouTube ↗
-                </a>
-                <span className="watch-label">Video lesson · pause when prompted</span>
-              </div>
-
-              <div className="pause-note">
-                <span>Ⅱ</span>
-                <div>
-                  <strong>Pause before the answer.</strong>
-                  <p>{activeLesson.pause}</p>
-                </div>
-              </div>
-
-              <div className="lesson-columns">
-                <div className="objectives">
-                  <h3>What you’re learning</h3>
-                  <ul>
-                    {activeLesson.focus.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="pitfall">
-                  <h3>Watch for</h3>
-                  <p>{activeLesson.pitfall}</p>
-                </div>
-              </div>
-
-              <div className="practice-block">
-                <div>
-                  <p className="section-kicker">02 / PRACTISE AFTER THE VIDEO</p>
-                  <h3>Work it out while it’s fresh.</h3>
-                  <p className="practice-copy">
-                    Close the video and do the student worksheet closed-book. Show every step, mark the questions
-                    you miss, then use the answer key and redo those questions from a blank page.
-                  </p>
-                </div>
-                <div className="resource-list">
-                  {activeLesson.practice.map((resource) => (
-                    <a
-                      className="resource-button"
-                      href={resource.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      key={resource.url}
-                    >
-                      <span>{resource.label}</span>
-                      <b>↗</b>
-                    </a>
-                  ))}
-                  {activeLesson.solutions?.map((resource) => (
-                    <a className="solution-link" href={resource.url} target="_blank" rel="noreferrer" key={resource.url}>
-                      Answers / worked solutions ↗
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              <button
-                className={"complete-button " + (progress[activeLesson.id] ? "done" : "")}
-                onClick={() => toggleLesson(activeLesson.id)}
-              >
-                <span>{progress[activeLesson.id] ? "✓" : "○"}</span>
-                {progress[activeLesson.id] ? "Lesson complete" : "Mark lesson complete"}
-              </button>
-            </section>
-
-            <aside className="path-panel">
-              <div className="path-header">
-                <div>
-                  <p className="eyebrow">YOUR LEARNING PATH</p>
-                  <h3>
-                    {unitComplete}/{activeUnit.lessons.length} lessons complete
-                  </h3>
-                </div>
-                <span className="unit-progress-ring">{unitPercent}%</span>
-              </div>
-              <div className="unit-progress">
-                <span style={{ width: unitPercent + "%" }} />
-              </div>
-              <div className="path-list">
-                {activeUnit.lessons.map((lesson, index) => (
-                  <div
-                    className={
-                      "path-item " +
-                      (activeLesson.id === lesson.id ? "selected " : "") +
-                      (progress[lesson.id] ? "complete" : "")
-                    }
-                    key={lesson.id}
-                  >
-                    <button className="lesson-select" onClick={() => chooseLesson(index)}>
-                      <span className="path-index">
-                        {progress[lesson.id] ? "✓" : String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span>
-                        <strong>{lesson.title}</strong>
-                        <small>
-                          {lesson.section} · {statusText(lesson, index)}
-                        </small>
-                      </span>
-                    </button>
-                    <button
-                      className="check-button"
-                      aria-label={(progress[lesson.id] ? "Unmark " : "Mark ") + lesson.title + " complete"}
-                      onClick={() => toggleLesson(lesson.id)}
-                    >
-                      {progress[lesson.id] ? "✓" : ""}
-                    </button>
-                  </div>
-                ))}
-              </div>
-              <div className="path-explainer">
-                <p>
-                  <strong>Finish line</strong>
-                </p>
-                <p>
-                  Complete the lessons, then use the review links below and tick every readiness statement you can
-                  do without the video.
-                </p>
-              </div>
-            </aside>
-          </div>
-
-          <section className="review-section">
-            <div>
-              <p className="section-kicker">03 / PROVE YOU’RE READY</p>
-              <h2>Review + readiness</h2>
-              <p className="muted">
-                A unit is finished when you can do the mixed questions, explain your method, and recover from a
-                mistake.
-              </p>
-            </div>
-            <div className="review-grid">
-              <div className="review-card">
-                <h3>Review materials</h3>
-                {activeUnit.review.map((resource) => (
-                  <a className="review-link" href={resource.url} target="_blank" rel="noreferrer" key={resource.url}>
-                    <span>{resource.label}</span>
-                    <b>↗</b>
-                  </a>
-                ))}
-              </div>
-              <div className="ready-card">
-                <h3>Readiness checklist</h3>
-                {activeUnit.readiness.map((item, index) => {
-                  const readinessId = "u" + activeUnit.id + "-r" + (index + 1);
+    <section className="quiz-card">
+      <div className="section-heading">
+        <div><p className="eyebrow">{props.eyebrow}</p><h2>{props.title}</h2></div>
+        <span className="closed-notes">CLOSED NOTES</span>
+      </div>
+      <p className="quiz-rule">Every objective must be correct. A miss creates a repair item and a fresh form.</p>
+      <div className="question-stack">
+        {visibleQuestions.map((question, questionIndex) => {
+          const selected = visibleAnswers[question.id];
+          const correct = graded ? selected === question.displayAnswer : undefined;
+          return (
+            <fieldset className={"question " + (graded ? (correct ? "correct" : "incorrect") : "")} key={question.id}>
+              <legend><span>{String(questionIndex + 1).padStart(2, "0")}</span>{question.prompt}</legend>
+              <div className="choice-grid">
+                {question.displayChoices.map((choice, choiceIndex) => {
+                  const chosen = selected === choiceIndex;
+                  const answer = Boolean(graded && question.displayAnswer === choiceIndex);
                   return (
-                    <label key={item}>
+                    <label className={"choice " + (chosen ? "chosen " : "") + (answer ? "answer" : "")} key={question.id + "-" + choiceIndex}>
                       <input
-                        type="checkbox"
-                        checked={!!progress[readinessId]}
-                        onChange={() => toggleReadiness(index)}
+                        type="radio"
+                        name={question.id}
+                        checked={chosen}
+                        disabled={Boolean(graded)}
+                        onChange={() => setAnswers((current) => ({ ...current, [question.id]: choiceIndex }))}
                       />
-                      <span>{item}</span>
+                      <b>{String.fromCharCode(65 + choiceIndex)}</b><span>{choice}</span>
                     </label>
                   );
                 })}
               </div>
-            </div>
-          </section>
+              {graded && <p className="answer-explanation"><strong>{correct ? "Correct." : "Repair this."}</strong> {question.explanation}</p>}
+            </fieldset>
+          );
+        })}
+      </div>
+      {message && <p className="form-message error">{message}</p>}
+      {graded ? (
+        <div className={"score-panel " + (perfect ? "pass" : "repair")}>
+          <div>
+            <span>{perfect ? "MASTERED" : "REPAIR LOOP"}</span>
+            <strong>{graded.result.score}/{graded.result.total}</strong>
+            <p>{perfect ? "Perfect evidence on this form. The next gate is open." : "Read the feedback, redo the miss on paper, then use the alternate form."}</p>
+          </div>
+          {!perfect && <button className="button dark" type="button" onClick={retry}>Load fresh form</button>}
+        </div>
+      ) : (
+        <button className="button primary wide" type="button" onClick={submitQuiz}>{props.buttonLabel}</button>
+      )}
+    </section>
+  );
+}
 
-          <footer className="site-footer">
-            <span>Built for your MCR3U seven-unit course sequence.</span>
-            <span>Free video-first resources · worksheets follow the lesson</span>
-          </footer>
+function FocusTimer(props: {
+  timer?: TimerState;
+  now: number;
+  onStart: (mode: "focus" | "break", minutes: number) => void;
+  onStop: () => void;
+}) {
+  const seconds = props.timer ? Math.ceil((props.timer.endAt - Math.max(props.now, Date.now())) / 1000) : 0;
+  const finished = Boolean(props.timer && seconds <= 0);
+  return (
+    <div className={"focus-timer " + (props.timer?.mode ?? "") + (finished ? " finished" : "")}>
+      <div>
+        <span>{finished ? "BLOCK COMPLETE" : props.timer ? props.timer.mode.toUpperCase() + " BLOCK" : "FOCUS TIMER"}</span>
+        <strong>{props.timer ? formatCountdown(seconds) : "25:00"}</strong>
+      </div>
+      <div className="timer-actions">
+        {props.timer ? (
+          <>
+            {finished && <button type="button" onClick={() => props.onStart(props.timer?.mode === "focus" ? "break" : "focus", props.timer?.mode === "focus" ? 5 : 25)}>Start {props.timer.mode === "focus" ? "5 min break" : "25 min focus"}</button>}
+            <button type="button" onClick={props.onStop}>Reset</button>
+          </>
+        ) : (
+          <><button type="button" onClick={() => props.onStart("focus", 25)}>Start 25</button><button type="button" onClick={() => props.onStart("focus", 50)}>Start 50</button></>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function LessonWorkspace(props: {
+  lesson: MasteryLesson;
+  record: LessonRecord;
+  isDue: boolean;
+  onToggleVideo: (videoId: string) => void;
+  onPractice: (done: boolean) => void;
+  onGrade: (result: QuizResult, mode: "mastery" | "retention") => void;
+  onNext: () => void;
+}) {
+  const [activeVideoId, setActiveVideoId] = useState(props.lesson.videos[0].id);
+  const [showAnswers, setShowAnswers] = useState(false);
+  const activeVideo = props.lesson.videos.find((video) => video.id === activeVideoId) ?? props.lesson.videos[0];
+  const readyToProve = props.record.watched.length > 0 && props.record.practiceDone;
+  const mastered = Boolean(props.record.masteredAt);
+  const lockedIn = Boolean(props.record.lockedInAt);
+
+  useEffect(() => {
+    setActiveVideoId(props.lesson.videos[0].id);
+    setShowAnswers(false);
+  }, [props.lesson.id, props.lesson.videos]);
+
+  const formIndex = mastered
+    ? props.record.reviewAttempts % props.lesson.forms.length
+    : props.record.attempts % props.lesson.forms.length;
+  const quizSeed = mastered ? props.record.reviewAttempts + 41 : props.record.attempts + 1;
+
+  return (
+    <div className="lesson-workspace">
+      <section className="lesson-hero">
+        <div>
+          <p className="eyebrow">UNIT 1 · LESSON {props.lesson.section}</p>
+          <h1>{props.lesson.title}</h1>
+          <p>{props.lesson.summary}</p>
+          <div className="lesson-meta">
+            <span>{props.lesson.taught}</span>
+            <span>{props.lesson.duration}</span>
+            <span>{props.lesson.videos.length} explanations</span>
+          </div>
+        </div>
+        <div className={"mastery-seal " + (lockedIn ? "locked-in" : mastered ? "mastered" : "learning")}>
+          <span>{lockedIn ? "LOCKED IN" : mastered ? "DEMONSTRATED" : "IN PROGRESS"}</span>
+          <strong>{lockedIn ? "✓✓" : mastered ? "✓" : props.lesson.section}</strong>
+          <small>{props.record.best}% best</small>
+        </div>
+      </section>
+
+      <div className="stage-strip">
+        <div className={props.record.watched.length ? "done" : "active"}><b>1</b><span>Learn</span><small>{props.record.watched.length ? "Video checked" : "Watch actively"}</small></div>
+        <div className={props.record.practiceDone ? "done" : props.record.watched.length ? "active" : ""}><b>2</b><span>Practise</span><small>{props.record.practiceDone ? "Paper work done" : "Independent work"}</small></div>
+        <div className={mastered ? "done" : readyToProve ? "active" : ""}><b>3</b><span>Prove</span><small>{mastered ? "4/4 passed" : "Fresh check"}</small></div>
+        <div className={lockedIn ? "done" : props.isDue ? "active" : ""}><b>4</b><span>Retain</span><small>{lockedIn ? "Delayed pass" : mastered ? "Return later" : "After mastery"}</small></div>
+      </div>
+
+      <section className="objective-card">
+        <div className="section-heading">
+          <div><p className="eyebrow">THE FINISH LINE</p><h2>What you must be able to do</h2></div>
+          <span className="objective-count">{props.lesson.objectives.length} objectives</span>
+        </div>
+        <div className="objective-grid">
+          {props.lesson.objectives.map((objective, index) => (
+            <div key={objective}><span>{String(index + 1).padStart(2, "0")}</span><p>{objective}</p></div>
+          ))}
+        </div>
+        <p className="pitfall"><strong>Most common mark-killer:</strong> {props.lesson.pitfall}</p>
+      </section>
+
+      <section className="video-lab">
+        <div className="section-heading">
+          <div><p className="eyebrow">STAGE 01 · LEARN</p><h2>Watch with a pencil, not like Netflix</h2></div>
+          <span className="video-progress">{props.record.watched.length}/{props.lesson.videos.length} checked</span>
+        </div>
+        <div className="video-layout">
+          <div>
+            <div className="video-frame">
+              <iframe
+                key={activeVideo.id}
+                src={"https://www.youtube-nocookie.com/embed/" + activeVideo.id + "?rel=0"}
+                title={activeVideo.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+            <div className="now-watching">
+              <div><span>{activeVideo.role} · {activeVideo.provider}</span><strong>{activeVideo.title}</strong><p>{activeVideo.note}</p></div>
+              <button
+                className={props.record.watched.includes(activeVideo.id) ? "watched" : ""}
+                type="button"
+                onClick={() => props.onToggleVideo(activeVideo.id)}
+              >
+                {props.record.watched.includes(activeVideo.id) ? "✓ Actively watched" : "Mark actively watched"}
+              </button>
+            </div>
+          </div>
+          <div className="video-playlist">
+            <p className="mini-label">CHOOSE YOUR EXPLANATION</p>
+            {props.lesson.videos.map((video, index) => (
+              <button
+                className={(video.id === activeVideo.id ? "active " : "") + (props.record.watched.includes(video.id) ? "complete" : "")}
+                key={video.id}
+                type="button"
+                onClick={() => setActiveVideoId(video.id)}
+              >
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <div><b>{video.title}</b><small>{video.provider} · {video.role}</small></div>
+                <i>{props.record.watched.includes(video.id) ? "✓" : "▶"}</i>
+              </button>
+            ))}
+            <div className="pause-card">
+              <span>PAUSE &amp; PROVE</span>
+              {props.lesson.pausePrompts.map((prompt) => <p key={prompt}>{prompt}</p>)}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="practice-card">
+        <div className="section-heading">
+          <div><p className="eyebrow">STAGE 02 · PRACTISE</p><h2>Now make your own brain do it</h2></div>
+          <span className={"status-pill " + (props.record.practiceDone ? "done" : "")}>{props.record.practiceDone ? "DONE" : "REQUIRED"}</span>
+        </div>
+        <p className="practice-intro">Work the student questions on paper without copying a solution. Circle anything you cannot explain. Check the key only after a real attempt.</p>
+        <div className="resource-grid">
+          {props.lesson.resources.filter((resource) => resource.kind !== "answers").map((resource) => (
+            <a href={resource.url} target="_blank" rel="noreferrer" key={resource.url}>
+              <span>{resource.kind.toUpperCase()}</span><strong>{resource.label}</strong><i>↗</i>
+            </a>
+          ))}
+        </div>
+        <label className="integrity-check">
+          <input type="checkbox" checked={props.record.practiceDone} onChange={(event) => props.onPractice(event.target.checked)} />
+          <span><strong>I attempted the assigned questions on paper before checking the answers.</strong>This is an honesty gate. Checking it without doing the work only cheats your test score.</span>
+        </label>
+        {props.record.practiceDone && (
+          <div className="answer-lock">
+            <button type="button" onClick={() => setShowAnswers((current) => !current)}>{showAnswers ? "Hide answer keys" : "Reveal answer keys"}</button>
+            {showAnswers && <div className="answer-links">
+              {props.lesson.resources.filter((resource) => resource.kind === "answers").map((resource) => (
+                <a href={resource.url} target="_blank" rel="noreferrer" key={resource.url}>{resource.label} ↗</a>
+              ))}
+            </div>}
+          </div>
+        )}
+      </section>
+
+      {!mastered && !readyToProve && (
+        <section className="locked-panel">
+          <span>LOCKED</span>
+          <h2>Your mastery check opens after active video + paper practice.</h2>
+          <p>Missing: {props.record.watched.length === 0 ? "mark one video actively watched" : ""}{props.record.watched.length === 0 && !props.record.practiceDone ? " and " : ""}{!props.record.practiceDone ? "complete the paper practice" : ""}.</p>
+        </section>
+      )}
+
+      {!mastered && readyToProve && (
+        <InlineQuiz
+          title={props.lesson.section + " mastery check"}
+          eyebrow="STAGE 03 · PROVE IT"
+          questions={props.lesson.forms[formIndex]}
+          seed={quizSeed}
+          buttonLabel="Grade my mastery check"
+          onGrade={(result) => props.onGrade(result, "mastery")}
+        />
+      )}
+
+      {mastered && !lockedIn && !props.isDue && (
+        <section className="retention-card">
+          <div className="retention-icon">↻</div>
+          <div>
+            <p className="eyebrow">STAGE 04 · MAKE IT STICK</p>
+            <h2>Immediate mastery earned. Your delayed recheck opens {formatReviewTime(props.record.reviewDueAt)}.</h2>
+            <p>Move forward now. Coming back after spacing separates recognition from test-day recall.</p>
+            <button className="button primary" type="button" onClick={props.onNext}>Continue to the next lesson</button>
+          </div>
+        </section>
+      )}
+
+      {mastered && !lockedIn && props.isDue && (
+        <InlineQuiz
+          title={props.lesson.section + " retention recheck"}
+          eyebrow="STAGE 04 · DELAYED RETRIEVAL"
+          questions={props.lesson.forms[formIndex]}
+          seed={quizSeed}
+          buttonLabel="Lock this lesson in"
+          onGrade={(result) => props.onGrade(result, "retention")}
+        />
+      )}
+
+      {lockedIn && (
+        <section className="locked-in-card">
+          <span>✓✓</span>
+          <div><p className="eyebrow">LOCKED IN</p><h2>You proved this lesson again after a delay.</h2><p>Keep it alive through the mixed Unit 1 mock and your error log.</p><button className="button primary" type="button" onClick={props.onNext}>Continue</button></div>
+        </section>
+      )}
+    </div>
+  );
+}
+
+function LibraryWorkspace(props: { unitId: number; lessonIndex: number; onLesson: (index: number) => void }) {
+  const unit = units.find((candidate) => candidate.id === props.unitId) ?? units[1];
+  const lesson: LibraryLesson = unit.lessons[props.lessonIndex] ?? unit.lessons[0];
+  return (
+    <div className="library-workspace">
+      <section className="library-hero">
+        <div><p className="eyebrow">UNIT {String(unit.id).padStart(2, "0")} · VIDEO LIBRARY</p><h1>{unit.title}</h1><p>{unit.description}</p></div>
+        <span>UP NEXT</span>
+      </section>
+      <div className="library-note"><strong>Your current test mission is Unit 1.</strong> This library keeps the rest of MCR3U ready: curated videos first, then Ontario practice and solutions.</div>
+      <div className="library-layout">
+        <nav className="library-lessons">
+          {unit.lessons.map((item, index) => (
+            <button className={index === props.lessonIndex ? "active" : ""} type="button" key={item.id} onClick={() => props.onLesson(index)}>
+              <span>{item.section}</span><strong>{item.title}</strong><i>▶</i>
+            </button>
+          ))}
+        </nav>
+        <article className="library-player">
+          <div className="video-frame">
+            <iframe
+              key={lesson.video}
+              src={"https://www.youtube-nocookie.com/embed/" + lesson.video + "?rel=0"}
+              title={lesson.title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          <p className="eyebrow">{lesson.section} · {lesson.provider}</p><h2>{lesson.title}</h2>
+          <div className="library-columns">
+            <div><h3>Learn these</h3>{lesson.focus.map((focus) => <p key={focus}>✓ {focus}</p>)}</div>
+            <div><h3>Active-watch prompt</h3><p>{lesson.pause}</p><p className="pitfall"><strong>Watch for:</strong> {lesson.pitfall}</p></div>
+          </div>
+          <div className="resource-grid">
+            <a href={youtube(lesson.video)} target="_blank" rel="noreferrer"><span>VIDEO</span><strong>Open on YouTube</strong><i>↗</i></a>
+            {lesson.practice.map((resource) => <a href={resource.url} target="_blank" rel="noreferrer" key={resource.url}><span>PRACTICE</span><strong>{resource.label}</strong><i>↗</i></a>)}
+            {lesson.solutions?.map((resource) => <a href={resource.url} target="_blank" rel="noreferrer" key={resource.url}><span>ANSWERS</span><strong>{resource.label}</strong><i>↗</i></a>)}
+          </div>
+        </article>
+      </div>
+    </div>
+  );
+}
+
+export default function Home() {
+  const [mastery, setMastery] = useState<MasteryState>(blankState);
+  const [hydrated, setHydrated] = useState(false);
+  const [activeUnitId, setActiveUnitId] = useState(1);
+  const [unitOneView, setUnitOneView] = useState<"mission" | "lesson" | "mock">("mission");
+  const [libraryLessonIndex, setLibraryLessonIndex] = useState(0);
+  const [now, setNow] = useState(Date.now());
+  const [syncNote, setSyncNote] = useState("Loading progress…");
+  const importRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const normalized = normalizeState(JSON.parse(saved));
+        if (normalized) setMastery(normalized);
+      } else {
+        const legacy = localStorage.getItem(LEGACY_KEY);
+        if (legacy) {
+          const old = JSON.parse(legacy) as Record<string, boolean>;
+          setMastery((current) => ({
+            ...current,
+            lessons: Object.fromEntries(
+              unit1Lessons.map((lesson) => [
+                lesson.id,
+                old[lesson.id] ? { ...blankLesson(), watched: [lesson.videos[0].id] } : blankLesson(),
+              ]),
+            ),
+          }));
+        }
+      }
+    } catch {
+      setSyncNote("Storage repaired · new local record");
+    } finally {
+      setHydrated(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(mastery));
+      setSyncNote("Saved on this device");
+    } catch {
+      setSyncNote("Progress is open but not saving");
+    }
+  }, [hydrated, mastery]);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(interval);
+  }, []);
+
+  const records = unit1Lessons.map((lesson) => getRecord(mastery, lesson.id));
+  const masteredCount = records.filter((record) => record.masteredAt).length;
+  const lockedCount = records.filter((record) => record.lockedInAt).length;
+  const allMastered = masteredCount === unit1Lessons.length;
+  const dueCount = records.filter(
+    (record) => record.masteredAt && !record.lockedInAt && record.reviewDueAt && new Date(record.reviewDueAt).getTime() <= now,
+  ).length;
+  const readiness = Math.min(
+    100,
+    Math.round((masteredCount / unit1Lessons.length) * 70 + (lockedCount / unit1Lessons.length) * 20 + (mastery.mockBest / 100) * 10),
+  );
+  const testReady = allMastered && lockedCount === unit1Lessons.length && mastery.mockBest === 100 && mastery.errors.length === 0;
+  const currentLessonIndex = Math.max(0, unit1Lessons.findIndex((lesson) => lesson.id === mastery.activeLessonId));
+  const currentLesson = unit1Lessons[currentLessonIndex];
+  const currentRecord = getRecord(mastery, currentLesson.id);
+  const currentDue = Boolean(
+    currentRecord.masteredAt &&
+      !currentRecord.lockedInAt &&
+      currentRecord.reviewDueAt &&
+      new Date(currentRecord.reviewDueAt).getTime() <= now,
+  );
+  const nextLessonIndex = Math.max(0, unit1Lessons.findIndex((lesson) => !getRecord(mastery, lesson.id).masteredAt));
+  const nextLesson = allMastered ? null : unit1Lessons[nextLessonIndex];
+  const daysToTest = Math.max(0, Math.ceil((TEST_DATE.getTime() - now) / DAY));
+
+  function updateLesson(lessonId: string, transform: (record: LessonRecord) => LessonRecord) {
+    setMastery((current) => ({
+      ...current,
+      lessons: { ...current.lessons, [lessonId]: transform(getRecord(current, lessonId)) },
+    }));
+  }
+
+  function chooseLesson(index: number) {
+    const lesson = unit1Lessons[index];
+    if (!lesson) return;
+    const unlocked = index === 0 || Boolean(getRecord(mastery, unit1Lessons[index - 1].id).masteredAt);
+    if (!unlocked) return;
+    setMastery((current) => ({ ...current, activeLessonId: lesson.id }));
+    setActiveUnitId(1);
+    setUnitOneView("lesson");
+    window.setTimeout(() => document.querySelector(".main")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+  }
+
+  function nextFromLesson() {
+    const index = unit1Lessons.findIndex((lesson) => lesson.id === mastery.activeLessonId);
+    if (index < unit1Lessons.length - 1) chooseLesson(index + 1);
+    else setUnitOneView("mock");
+  }
+
+  function toggleVideo(videoId: string) {
+    updateLesson(currentLesson.id, (record) => ({
+      ...record,
+      watched: record.watched.includes(videoId)
+        ? record.watched.filter((candidate) => candidate !== videoId)
+        : [...record.watched, videoId],
+    }));
+  }
+
+  function addErrors(lessonId: string, missed: QuizQuestion[]) {
+    if (missed.length === 0) return;
+    const timestamp = new Date().toISOString();
+    setMastery((current) => {
+      const retained = current.errors.filter(
+        (error) => !missed.some((question) => error.lessonId === lessonId && error.skill === question.skill),
+      );
+      const additions = missed.map((question, index) => ({
+        id: lessonId + "-" + question.id + "-" + Date.now() + "-" + index,
+        lessonId,
+        skill: question.skill,
+        prompt: question.prompt,
+        at: timestamp,
+      }));
+      return { ...current, errors: [...additions, ...retained].slice(0, 30) };
+    });
+  }
+
+  function gradeLesson(result: QuizResult, mode: "mastery" | "retention") {
+    const percent = Math.round((result.score / result.total) * 100);
+    const lessonId = currentLesson.id;
+    if (mode === "mastery") {
+      updateLesson(lessonId, (record) => ({
+        ...record,
+        attempts: record.attempts + 1,
+        best: Math.max(record.best, percent),
+        ...(percent === 100
+          ? { masteredAt: new Date().toISOString(), reviewDueAt: new Date(Date.now() + 18 * 60 * 60 * 1000).toISOString() }
+          : {}),
+      }));
+    } else {
+      updateLesson(lessonId, (record) => ({
+        ...record,
+        reviewAttempts: record.reviewAttempts + 1,
+        best: Math.max(record.best, percent),
+        ...(percent === 100 ? { lockedInAt: new Date().toISOString() } : {}),
+      }));
+    }
+    if (percent === 100) {
+      setMastery((current) => ({ ...current, errors: current.errors.filter((error) => error.lessonId !== lessonId) }));
+    } else addErrors(lessonId, result.missed);
+  }
+
+  function gradeMock(result: QuizResult) {
+    const percent = Math.round((result.score / result.total) * 100);
+    setMastery((current) => ({
+      ...current,
+      mockAttempts: current.mockAttempts + 1,
+      mockBest: Math.max(current.mockBest, percent),
+      ...(percent === 100 ? { errors: [] } : {}),
+    }));
+    if (percent < 100) {
+      result.missed.forEach((question) => {
+        const section = question.skill.split(" ")[0];
+        const lesson = unit1Lessons.find((candidate) => candidate.section === section);
+        if (lesson) addErrors(lesson.id, [question]);
+      });
+    }
+  }
+
+  function exportProgress() {
+    const blob = new Blob([JSON.stringify(mastery, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "function-room-progress-" + new Date().toISOString().slice(0, 10) + ".json";
+    anchor.click();
+    URL.revokeObjectURL(url);
+    setSyncNote("Progress backup downloaded");
+  }
+
+  function importProgress(file?: File) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const normalized = normalizeState(JSON.parse(String(reader.result)));
+        if (!normalized) throw new Error("Invalid backup");
+        setMastery(normalized);
+        setSyncNote("Progress restored from backup");
+      } catch {
+        setSyncNote("That file is not a Function Room backup");
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  const firstUnlockedUnmastered = unit1Lessons.findIndex((lesson, index) => {
+    const unlocked = index === 0 || Boolean(getRecord(mastery, unit1Lessons[index - 1].id).masteredAt);
+    return unlocked && !getRecord(mastery, lesson.id).masteredAt;
+  });
+
+  return (
+    <div className="app-shell">
+      <aside className="sidebar">
+        <button
+          className="brand"
+          type="button"
+          onClick={() => {
+            setActiveUnitId(1);
+            setUnitOneView("mission");
+            window.setTimeout(() => document.querySelector(".main")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+          }}
+        >
+          <b>ƒ</b><span>FUNCTION ROOM<small>MCR3U · ONTARIO</small></span>
+        </button>
+
+        <div className="test-countdown">
+          <span>UNIT 1 TEST</span><strong>{daysToTest === 0 ? "TEST DAY" : daysToTest + " DAYS"}</strong><small>THU · SEP 24</small>
+        </div>
+
+        <p className="sidebar-label">CURRENT MISSION</p>
+        <button
+          type="button"
+          className={"mission-link " + (activeUnitId === 1 && unitOneView === "mission" ? "active" : "")}
+          onClick={() => {
+            setActiveUnitId(1);
+            setUnitOneView("mission");
+            window.setTimeout(() => document.querySelector(".main")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+          }}
+        >
+          <span>⌂</span><div><b>Mission control</b><small>{readiness}% evidence</small></div>
+        </button>
+
+        <nav className="lesson-path" aria-label="Unit 1 mastery path">
+          {unit1Lessons.map((lesson, index) => {
+            const record = getRecord(mastery, lesson.id);
+            const unlocked = index === 0 || Boolean(getRecord(mastery, unit1Lessons[index - 1].id).masteredAt);
+            const selected = activeUnitId === 1 && unitOneView === "lesson" && mastery.activeLessonId === lesson.id;
+            return (
+              <button
+                type="button"
+                disabled={!unlocked}
+                className={(selected ? "active " : "") + (record.lockedInAt ? "locked-in" : record.masteredAt ? "mastered" : "")}
+                key={lesson.id}
+                onClick={() => chooseLesson(index)}
+              >
+                <span className="path-node">{record.lockedInAt ? "✓✓" : record.masteredAt ? "✓" : unlocked ? lesson.section : "🔒"}</span>
+                <div><b>{lesson.title}</b><small>{record.lockedInAt ? "Locked in" : record.masteredAt ? "Mastered · review scheduled" : unlocked ? "Ready to learn" : "Pass previous lesson"}</small></div>
+              </button>
+            );
+          })}
+        </nav>
+
+        <button
+          type="button"
+          disabled={!allMastered}
+          className={"mock-link " + (unitOneView === "mock" && activeUnitId === 1 ? "active" : "")}
+          onClick={() => {
+            setActiveUnitId(1);
+            setUnitOneView("mock");
+            window.setTimeout(() => document.querySelector(".main")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+          }}
+        >
+          <span>★</span><div><b>Unit 1 mock test</b><small>{allMastered ? mastery.mockBest + "% best" : "Unlock all 7 lessons"}</small></div>
+        </button>
+
+        <details className="future-units">
+          <summary>FULL COURSE LIBRARY <span>+</span></summary>
+          {units.filter((unit) => unit.id > 1).map((unit) => (
+            <button
+              type="button"
+              className={activeUnitId === unit.id ? "active" : ""}
+              key={unit.id}
+              onClick={() => {
+                setActiveUnitId(unit.id);
+                setLibraryLessonIndex(0);
+                window.setTimeout(() => document.querySelector(".main")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
+              }}
+            >
+              <span>0{unit.id}</span><b>{unit.title}</b>
+            </button>
+          ))}
+        </details>
+
+        <div className="sidebar-backup">
+          <p><span className="save-dot" /> {syncNote}</p>
+          <div><button type="button" onClick={exportProgress}>Export</button><button type="button" onClick={() => importRef.current?.click()}>Import</button></div>
+          <input
+            ref={importRef}
+            type="file"
+            accept="application/json,.json"
+            hidden
+            onChange={(event) => {
+              importProgress(event.target.files?.[0]);
+              event.currentTarget.value = "";
+            }}
+          />
+          <small>Use export/import to move progress between iPad and laptop.</small>
+        </div>
+      </aside>
+
+      <main className="main">
+        <header className="topbar">
+          <div><span className="live-dot" /><b>{activeUnitId === 1 ? "UNIT 1 · MASTERY MODE" : "UNIT " + activeUnitId + " · VIDEO LIBRARY"}</b></div>
+          <FocusTimer
+            timer={mastery.timer}
+            now={now}
+            onStart={(mode, minutes) => setMastery((current) => ({ ...current, timer: { mode, endAt: Date.now() + minutes * 60000 } }))}
+            onStop={() => setMastery((current) => {
+              const { timer: _timer, ...rest } = current;
+              return rest;
+            })}
+          />
+        </header>
+
+        <div className="page-content">
+          {activeUnitId === 1 && unitOneView === "mission" && (
+            <div className="mission-page">
+              <section className="mission-hero">
+                <div className="mission-copy">
+                  <p className="eyebrow">SATURDAY · SEPTEMBER 19 · START AT 3:00</p>
+                  <h1>Build proof.<br />Walk into Thursday calm.</h1>
+                  <p>This room does not count passive watching as learning. Every lesson moves through video, independent practice, a perfect mastery check, and a delayed recheck.</p>
+                  <div className="hero-actions">
+                    <button
+                      className="button primary"
+                      type="button"
+                      onClick={() => {
+                        if (nextLesson) chooseLesson(firstUnlockedUnmastered >= 0 ? firstUnlockedUnmastered : 0);
+                        else setUnitOneView("mock");
+                      }}
+                    >
+                      {nextLesson ? "Start " + nextLesson.section + " · " + nextLesson.title : "Open Unit 1 mock"}
+                    </button>
+                    <a
+                      className="button secondary"
+                      href="https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_introtofunctions_quiz.docx"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Take cold 1.1–1.3 diagnostic ↗
+                    </a>
+                  </div>
+                  <p className="honest-promise"><span>THE STANDARD</span>The site can make gaps impossible to hide. Your test mark still depends on doing the work without notes.</p>
+                </div>
+                <div className="readiness-card">
+                  <div className="readiness-ring" style={{ "--progress": readiness * 3.6 + "deg" } as React.CSSProperties}>
+                    <div><strong>{readiness}%</strong><span>READINESS<br />EVIDENCE</span></div>
+                  </div>
+                  <div className="readiness-stats">
+                    <div><strong>{masteredCount}/7</strong><span>mastered</span></div>
+                    <div><strong>{lockedCount}/7</strong><span>locked in</span></div>
+                    <div><strong>{mastery.mockBest}%</strong><span>mock best</span></div>
+                    <div><strong>{mastery.errors.length}</strong><span>open errors</span></div>
+                  </div>
+                  <p className={testReady ? "ready" : ""}>{testReady ? "Every readiness gate is passed." : "Test-ready = 7 delayed passes + 100% mock + zero open errors."}</p>
+                </div>
+              </section>
+
+              <section className="next-action">
+                <div className="action-number">01</div>
+                <div>
+                  <p className="eyebrow">DO THIS NEXT</p>
+                  <h2>{dueCount > 0 ? dueCount + " delayed recheck" + (dueCount === 1 ? "" : "s") + " due" : nextLesson ? nextLesson.section + " · " + nextLesson.title : "Take the full Unit 1 mock"}</h2>
+                  <p>{dueCount > 0 ? "Retrieval after a delay comes before new content. Pass the fresh form without notes." : nextLesson ? nextLesson.summary : "Use all twelve mixed questions as a strict closed-notes test."}</p>
+                </div>
+                <button
+                  className="button dark"
+                  type="button"
+                  onClick={() => {
+                    const dueIndex = unit1Lessons.findIndex((lesson) => {
+                      const record = getRecord(mastery, lesson.id);
+                      return Boolean(record.masteredAt && !record.lockedInAt && record.reviewDueAt && new Date(record.reviewDueAt).getTime() <= now);
+                    });
+                    if (dueIndex >= 0) chooseLesson(dueIndex);
+                    else if (nextLesson) chooseLesson(nextLessonIndex);
+                    else setUnitOneView("mock");
+                  }}
+                >
+                  Open next action →
+                </button>
+              </section>
+
+              <section className="schedule-section">
+                <div className="section-heading">
+                  <div><p className="eyebrow">YOUR 3:00 PM LOCK-IN</p><h2>Saturday execution plan</h2></div>
+                  <span className="closed-notes">4.5 HOURS · BREAKS INCLUDED</span>
+                </div>
+                <div className="schedule-grid">
+                  {saturdayPlan.map((block, index) => (
+                    <article className={index === 0 ? "highlight" : ""} key={block.time}>
+                      <time>{block.time}</time><div><h3>{block.title}</h3><p>{block.detail}</p></div>
+                    </article>
+                  ))}
+                </div>
+              </section>
+
+              <section className="calendar-section">
+                <div className="section-heading"><div><p className="eyebrow">TEACHER CALENDAR · VERIFIED</p><h2>The road to September 24</h2></div></div>
+                <div className="milestone-row">
+                  {courseMilestones.map((item) => (
+                    <article className={item.status} key={item.date + item.label}><span>{item.date}</span><b>{item.label}</b><small>{item.detail}</small></article>
+                  ))}
+                </div>
+                <div className="week-plan">
+                  {testWeekPlan.map((item) => <article key={item.day}><strong>{item.day}</strong><p>{item.task}</p></article>)}
+                </div>
+              </section>
+
+              {mastery.errors.length > 0 && (
+                <section className="error-log">
+                  <div className="section-heading"><div><p className="eyebrow">NO HIDDEN GAPS</p><h2>Your repair queue</h2></div><span className="status-pill">{mastery.errors.length} OPEN</span></div>
+                  <div className="error-list">
+                    {mastery.errors.slice(0, 8).map((error) => {
+                      const lessonIndex = unit1Lessons.findIndex((lesson) => lesson.id === error.lessonId);
+                      const lesson = unit1Lessons[lessonIndex];
+                      return (
+                        <button type="button" key={error.id} onClick={() => chooseLesson(lessonIndex)}>
+                          <span>{lesson?.section}</span><div><b>{error.skill.replaceAll("-", " ")}</b><small>{error.prompt}</small></div><i>Repair →</i>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </section>
+              )}
+
+              <section className="resources-method">
+                <div className="review-bank">
+                  <div className="section-heading"><div><p className="eyebrow">ONTARIO PRACTICE BANK</p><h2>Quizzes, reviews, tests</h2></div></div>
+                  <div className="review-links">
+                    {reviewLibrary.map((resource) => (
+                      <a href={resource.url} target="_blank" rel="noreferrer" key={resource.url}><span>{resource.kind}</span><strong>{resource.label}</strong><i>↗</i></a>
+                    ))}
+                  </div>
+                </div>
+                <div className="method-card">
+                  <p className="eyebrow">WHY THIS METHOD</p><h2>What actually sticks</h2>
+                  <ol>
+                    <li><b>Retrieve.</b> Solve before looking.</li>
+                    <li><b>Repair.</b> Name the exact mistake.</li>
+                    <li><b>Space.</b> Return on a later day.</li>
+                    <li><b>Mix.</b> Identify the method yourself.</li>
+                    <li><b>Explain.</b> Say why each step works.</li>
+                  </ol>
+                  <p>Education research supports spaced retrieval and worked-example/problem alternation. Student advice repeatedly emphasizes closed-book paper work, explaining steps, and keeping an error log.</p>
+                  <div>{methodSources.map((source) => <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>{source.label} ↗</a>)}</div>
+                </div>
+              </section>
+            </div>
+          )}
+
+          {activeUnitId === 1 && unitOneView === "lesson" && (
+            <LessonWorkspace
+              lesson={currentLesson}
+              record={currentRecord}
+              isDue={currentDue}
+              onToggleVideo={toggleVideo}
+              onPractice={(done) => updateLesson(currentLesson.id, (record) => ({ ...record, practiceDone: done }))}
+              onGrade={gradeLesson}
+              onNext={nextFromLesson}
+            />
+          )}
+
+          {activeUnitId === 1 && unitOneView === "mock" && (
+            <div className="mock-page">
+              <section className="mock-hero">
+                <div><p className="eyebrow">FINAL GATE · UNIT 1</p><h1>Closed-notes mock test</h1><p>12 mixed questions across all seven lessons. There are no chapter labels during a real test, so this form makes you choose the method.</p></div>
+                <div><span>BEST</span><strong>{mastery.mockBest}%</strong><small>{mastery.mockAttempts} attempt{mastery.mockAttempts === 1 ? "" : "s"}</small></div>
+              </section>
+              {!allMastered ? (
+                <section className="locked-panel"><span>LOCKED</span><h2>Master all seven lessons before the cumulative mock.</h2><p>{7 - masteredCount} lesson{7 - masteredCount === 1 ? "" : "s"} remaining.</p></section>
+              ) : (
+                <InlineQuiz
+                  title="Unit 1 mixed mock"
+                  eyebrow="12 QUESTIONS · FRESH ORDER"
+                  questions={mockQuestions}
+                  seed={mastery.mockAttempts + 101}
+                  buttonLabel="Grade my Unit 1 mock"
+                  onGrade={gradeMock}
+                />
+              )}
+            </div>
+          )}
+
+          {activeUnitId > 1 && <LibraryWorkspace unitId={activeUnitId} lessonIndex={libraryLessonIndex} onLesson={setLibraryLessonIndex} />}
         </div>
       </main>
     </div>
