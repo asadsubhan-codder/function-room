@@ -1,24 +1,21 @@
-# Function Room
+# Functions Lab
 
-Video-first Ontario Grade 11 MCR3U study path.
+An Ontario Grade 11 MCR3U Unit 1 practice lab, aligned to lessons 1.1–1.7: relations and functions, notation, domain and range, parent functions, transformations, graphing transformations, and inverse functions.
 
-This GitHub Pages version is independent of ChatGPT Sites. It has no account authentication or server database; lesson and readiness progress is saved in the browser's local storage. The site is built from the existing course plan and links to the original free videos and practice sheets.
+This GitHub Pages edition is independent of ChatGPT Sites. It stores learning progress locally in the browser; it has no account authentication or server database. It includes 74 practice questions, including a 14-question mixed Unit review.
 
 ## Live site
 
 https://asadsubhan-codder.github.io/function-room/
 
-The seven units follow the sequence in the school's welcome presentation. The quadratic path now uses MCR3U-labelled Grade 11 lessons (3.1–3.8); the discrete path keeps financial mathematics as an optional extension because it is not listed as one of the seven course units.
+The content is aligned to the supplied class calendar, handouts, and Nelson textbook references for Unit 1. Graphing transformations and inverse functions are included in the appropriate later lessons.
 
 ## Local preview
 
-```bash
-npm install
-npm run dev
-```
+Open `static/index.html` in a browser, or serve the `static` folder with any local static-file server.
 
 ## Deployment
 
-Push the repository's `main` branch to GitHub, enable **Settings → Pages → GitHub Actions**, and the included workflow will build and publish the `dist` folder.
+Push the repository's `main` branch to GitHub, enable **Settings → Pages → GitHub Actions**, and the included workflow will publish the `static` folder.
 
 The deployment workflow is stored in `.github/workflows/deploy.yml`.
