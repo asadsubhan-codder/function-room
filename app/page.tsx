@@ -375,7 +375,6 @@ function FocusTimer(props: {
 function LessonWorkspace(props: {
   lesson: MasteryLesson;
   record: LessonRecord;
-  isDue: boolean;
   onToggleVideo: (videoId: string) => void;
   onPractice: (done: boolean) => void;
   onGrade: (result: QuizResult, mode: "mastery" | "retention") => void;
@@ -384,7 +383,6 @@ function LessonWorkspace(props: {
   const [activeVideoId, setActiveVideoId] = useState(props.lesson.videos[0].id);
   const [showAnswers, setShowAnswers] = useState(false);
   const activeVideo = props.lesson.videos.find((video) => video.id === activeVideoId) ?? props.lesson.videos[0];
-  const readyToProve = props.record.watched.length > 0 && props.record.practiceDone;
   const mastered = Boolean(props.record.masteredAt);
   const lockedIn = Boolean(props.record.lockedInAt);
 
@@ -393,7 +391,6 @@ function LessonWorkspace(props: {
     setShowAnswers(false);
   }, [props.lesson.id, props.lesson.videos]);
 
-  const quizSeed = mastered ? props.record.reviewAttempts + 41 : props.record.attempts + 1;
   const masteryQuestions = buildLessonCheck(props.lesson.section, props.record.attempts, "mastery");
   const retentionQuestions = buildLessonCheck(props.lesson.section, props.record.reviewAttempts, "retention");
 
@@ -420,8 +417,8 @@ function LessonWorkspace(props: {
       <div className="stage-strip">
         <div className={props.record.watched.length ? "done" : "active"}><b>1</b><span>Learn</span><small>{props.record.watched.length ? "Video checked" : "Watch actively"}</small></div>
         <div className={props.record.practiceDone ? "done" : props.record.watched.length ? "active" : ""}><b>2</b><span>Practise</span><small>{props.record.practiceDone ? "Paper work done" : "Independent work"}</small></div>
-        <div className={mastered ? "done" : readyToProve ? "active" : ""}><b>3</b><span>Prove</span><small>{mastered ? "6/6 passed" : "Fresh mixed check"}</small></div>
-        <div className={lockedIn ? "done" : props.isDue ? "active" : ""}><b>4</b><span>Retain</span><small>{lockedIn ? "Delayed pass" : mastered ? "Return later" : "After mastery"}</small></div>
+        <div className={mastered ? "done" : "active"}><b>3</b><span>Prove</span><small>{mastered ? "6/6 passed" : "Available anytime"}</small></div>
+        <div className={lockedIn ? "done" : "active"}><b>4</b><span>Retain</span><small>{lockedIn ? "Delayed pass" : "Available anytime"}</small></div>
       </div>
 
       <section className="objective-card">
@@ -492,7 +489,7 @@ function LessonWorkspace(props: {
       <section className="practice-card">
         <div className="section-heading">
           <div><p className="eyebrow">STAGE 02 · PRACTISE</p><h2>Now make your own brain do it</h2></div>
-          <span className={"status-pill " + (props.record.practiceDone ? "done" : "")}>{props.record.practiceDone ? "DONE" : "REQUIRED"}</span>
+          <span className={"status-pill " + (props.record.practiceDone ? "done" : "")}>{props.record.practiceDone ? "DONE" : "OPTIONAL TRACKER"}</span>
         </div>
         <p className="practice-intro">Work the student questions on paper without copying a solution. Circle anything you cannot explain. Check the key only after a real attempt.</p>
         <div className="resource-grid">
@@ -504,57 +501,45 @@ function LessonWorkspace(props: {
         </div>
         <label className="integrity-check">
           <input type="checkbox" checked={props.record.practiceDone} onChange={(event) => props.onPractice(event.target.checked)} />
-          <span><strong>I attempted the assigned questions on paper before checking the answers.</strong>This is an honesty gate. Checking it without doing the work only cheats your test score.</span>
+          <span><strong>I attempted the assigned questions on paper before checking the answers.</strong>This tracks your work but never locks another part of the site.</span>
         </label>
-        {props.record.practiceDone && (
-          <div className="answer-lock">
-            <button type="button" onClick={() => setShowAnswers((current) => !current)}>{showAnswers ? "Hide answer keys" : "Reveal answer keys"}</button>
-            {showAnswers && <div className="answer-links">
-              {props.lesson.resources.filter((resource) => resource.kind === "answers").map((resource) => (
-                <a href={resource.url} target="_blank" rel="noreferrer" key={resource.url}>{resource.label} ↗</a>
-              ))}
-            </div>}
-          </div>
-        )}
+        <div className="answer-lock">
+          <button type="button" onClick={() => setShowAnswers((current) => !current)}>{showAnswers ? "Hide answer keys" : "Reveal answer keys"}</button>
+          {showAnswers && <div className="answer-links">
+            {props.lesson.resources.filter((resource) => resource.kind === "answers").map((resource) => (
+              <a href={resource.url} target="_blank" rel="noreferrer" key={resource.url}>{resource.label} ↗</a>
+            ))}
+          </div>}
+        </div>
       </section>
 
-      {!mastered && !readyToProve && (
-        <section className="locked-panel">
-          <span>LOCKED</span>
-          <h2>Your mastery check opens after active video + paper practice.</h2>
-          <p>Missing: {props.record.watched.length === 0 ? "mark one video actively watched" : ""}{props.record.watched.length === 0 && !props.record.practiceDone ? " and " : ""}{!props.record.practiceDone ? "complete the paper practice" : ""}.</p>
-        </section>
-      )}
+      <InlineQuiz
+        title={props.lesson.section + " mastery check"}
+        eyebrow="STAGE 03 · PROVE IT · ALWAYS AVAILABLE"
+        questions={masteryQuestions}
+        seed={props.record.attempts + 1}
+        buttonLabel="Grade my mastery check"
+        onGrade={(result) => props.onGrade(result, "mastery")}
+      />
 
-      {!mastered && readyToProve && (
-        <InlineQuiz
-          title={props.lesson.section + " mastery check"}
-          eyebrow="STAGE 03 · PROVE IT"
-          questions={masteryQuestions}
-          seed={quizSeed}
-          buttonLabel="Grade my mastery check"
-          onGrade={(result) => props.onGrade(result, "mastery")}
-        />
-      )}
-
-      {mastered && !lockedIn && !props.isDue && (
+      {mastered && !lockedIn && (
         <section className="retention-card">
           <div className="retention-icon">↻</div>
           <div>
             <p className="eyebrow">STAGE 04 · MAKE IT STICK</p>
-            <h2>Immediate mastery earned. Your delayed recheck opens {formatReviewTime(props.record.reviewDueAt)}.</h2>
-            <p>Move forward now. Coming back after spacing separates recognition from test-day recall.</p>
+            <h2>Immediate mastery earned. The recheck is already accessible below.</h2>
+            <p>The suggested spaced-review time is {formatReviewTime(props.record.reviewDueAt)}, but the site will never block you.</p>
             <button className="button primary" type="button" onClick={props.onNext}>Continue to the next lesson</button>
           </div>
         </section>
       )}
 
-      {mastered && !lockedIn && props.isDue && (
+      {!lockedIn && (
         <InlineQuiz
-          title={props.lesson.section + " retention recheck"}
-          eyebrow="STAGE 04 · DELAYED RETRIEVAL"
+          title={props.lesson.section + " optional fresh recheck"}
+          eyebrow="STAGE 04 · RETRIEVAL · ALWAYS AVAILABLE"
           questions={retentionQuestions}
-          seed={quizSeed}
+          seed={props.record.reviewAttempts + 41}
           buttonLabel="Lock this lesson in"
           onGrade={(result) => props.onGrade(result, "retention")}
         />
@@ -682,12 +667,6 @@ export default function Home() {
   const currentLessonIndex = Math.max(0, unit1Lessons.findIndex((lesson) => lesson.id === mastery.activeLessonId));
   const currentLesson = unit1Lessons[currentLessonIndex];
   const currentRecord = getRecord(mastery, currentLesson.id);
-  const currentDue = Boolean(
-    currentRecord.masteredAt &&
-      !currentRecord.lockedInAt &&
-      currentRecord.reviewDueAt &&
-      new Date(currentRecord.reviewDueAt).getTime() <= now,
-  );
   const nextLessonIndex = Math.max(0, unit1Lessons.findIndex((lesson) => !getRecord(mastery, lesson.id).masteredAt));
   const nextLesson = allMastered ? null : unit1Lessons[nextLessonIndex];
   const rawDaysToTest = Math.ceil((TEST_DATE.getTime() - now) / DAY);
@@ -704,8 +683,6 @@ export default function Home() {
   function chooseLesson(index: number) {
     const lesson = unit1Lessons[index];
     if (!lesson) return;
-    const unlocked = index === 0 || Boolean(getRecord(mastery, unit1Lessons[index - 1].id).masteredAt);
-    if (!unlocked) return;
     setMastery((current) => ({ ...current, activeLessonId: lesson.id }));
     setActiveUnitId(1);
     setUnitOneView("lesson");
@@ -829,10 +806,7 @@ export default function Home() {
     reader.readAsText(file);
   }
 
-  const firstUnlockedUnmastered = unit1Lessons.findIndex((lesson, index) => {
-    const unlocked = index === 0 || Boolean(getRecord(mastery, unit1Lessons[index - 1].id).masteredAt);
-    return unlocked && !getRecord(mastery, lesson.id).masteredAt;
-  });
+  const firstUnlockedUnmastered = unit1Lessons.findIndex((lesson) => !getRecord(mastery, lesson.id).masteredAt);
 
   return (
     <div className="app-shell">
@@ -881,18 +855,16 @@ export default function Home() {
         <nav className="lesson-path" aria-label="Unit 1 mastery path">
           {unit1Lessons.map((lesson, index) => {
             const record = getRecord(mastery, lesson.id);
-            const unlocked = index === 0 || Boolean(getRecord(mastery, unit1Lessons[index - 1].id).masteredAt);
             const selected = activeUnitId === 1 && unitOneView === "lesson" && mastery.activeLessonId === lesson.id;
             return (
               <button
                 type="button"
-                disabled={!unlocked}
                 className={(selected ? "active " : "") + (record.lockedInAt ? "locked-in" : record.masteredAt ? "mastered" : "")}
                 key={lesson.id}
                 onClick={() => chooseLesson(index)}
               >
-                <span className="path-node">{record.lockedInAt ? "✓✓" : record.masteredAt ? "✓" : unlocked ? lesson.section : "🔒"}</span>
-                <div><b>{lesson.title}</b><small>{record.lockedInAt ? "Locked in" : record.masteredAt ? "Mastered · review scheduled" : unlocked ? "Ready to learn" : "Pass previous lesson"}</small></div>
+                <span className="path-node">{record.lockedInAt ? "✓✓" : record.masteredAt ? "✓" : lesson.section}</span>
+                <div><b>{lesson.title}</b><small>{record.lockedInAt ? "Locked in" : record.masteredAt ? "Mastered · review scheduled" : "Open anytime"}</small></div>
               </button>
             );
           })}
@@ -900,7 +872,6 @@ export default function Home() {
 
         <button
           type="button"
-          disabled={!allMastered}
           className={"mock-link " + (unitOneView === "mock" && activeUnitId === 1 ? "active" : "")}
           onClick={() => {
             setActiveUnitId(1);
@@ -908,7 +879,7 @@ export default function Home() {
             window.setTimeout(() => document.querySelector(".main")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0);
           }}
         >
-          <span>★</span><div><b>Unit 1 mock test</b><small>{allMastered ? mastery.mockBest + "% best" : "Unlock all 7 lessons"}</small></div>
+          <span>★</span><div><b>Unit 1 mock test</b><small>{mastery.mockAttempts ? mastery.mockBest + "% best" : "Open anytime"}</small></div>
         </button>
 
         <details className="future-units">
@@ -1158,7 +1129,6 @@ export default function Home() {
             <LessonWorkspace
               lesson={currentLesson}
               record={currentRecord}
-              isDue={currentDue}
               onToggleVideo={toggleVideo}
               onPractice={(done) => updateLesson(currentLesson.id, (record) => ({ ...record, practiceDone: done }))}
               onGrade={gradeLesson}
@@ -1172,11 +1142,9 @@ export default function Home() {
                 <div><p className="eyebrow">FINAL GATE · UNIT 1</p><h1>40-minute unseen mock</h1><p>19 mixed questions across all seven lessons: calculations, construction, explanation, and transfer. The timer auto-submits at zero. Every attempt generates new values.</p></div>
                 <div><span>CLEAN FORMS</span><strong>{mastery.mockCleanPasses}/2</strong><small>{mastery.mockBest}% best · {mastery.mockAttempts} attempt{mastery.mockAttempts === 1 ? "" : "s"}</small></div>
               </section>
-              {!allMastered ? (
-                <section className="locked-panel"><span>LOCKED</span><h2>Master all seven lessons before the cumulative mock.</h2><p>{7 - masteredCount} lesson{7 - masteredCount === 1 ? "" : "s"} remaining.</p></section>
-              ) : !mastery.mockEndAt ? (
+              {!mastery.mockEndAt ? (
                 <section className="mock-start">
-                  <div><p className="eyebrow">TEST CONDITIONS</p><h2>Paper, pencil, no notes, 40 minutes.</h2><p>Complete every written step on paper. Two perfect performances on different generated forms are the readiness standard. This is a demanding study gate, not a promise of a school mark.</p></div>
+                  <div><p className="eyebrow">TEST CONDITIONS · ALWAYS AVAILABLE</p><h2>Paper, pencil, no notes, 40 minutes.</h2><p>Start this whenever you want, even before completing the lessons. Two perfect performances on different generated forms remain the readiness standard, but they never restrict access.</p></div>
                   <button className="button primary" type="button" onClick={startMock}>Start 40-minute form {mastery.mockAttempts + 1}</button>
                 </section>
               ) : (
