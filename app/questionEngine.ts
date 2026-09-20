@@ -142,12 +142,12 @@ function domainQuestions(seed: number, prefix: string): QuizQuestion[] {
 function parentQuestions(seed: number, prefix: string): QuizQuestion[] {
   const shift = pick([2, 3, 5, 7], seed);
   return [
-    mc(prefix + "-14-match", "Which parent function has an endpoint at (0,0), domain x≥0, and range y≥0?", ["y=√x", "y=1/x", "y=x²", "y=x³"], 0, "The square-root parent starts at the origin and extends only to the right and upward.", "1.4 parent identification", "K/U"),
+    mc(prefix + "-14-match", "Which parent function has an endpoint at (0,0), domain x≥0, and range y≥0?", ["y=√x", "y=1/x", "y=x²", "y=x"], 0, "The square-root parent starts at the origin and extends only to the right and upward.", "1.4 parent identification", "K/U"),
     mc(prefix + "-14-features", "Which statement about y=1/x is true?", ["Its asymptotes are x=0 and y=0.", "Its domain is x≥0.", "It has an endpoint at (0,0).", "Its range includes y=0."], 0, "The reciprocal parent approaches both axes but never reaches them.", "1.4 reciprocal features", "K/U"),
     input(prefix + "-14-value", "The parent is f(x)=x². Type f(" + shift + ").", [String(shift * shift)], "Square the input: " + shift + "²=" + (shift * shift) + ".", "1.4 parent key value", "K/U"),
     input(prefix + "-14-domain", "Type the domain of the reciprocal parent y=1/x using an exclusion.", ["x!=0", "x≠0", "allrealexcept0", "allrealsxexcept0"], "Division by zero is undefined, so the domain is all real x except 0.", "1.4 parent domain", "Application", "Example: x≠0"),
     explain(prefix + "-14-explain", "Explain why y=1/x can never have an x-intercept.", [["1", "numerator"], ["zero", "0"], ["never", "cannot", "no value"]], "An x-intercept would require 1/x=0. A fraction with numerator 1 cannot equal zero for any allowed real x.", "1.4 justify reciprocal feature", "Communication"),
-    mc(prefix + "-14-transfer", "Which parent is odd and passes through (-1,-1), (0,0), and (1,1) with an S-shape?", ["y=x³", "y=x²", "y=|x|", "y=√x"], 0, "The cubic parent is odd, contains those three points, and has an S-shaped graph.", "1.4 unfamiliar representation", "Thinking"),
+    mc(prefix + "-14-transfer", "Which pair of parent functions is symmetric about the y-axis?", ["y=x² and y=|x|", "y=x and y=√x", "y=1/x and y=x", "y=√x and y=1/x"], 0, "The quadratic and absolute-value parents are both unchanged by replacing x with -x, so both are symmetric about the y-axis.", "1.4 compare parent symmetry", "Thinking"),
   ];
 }
 

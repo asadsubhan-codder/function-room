@@ -5,21 +5,24 @@ import { type Lesson as LibraryLesson, units, youtube } from "./courseData";
 import {
   assessmentPacks,
   courseMilestones,
+  currentPlan,
   methodSources,
   type MasteryLesson,
   type QuizQuestion,
   reviewLibrary,
-  saturdayPlan,
+  successStories,
   testWeekPlan,
   unit1Lessons,
 } from "./masteryData";
 import { buildLessonCheck, buildMock } from "./questionEngine";
 
-const STORAGE_KEY = "function-room-mastery-v4";
-const PREVIOUS_KEY = "function-room-mastery-v3";
+const STORAGE_KEY = "function-room-mastery-v5";
+const PREVIOUS_KEY = "function-room-mastery-v4";
+const OLDER_KEY = "function-room-mastery-v3";
 const LEGACY_KEY = "function-room-progress";
 const TEST_DATE = new Date(2026, 8, 24, 9, 0, 0);
 const DAY = 86400000;
+const CURRENT_FOCUS_INDEX = 3;
 
 type LessonRecord = {
   watched: string[];
@@ -43,7 +46,7 @@ type ErrorItem = {
 type TimerState = { mode: "focus" | "break"; endAt: number };
 
 type MasteryState = {
-  version: 4;
+  version: 5;
   activeLessonId: string;
   lessons: Record<string, LessonRecord>;
   mockAttempts: number;
@@ -67,8 +70,8 @@ const blankLesson = (): LessonRecord => ({
 });
 
 const blankState = (): MasteryState => ({
-  version: 4,
-  activeLessonId: unit1Lessons[0].id,
+  version: 5,
+  activeLessonId: unit1Lessons[CURRENT_FOCUS_INDEX].id,
   lessons: Object.fromEntries(unit1Lessons.map((lesson) => [lesson.id, blankLesson()])),
   mockAttempts: 0,
   mockBest: 0,
@@ -96,11 +99,11 @@ function normalizeState(value: unknown): MasteryState | null {
   if (!value || typeof value !== "object") return null;
   const savedVersion = (value as { version?: number }).version;
   const item = value as Partial<MasteryState>;
-  if ((savedVersion !== 3 && savedVersion !== 4) || !item.lessons || typeof item.lessons !== "object") return null;
+  if ((savedVersion !== 3 && savedVersion !== 4 && savedVersion !== 5) || !item.lessons || typeof item.lessons !== "object") return null;
   const knownIds = new Set(unit1Lessons.map((lesson) => lesson.id));
   const lessons = Object.fromEntries(unit1Lessons.map((lesson) => {
     const record = normalizeRecord(item.lessons?.[lesson.id]);
-    if (savedVersion === 4) return [lesson.id, record];
+    if (savedVersion === 4 || savedVersion === 5) return [lesson.id, record];
     const { masteredAt: _masteredAt, reviewDueAt: _reviewDueAt, lockedInAt: _lockedInAt, ...preserved } = record;
     return [lesson.id, preserved];
   }));
@@ -125,8 +128,12 @@ function normalizeState(value: unknown): MasteryState | null {
       ? { mode: item.timer.mode, endAt: Number(item.timer.endAt) }
       : undefined;
   return {
-    version: 4,
-    activeLessonId: knownIds.has(item.activeLessonId ?? "") ? String(item.activeLessonId) : unit1Lessons[0].id,
+    version: 5,
+    activeLessonId: (() => {
+      const savedId = knownIds.has(item.activeLessonId ?? "") ? String(item.activeLessonId) : unit1Lessons[CURRENT_FOCUS_INDEX].id;
+      const savedIndex = unit1Lessons.findIndex((lesson) => lesson.id === savedId);
+      return savedVersion < 5 && savedIndex < CURRENT_FOCUS_INDEX ? unit1Lessons[CURRENT_FOCUS_INDEX].id : savedId;
+    })(),
     lessons,
     mockAttempts: Number.isFinite(item.mockAttempts) ? Math.max(0, Number(item.mockAttempts)) : 0,
     mockBest: Number.isFinite(item.mockBest) ? Math.min(100, Math.max(0, Number(item.mockBest))) : 0,
@@ -334,7 +341,7 @@ function InlineQuiz(props: {
             <strong>{graded.result.score}/{graded.result.total}</strong>
             <p>{perfect ? "Perfect evidence across recognition, construction, explanation, and transfer. The next gate is open." : "Read the feedback, correct the full solution on paper, then use a fresh parallel form."}</p>
           </div>
-          {!perfect && <button className="button dark" type="button" onClick={retry}>Load fresh form</button>}
+          <button className="button dark" type="button" onClick={retry}>Load fresh form</button>
           {perfect && props.onPerfectAction && <button className="button dark" type="button" onClick={perfectAction}>{props.perfectActionLabel ?? "Continue"}</button>}
         </div>
       ) : (
@@ -405,6 +412,7 @@ function LessonWorkspace(props: {
             <span>{props.lesson.taught}</span>
             <span>{props.lesson.duration}</span>
             <span>{props.lesson.videos.length} explanations</span>
+            {props.lesson.textbookMap && <span className="textbook-map">{props.lesson.textbookMap}</span>}
           </div>
         </div>
         <div className={"mastery-seal " + (lockedIn ? "locked-in" : mastered ? "mastered" : "learning")}>
@@ -434,10 +442,29 @@ function LessonWorkspace(props: {
         <p className="pitfall"><strong>Most common mark-killer:</strong> {props.lesson.pitfall}</p>
       </section>
 
+      {props.lesson.studyRoute && (
+        <section className="study-route">
+          <div className="section-heading">
+            <div><p className="eyebrow">YOUR EXACT ROUTE</p><h2>{props.lesson.duration} from first explanation to proof</h2></div>
+            <span className="closed-notes">VIDEOS + PAPER + CHECK</span>
+          </div>
+          <div className="route-grid">
+            {props.lesson.studyRoute.map((step, index) => (
+              <article key={step.time + step.title}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <time>{step.time} MIN</time>
+                <h3>{step.title}</h3>
+                <p>{step.detail}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
       <section className="video-lab">
         <div className="section-heading">
-          <div><p className="eyebrow">STAGE 01 · LEARN</p><h2>Watch with a pencil, not like Netflix</h2></div>
-          <span className="video-progress">{props.record.watched.length}/{props.lesson.videos.length} checked</span>
+          <div><p className="eyebrow">STAGE 01 · LEARN</p><h2>Follow the order; backups are optional</h2></div>
+          <span className="video-progress">{props.record.watched.length}/{props.lesson.videos.length} tracked</span>
         </div>
         <div className="video-layout">
           <div>
@@ -451,7 +478,7 @@ function LessonWorkspace(props: {
               />
             </div>
             <div className="now-watching">
-              <div><span>{activeVideo.role} · {activeVideo.provider}</span><strong>{activeVideo.title}</strong><p>{activeVideo.note}</p></div>
+              <div><span>{activeVideo.priority ?? activeVideo.role} · {activeVideo.provider}{activeVideo.duration ? " · " + activeVideo.duration : ""}</span><strong>{activeVideo.title}</strong><p>{activeVideo.note}</p></div>
               <div className="video-actions">
                 <a href={youtube(activeVideo.id)} target="_blank" rel="noreferrer">Open on YouTube ↗</a>
                 <button
@@ -465,7 +492,7 @@ function LessonWorkspace(props: {
             </div>
           </div>
           <div className="video-playlist">
-            <p className="mini-label">CHOOSE YOUR EXPLANATION</p>
+            <p className="mini-label">WATCH ORDER · CORE FIRST</p>
             {props.lesson.videos.map((video, index) => (
               <button
                 className={(video.id === activeVideo.id ? "active " : "") + (props.record.watched.includes(video.id) ? "complete" : "")}
@@ -474,7 +501,7 @@ function LessonWorkspace(props: {
                 onClick={() => setActiveVideoId(video.id)}
               >
                 <span>{String(index + 1).padStart(2, "0")}</span>
-                <div><b>{video.title}</b><small>{video.provider} · {video.role}</small></div>
+                <div><b>{video.title}</b><small>{video.provider} · {video.priority ?? video.role}{video.duration ? " · " + video.duration : ""}</small></div>
                 <i>{props.record.watched.includes(video.id) ? "✓" : "▶"}</i>
               </button>
             ))}
@@ -534,16 +561,14 @@ function LessonWorkspace(props: {
         </section>
       )}
 
-      {!lockedIn && (
-        <InlineQuiz
-          title={props.lesson.section + " optional fresh recheck"}
-          eyebrow="STAGE 04 · RETRIEVAL · ALWAYS AVAILABLE"
-          questions={retentionQuestions}
-          seed={props.record.reviewAttempts + 41}
-          buttonLabel="Lock this lesson in"
-          onGrade={(result) => props.onGrade(result, "retention")}
-        />
-      )}
+      <InlineQuiz
+        title={props.lesson.section + " optional fresh recheck"}
+        eyebrow="STAGE 04 · RETRIEVAL · ALWAYS AVAILABLE"
+        questions={retentionQuestions}
+        seed={props.record.reviewAttempts + 41}
+        buttonLabel={lockedIn ? "Grade another fresh recheck" : "Lock this lesson in"}
+        onGrade={(result) => props.onGrade(result, "retention")}
+      />
 
       {lockedIn && (
         <section className="locked-in-card">
@@ -611,7 +636,7 @@ export default function Home() {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem(PREVIOUS_KEY);
+      const saved = localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem(PREVIOUS_KEY) ?? localStorage.getItem(OLDER_KEY);
       if (saved) {
         const normalized = normalizeState(JSON.parse(saved));
         if (normalized) setMastery(normalized);
@@ -667,8 +692,11 @@ export default function Home() {
   const currentLessonIndex = Math.max(0, unit1Lessons.findIndex((lesson) => lesson.id === mastery.activeLessonId));
   const currentLesson = unit1Lessons[currentLessonIndex];
   const currentRecord = getRecord(mastery, currentLesson.id);
-  const nextLessonIndex = Math.max(0, unit1Lessons.findIndex((lesson) => !getRecord(mastery, lesson.id).masteredAt));
-  const nextLesson = allMastered ? null : unit1Lessons[nextLessonIndex];
+  const nextFocusOffset = unit1Lessons
+    .slice(CURRENT_FOCUS_INDEX)
+    .findIndex((lesson) => !getRecord(mastery, lesson.id).masteredAt);
+  const nextLessonIndex = nextFocusOffset >= 0 ? CURRENT_FOCUS_INDEX + nextFocusOffset : CURRENT_FOCUS_INDEX;
+  const nextLesson = nextFocusOffset >= 0 ? unit1Lessons[nextLessonIndex] : null;
   const rawDaysToTest = Math.ceil((TEST_DATE.getTime() - now) / DAY);
   const countdownLabel = rawDaysToTest > 0 ? rawDaysToTest + " DAYS" : rawDaysToTest === 0 ? "TEST DAY" : "COMPLETE";
   const testWindowEnded = now > TEST_DATE.getTime() + 16 * 60 * 60 * 1000;
@@ -806,8 +834,6 @@ export default function Home() {
     reader.readAsText(file);
   }
 
-  const firstUnlockedUnmastered = unit1Lessons.findIndex((lesson) => !getRecord(mastery, lesson.id).masteredAt);
-
   return (
     <div className="app-shell">
       <aside className="sidebar">
@@ -864,7 +890,10 @@ export default function Home() {
                 onClick={() => chooseLesson(index)}
               >
                 <span className="path-node">{record.lockedInAt ? "✓✓" : record.masteredAt ? "✓" : lesson.section}</span>
-                <div><b>{lesson.title}</b><small>{record.lockedInAt ? "Locked in" : record.masteredAt ? "Mastered · review scheduled" : "Open anytime"}</small></div>
+                <div>
+                  <b>{lesson.title}</b>
+                  <small>{record.lockedInAt ? "Locked in" : record.masteredAt ? "Mastered · review scheduled" : index < CURRENT_FOCUS_INDEX ? "Class covered · review anytime" : index === CURRENT_FOCUS_INDEX ? "You are here · open" : "Open anytime"}</small>
+                </div>
               </button>
             );
           })}
@@ -936,15 +965,15 @@ export default function Home() {
             <div className="mission-page">
               <section className="mission-hero">
                 <div className="mission-copy">
-                  <p className="eyebrow">{testWindowEnded ? "UNIT 1 · RETENTION ARCHIVE" : "SATURDAY · SEPTEMBER 19 · START AT 3:00"}</p>
-                  <h1>{testWindowEnded ? <>Keep the skill.<br />Carry it forward.</> : <>Build proof.<br />Walk into Thursday calm.</>}</h1>
-                  <p>This room does not count passive watching as learning. Every lesson moves through video, independent practice, a perfect mastery check, and a delayed recheck.</p>
+                  <p className="eyebrow">{testWindowEnded ? "UNIT 1 · RETENTION ARCHIVE" : "SUNDAY · SEPTEMBER 20 · YOUR CLASS POSITION IS 1.4"}</p>
+                  <h1>{testWindowEnded ? <>Keep the skill.<br />Carry it forward.</> : <>1.3 is done.<br />Begin at 1.4.</>}</h1>
+                  <p>Your next path is Parent Functions, Exploring Transformations, Graphing Transformations, then Inverse Functions. Earlier lessons remain open for review, but the main action now starts at 1.4.</p>
                   <div className="hero-actions">
                     <button
                       className="button primary"
                       type="button"
                       onClick={() => {
-                        if (nextLesson) chooseLesson(firstUnlockedUnmastered >= 0 ? firstUnlockedUnmastered : 0);
+                        if (nextLesson) chooseLesson(nextLessonIndex);
                         else setUnitOneView("mock");
                       }}
                     >
@@ -978,19 +1007,14 @@ export default function Home() {
                 <div className="action-number">01</div>
                 <div>
                   <p className="eyebrow">DO THIS NEXT</p>
-                  <h2>{dueCount > 0 ? dueCount + " delayed recheck" + (dueCount === 1 ? "" : "s") + " due" : nextLesson ? nextLesson.section + " · " + nextLesson.title : "Take the full Unit 1 mock"}</h2>
-                  <p>{dueCount > 0 ? "Retrieval after a delay comes before new content. Pass the fresh form without notes." : nextLesson ? nextLesson.summary : "Use the 19 mixed questions as a strict, timed, closed-notes test."}</p>
+                  <h2>{nextLesson ? nextLesson.section + " · " + nextLesson.title : "Take the full Unit 1 mock"}</h2>
+                  <p>{nextLesson ? nextLesson.summary + (dueCount > 0 ? " You also have " + dueCount + " optional delayed recheck" + (dueCount === 1 ? "" : "s") + " available." : "") : "Use the 19 mixed questions as a strict, timed, closed-notes test."}</p>
                 </div>
                 <button
                   className="button dark"
                   type="button"
                   onClick={() => {
-                    const dueIndex = unit1Lessons.findIndex((lesson) => {
-                      const record = getRecord(mastery, lesson.id);
-                      return Boolean(record.masteredAt && !record.lockedInAt && record.reviewDueAt && new Date(record.reviewDueAt).getTime() <= now);
-                    });
-                    if (dueIndex >= 0) chooseLesson(dueIndex);
-                    else if (nextLesson) chooseLesson(nextLessonIndex);
+                    if (nextLesson) chooseLesson(nextLessonIndex);
                     else setUnitOneView("mock");
                   }}
                 >
@@ -1001,11 +1025,11 @@ export default function Home() {
               {!testWindowEnded ? <>
               <section className="schedule-section">
                 <div className="section-heading">
-                  <div><p className="eyebrow">YOUR 3:00 PM LOCK-IN</p><h2>Saturday execution plan</h2></div>
-                  <span className="closed-notes">4.5 HOURS · BREAKS INCLUDED</span>
+                  <div><p className="eyebrow">START WHEN READY</p><h2>Sunday 1.4 → 1.5 execution plan</h2></div>
+                  <span className="closed-notes">4H 25M · BREAKS INCLUDED</span>
                 </div>
                 <div className="schedule-grid">
-                  {saturdayPlan.map((block, index) => (
+                  {currentPlan.map((block, index) => (
                     <article className={index === 0 ? "highlight" : ""} key={block.time}>
                       <time>{block.time}</time><div><h3>{block.title}</h3><p>{block.detail}</p></div>
                     </article>
@@ -1014,7 +1038,7 @@ export default function Home() {
               </section>
 
               <section className="calendar-section">
-                <div className="section-heading"><div><p className="eyebrow">TEACHER CALENDAR · VERIFIED</p><h2>The road to September 24</h2></div></div>
+                <div className="section-heading"><div><p className="eyebrow">TEACHER CALENDAR + YOUR POSITION</p><h2>The road to September 24</h2></div></div>
                 <div className="milestone-row">
                   {courseMilestones.map((item) => (
                     <article className={item.status} key={item.date + item.label}><span>{item.date}</span><b>{item.label}</b><small>{item.detail}</small></article>
@@ -1022,6 +1046,22 @@ export default function Home() {
                 </div>
                 <div className="week-plan">
                   {testWeekPlan.map((item) => <article key={item.day}><strong>{item.day}</strong><p>{item.task}</p></article>)}
+                </div>
+              </section>
+
+              <section className="stories-section">
+                <div className="section-heading">
+                  <div><p className="eyebrow">WHAT HIGH SCORERS REPORTED</p><h2>Useful patterns, with the marks kept honest</h2></div>
+                  <span className="closed-notes">ANECDOTES · NOT GUARANTEES</span>
+                </div>
+                <p className="stories-intro">These are separate, unverified Reddit self-reports. The repeatable pattern is daily problem-solving, marking errors, and using videos to repair a specific gap.</p>
+                <div className="stories-grid">
+                  {successStories.map((story) => (
+                    <a href={story.url} target="_blank" rel="noreferrer" key={story.url}>
+                      <span>{story.score}</span>
+                      <div><h3>{story.headline}</h3><p>{story.detail}</p><small>{story.source} ↗</small></div>
+                    </a>
+                  ))}
                 </div>
               </section>
               </> : (
