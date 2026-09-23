@@ -1,0 +1,3818 @@
+[
+  {
+    "id": 1,
+    "title": "Introduction to Functions",
+    "kicker": "THE LANGUAGE OF THE COURSE",
+    "description": "Relations, notation, domain and range, parent functions, transformations, and inverses. This is the vocabulary every later unit uses.",
+    "prerequisites": "Grade 10 algebra basics and reading points on a graph.",
+    "coverage": [
+      "1.1 relations",
+      "1.2 notation",
+      "1.3 domain and range",
+      "1.4 parents",
+      "1.5–1.6 transformations",
+      "1.7 inverses"
+    ],
+    "source": {
+      "label": "Lourdes MCR3U Unit 1 hub",
+      "url": "https://lourdesmath.weebly.com/unit-1---transformation-of-functions.html"
+    },
+    "lessons": [
+      {
+        "id": "u1-l1",
+        "section": "1.1",
+        "title": "Functions and relations",
+        "summary": "Decide whether a relation is a function and justify it from ordered pairs, tables, mappings, graphs, and equations.",
+        "focus": [
+          "Identify domain and range in discrete relations.",
+          "Use the one-input/one-output rule in tables, mappings, and ordered pairs.",
+          "Use the vertical-line test and explain why it works.",
+          "Distinguish one-to-one, many-to-one, and one-to-many relations."
+        ],
+        "pause": "Before each example is classified, cover the answer and state the exact input that proves your decision.",
+        "pitfall": "Repeated outputs are allowed. A function fails only when one input has more than one output.",
+        "practice": [
+          {
+            "label": "1.1 student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_whatisafunction.docx"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "1.1 worked solutions",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_whasisafunction_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "52tpYl2tTqk",
+            "type": "youtube",
+            "title": "Algebra Basics: What Are Functions? - Math Antics",
+            "provider": "mathantics",
+            "url": "https://www.youtube.com/watch?v=52tpYl2tTqk",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-1.1new-1.1new",
+            "type": "video",
+            "title": "Relations and functions",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/1.1new/1.1new.mp4",
+            "duration": "13:44",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1184",
+            "type": "course",
+            "title": "Introduction to Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/151/assignments/1184",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "courseware": [
+          {
+            "title": "Introduction to Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/151/assignments/1184"
+          }
+        ]
+      },
+      {
+        "id": "u1-l2",
+        "section": "1.2",
+        "title": "Function notation",
+        "summary": "Read and evaluate functions from equations, graphs, and sets; solve for inputs; substitute expressions; and evaluate composite functions.",
+        "focus": [
+          "Interpret f(a) as an output and solve f(x)=k for an input.",
+          "Substitute numbers and algebraic expressions using brackets.",
+          "Read function values and inequalities from a graph.",
+          "Evaluate f(g(x)) and explain why composition order matters."
+        ],
+        "pause": "Write the substituted expression with brackets before simplifying.",
+        "pitfall": "f(2x) means the input is 2x. It does not mean 2f(x). In f(g(x)), g happens first.",
+        "practice": [
+          {
+            "label": "Extra 1.2 Ontario practice",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_functionnotation.docx"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "1.2 worked solutions",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_functionnotation_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "HyNie_PYgsY",
+            "type": "youtube",
+            "title": "Evaluating Functions - Basic Introduction | Algebra",
+            "provider": "The Organic Chemistry Tutor",
+            "url": "https://www.youtube.com/watch?v=HyNie_PYgsY",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-1.2-1.2",
+            "type": "video",
+            "title": "Function notation",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/1.2/1.2.mp4",
+            "duration": "17:31",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "ZFPkQkURSxk",
+            "type": "youtube",
+            "title": "Composite Functions",
+            "provider": "The Organic Chemistry Tutor",
+            "url": "https://www.youtube.com/watch?v=ZFPkQkURSxk",
+            "note": "Extension for classes that include composite inputs: evaluate the inner rule first."
+          },
+          {
+            "id": "cemc-1179",
+            "type": "course",
+            "title": "Function Notation",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/151/assignments/1179",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "courseware": [
+          {
+            "title": "Function Notation",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/151/assignments/1179"
+          }
+        ]
+      },
+      {
+        "id": "u1-l3",
+        "section": "1.3",
+        "title": "Domain, range, and interval notation",
+        "summary": "State domain and range from sets, graphs, and equations; use interval notation; and explain contextual restrictions.",
+        "focus": [
+          "Read open/closed endpoints and arrows correctly.",
+          "Convert among inequalities, set-builder notation, number lines, and intervals.",
+          "Find natural domains and ranges of linear, quadratic, square-root, absolute-value, and reciprocal functions.",
+          "Classify a graph as a function while stating its domain and range."
+        ],
+        "pause": "Project the graph onto the x-axis for domain and onto the y-axis for range.",
+        "pitfall": "Infinity is never included, so it always uses a parenthesis. Domain is about inputs; range is about outputs.",
+        "practice": [
+          {
+            "label": "Extra 1.3 Ontario practice",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_domainandrange.docx"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "1.3 worked solutions",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_domainandrange_soln.pdf"
+          },
+          {
+            "label": "Checkpoint answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_introtofunctions_quiz_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "KyOQhC8ctxc",
+            "type": "youtube",
+            "title": "Domain and Range Functions & Graphs - Linear, Quadratic, Rational, Logarithmic & Square Root",
+            "provider": "The Organic Chemistry Tutor",
+            "url": "https://www.youtube.com/watch?v=KyOQhC8ctxc",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-1.4b-1.4b",
+            "type": "video",
+            "title": "Domain and range: graphs and restrictions",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/1.4b/1.4b.mp4",
+            "duration": "18:57",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1182",
+            "type": "course",
+            "title": "Domain and Range",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/151/assignments/1182",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          },
+          {
+            "id": "cemc-1183",
+            "type": "course",
+            "title": "Domain and Range of Two New Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/151/assignments/1183",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "courseware": [
+          {
+            "title": "Domain and Range",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/151/assignments/1182"
+          },
+          {
+            "title": "Domain and Range of Two New Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/151/assignments/1183"
+          }
+        ]
+      },
+      {
+        "id": "u1-l4",
+        "section": "1.4",
+        "title": "Parent functions",
+        "summary": "Recognize the core parent functions instantly and state their key points, domains, ranges, symmetry, and asymptotes.",
+        "focus": [
+          "Sketch y=x, y=x², y=sqrt(x), y=|x|, and y=1/x from memory.",
+          "State domain, range, intercepts, symmetry, and asymptotes.",
+          "Match a graph, equation, table, and description of the same parent.",
+          "Use the parent as the starting point for transformations."
+        ],
+        "pause": "Before each graph appears, sketch its shape and label three anchor points.",
+        "pitfall": "The reciprocal parent has asymptotes x=0 and y=0; it never touches either axis.",
+        "practice": [
+          {
+            "label": "CORE: one-page parent-functions table",
+            "url": "https://stevesweeney.pbworks.com/w/file/fetch/132228267/MCR3U%20-%20WS%20-%20Graphs%20of%20Functions.pdf"
+          },
+          {
+            "label": "Ontario parent-functions notes + assigned-style questions",
+            "url": "https://splash.tdchristian.ca/classes/math/Templeton/Templeton%20Archive/MCR3UF15/MCR3UChp1/MCR3U%201.3%201.4.PDF"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Nelson textbook answers",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/textbook/12_F11_Ans_617-685.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "96gBgZv-y9g",
+            "type": "youtube",
+            "title": "Parent Functions",
+            "provider": "AlRichards314",
+            "url": "https://www.youtube.com/watch?v=96gBgZv-y9g",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-1.3and1.4-1.3and1.4",
+            "type": "video",
+            "title": "Parent functions, domain and range",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/1.3and1.4/1.3and1.4.mp4",
+            "duration": "26:24",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1190",
+            "type": "course",
+            "title": "Graphing Three Common Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/152/assignments/1190",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          },
+          {
+            "id": "cemc-1198",
+            "type": "course",
+            "title": "Graphing Absolute Value Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/154/assignments/1198",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "courseware": [
+          {
+            "title": "Graphing Three Common Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/152/assignments/1190"
+          },
+          {
+            "title": "Graphing Absolute Value Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/154/assignments/1198"
+          }
+        ]
+      },
+      {
+        "id": "u1-l5",
+        "section": "1.5",
+        "title": "Exploring transformations",
+        "summary": "Understand what a, k, d, and c do in y=a f(k(x-d))+c before attempting full graphing questions.",
+        "focus": [
+          "Identify vertical and horizontal translations.",
+          "Identify reflections in the x-axis and y-axis.",
+          "Use reciprocals for horizontal stretch/compression factors.",
+          "Describe a transformation accurately from an equation."
+        ],
+        "pause": "Predict the move before the transformed graph appears.",
+        "pitfall": "Inside changes act horizontally and use the reciprocal scale. f(4x) compresses horizontally by 1/4.",
+        "practice": [
+          {
+            "label": "CORE: transformations Part 1",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_transformationsoffunctions_part1.docx"
+          },
+          {
+            "label": "Extra equations + descriptions drill (key included at end)",
+            "url": "https://stevesweeney.pbworks.com/w/file/fetch/132345567/MCR3U%20-%20WS%20-%20Functions%20-%20Transformations%20%26%20Descriptions.pdf"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Part 1 separate solutions",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_transformationoffunctions_part1_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "Tmdrjs9xufc",
+            "type": "youtube",
+            "title": "Transformations of Functions | Precalculus",
+            "provider": "The Organic Chemistry Tutor",
+            "url": "https://www.youtube.com/watch?v=Tmdrjs9xufc",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-1.8-1.8",
+            "type": "video",
+            "title": "Transformations and point mappings",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/1.8/1.8.mp4",
+            "duration": "23:58",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1185",
+            "type": "course",
+            "title": "Functions and Translations",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/152/assignments/1185",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          },
+          {
+            "id": "cemc-1186",
+            "type": "course",
+            "title": "Horizontal Stretches, Compressions, and Reflections",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/152/assignments/1186",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          },
+          {
+            "id": "cemc-1187",
+            "type": "course",
+            "title": "Vertical Stretches, Compressions, and Reflections",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/152/assignments/1187",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "courseware": [
+          {
+            "title": "Functions and Translations",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/152/assignments/1185"
+          },
+          {
+            "title": "Horizontal Stretches, Compressions, and Reflections",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/152/assignments/1186"
+          },
+          {
+            "title": "Vertical Stretches, Compressions, and Reflections",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/152/assignments/1187"
+          }
+        ]
+      },
+      {
+        "id": "u1-l6",
+        "section": "1.6",
+        "title": "Graphing transformations",
+        "summary": "Use mapping rules and anchor points to graph combined transformations accurately, including new domains, ranges, vertices, and asymptotes.",
+        "focus": [
+          "Use (x,y) -> (x/k+d, ay+c) for y=a f(k(x-d))+c.",
+          "Transform anchor points instead of guessing the shape.",
+          "Move vertices, endpoints, and asymptotes correctly.",
+          "State the transformed domain and range."
+        ],
+        "pause": "Build a point table and transform every anchor point before viewing the finished graph.",
+        "pitfall": "In the point mapping, x is divided by k before adding d. Missing the reciprocal is the most common lost-mark error.",
+        "practice": [
+          {
+            "label": "CORE: graphing transformations Part 2",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_transformationsoffunctions_part2.docx"
+          },
+          {
+            "label": "Ontario graphing-transformation worksheet",
+            "url": "https://pinheymath.pbworks.com/w/file/fetch/132101580/L6%20-%20WS%20-%20Graphing%20Transformations%20of%20Functions.doc"
+          },
+          {
+            "label": "Horizontal transformations drill (answers included)",
+            "url": "https://stevesweeney.pbworks.com/w/file/fetch/132314205/MCR3U%20-%20WS%20-%20Functions%20-%20Horizontal%20Scaling%20%26%20Reflection.pdf"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Part 2 separate solutions",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_transformationoffunctions_part2_soln.pdf"
+          },
+          {
+            "label": "Ontario graphing worksheet solutions",
+            "url": "https://pinheymath.pbworks.com/w/file/fetch/128849013/L6%20-%20WS%20-%20Graphing%20Transformations%20of%20Functions%20Solutions.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "_mUfeLOWHcM",
+            "type": "youtube",
+            "title": "Graphing Parent Functions using Transformations in PreCalculus",
+            "provider": "Mario's Math Tutoring",
+            "url": "https://www.youtube.com/watch?v=_mUfeLOWHcM",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-1.8-1.8",
+            "type": "video",
+            "title": "Transformations and graphing",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/1.8/1.8.mp4",
+            "duration": "23:58",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1191",
+            "type": "course",
+            "title": "Combining Transformations",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/152/assignments/1191",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "courseware": [
+          {
+            "title": "Combining Transformations",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/152/assignments/1191"
+          }
+        ]
+      },
+      {
+        "id": "u1-l7",
+        "section": "1.7",
+        "title": "Inverse functions",
+        "summary": "Reverse a function numerically, graphically, and algebraically; swap domain and range; and decide whether the inverse is also a function.",
+        "focus": [
+          "Create an inverse by swapping x and y values.",
+          "Reflect a graph in y=x and swap domain with range.",
+          "Find an algebraic inverse by swapping x and y, then solving for y.",
+          "Use the horizontal-line test and restrict a quadratic domain when necessary."
+        ],
+        "pause": "Find the inverse yourself before the video completes the algebra.",
+        "pitfall": "f^-1(x) means inverse function, not 1/f(x). A quadratic needs a restricted domain for its inverse to be a function.",
+        "practice": [
+          {
+            "label": "CORE: inverse-functions worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_inverseofafunction.docx"
+          },
+          {
+            "label": "Harder Ontario inverse worksheet (answers at bottom)",
+            "url": "https://pinheymath.pbworks.com/w/file/fetch/128899434/L8%20-%20Inverse%20Functions%20Worksheet.pdf"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Inverse-functions separate solutions",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_inverseofafunction_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "TN4ybFiuV3k",
+            "type": "youtube",
+            "title": "Introduction to Inverse Functions",
+            "provider": "The Organic Chemistry Tutor",
+            "url": "https://www.youtube.com/watch?v=TN4ybFiuV3k",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "ukEtad_aml4",
+            "type": "youtube",
+            "title": "Graphing Inverse Functions",
+            "provider": "The Organic Chemistry Tutor",
+            "url": "https://www.youtube.com/watch?v=ukEtad_aml4",
+            "note": "Use after the introduction to connect swapped coordinates with reflection across y = x."
+          },
+          {
+            "id": "GsIo3B46yjU",
+            "type": "youtube",
+            "title": "Inverse Functions - Domain & range-  With Fractions, Square Roots, & Graphs",
+            "provider": "The Organic Chemistry Tutor",
+            "url": "https://www.youtube.com/watch?v=GsIo3B46yjU",
+            "note": "Extra practice with domain restrictions and square roots."
+          },
+          {
+            "id": "cemc-1194",
+            "type": "course",
+            "title": "Introduction to Inverses",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/153/assignments/1194",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          },
+          {
+            "id": "cemc-1195",
+            "type": "course",
+            "title": "Determining Inverses of Linear Functions Algebraically",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/153/assignments/1195",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "courseware": [
+          {
+            "title": "Introduction to Inverses",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/153/assignments/1194"
+          },
+          {
+            "title": "Determining Inverses of Linear Functions Algebraically",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/153/assignments/1195"
+          }
+        ]
+      }
+    ],
+    "review": [
+      {
+        "label": "Unit review worksheet",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_functionsreview.doc"
+      },
+      {
+        "label": "Review answer key",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_functionsreview_soln.pdf"
+      },
+      {
+        "label": "Practice quiz (1.1–1.3)",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_introtofunctions_quiz.docx"
+      },
+      {
+        "label": "Ontario curriculum (official)",
+        "url": "https://www.edu.gov.on.ca/eng/curriculum/secondary/math1112currb.pdf"
+      },
+      {
+        "label": "31-question Chapter 1 review with worked answers",
+        "url": "https://abawa8.wordpress.com/wp-content/uploads/2014/09/ch1-mcr3u-review.pdf"
+      },
+      {
+        "label": "Classroom Test B · no published key",
+        "url": "https://300math.weebly.com/uploads/5/2/5/1/52513515/test_1_-_functions_and_transformations_version_b.pdf"
+      }
+    ],
+    "readiness": [
+      "I can decide whether a relation is a function and justify it.",
+      "I can evaluate and solve function-notation questions without confusing f(a) with af(x).",
+      "I can state domain and range in interval notation, including restrictions.",
+      "I can sketch a transformed parent and find an inverse when it exists."
+    ],
+    "numbering": "Function Room topic order. Your school may use different lesson numbers or teach these topics in a different order.",
+    "symbol": "ƒ(x)",
+    "time": "Choose one lesson at a time. Allow time for paper practice after watching."
+  },
+  {
+    "id": 2,
+    "title": "Algebraic Expressions",
+    "kicker": "THE SYMBOLIC TOOLKIT",
+    "description": "Polynomial operations, factoring, rational expressions, and rational-function graphs. These are the algebra tools underneath quadratics and exponentials.",
+    "prerequisites": "Grade 10 factoring, distributive property, fractions, and exponent rules.",
+    "coverage": [
+      "2.1–2.3 polynomial operations & factoring",
+      "2.4 simplifying rational expressions",
+      "2.5 rational-function graphs",
+      "2.6–2.7 rational operations"
+    ],
+    "source": {
+      "label": "Lourdes MCR3U Unit 2 hub",
+      "url": "https://lourdesmath.weebly.com/unit-2---rational-expressions.html"
+    },
+    "lessons": [
+      {
+        "id": "u2-l1",
+        "section": "2.1",
+        "title": "Adding and subtracting polynomials",
+        "focus": [
+          "Combine only like terms.",
+          "Add and subtract polynomials by aligning degree and sign."
+        ],
+        "pause": "Rewrite subtraction as adding the opposite before combining. Check the highest degree and constant term.",
+        "pitfall": "x and x² are different terms even though both contain x.",
+        "practice": [
+          {
+            "label": "Ontario Unit 2 resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-2---rational-expressions.html"
+          }
+        ],
+        "solutions": [],
+        "videos": [
+          {
+            "id": "ZvL9aDGNHqA",
+            "type": "youtube",
+            "title": "Polynomials - Adding, Subtracting, Multiplying and Dividing Algebraic Expressions",
+            "provider": "The Organic Chemistry Tutor",
+            "url": "https://www.youtube.com/watch?v=ZvL9aDGNHqA",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "cemc-1086",
+            "type": "course",
+            "title": "Adding and Subtracting Polynomials",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/133/assignments/1086",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Combine only like terms. Add and subtract polynomials by aligning degree and sign.",
+        "courseware": [
+          {
+            "title": "Adding and Subtracting Polynomials",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/133/assignments/1086"
+          }
+        ]
+      },
+      {
+        "id": "u2-l2",
+        "section": "2.2",
+        "title": "Multiplying polynomials",
+        "focus": [
+          "Distribute every term and collect like terms.",
+          "Use FOIL as a special case of the distributive property."
+        ],
+        "pause": "Multiply term by term on paper before watching the combination step.",
+        "pitfall": "Middle terms can cancel; do not drop them before you combine.",
+        "practice": [
+          {
+            "label": "Ontario Unit 2 resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-2---rational-expressions.html"
+          }
+        ],
+        "solutions": [],
+        "videos": [
+          {
+            "id": "ZvL9aDGNHqA",
+            "type": "youtube",
+            "title": "Polynomials - Adding, Subtracting, Multiplying and Dividing Algebraic Expressions",
+            "provider": "The Organic Chemistry Tutor",
+            "url": "https://www.youtube.com/watch?v=ZvL9aDGNHqA",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "cemc-1083",
+            "type": "course",
+            "title": "Multiplying a Polynomial by a Polynomial",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/133/assignments/1083",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Distribute every term and collect like terms. Use FOIL as a special case of the distributive property.",
+        "courseware": [
+          {
+            "title": "Multiplying a Polynomial by a Polynomial",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/133/assignments/1083"
+          }
+        ]
+      },
+      {
+        "id": "u2-l3",
+        "section": "2.3",
+        "title": "Factoring: common factors and grouping",
+        "focus": [
+          "Reverse polynomial multiplication using common factors, grouping, and special products.",
+          "Multiply back to verify every factorisation."
+        ],
+        "pause": "Factor the expression yourself, then multiply your factors back before watching the final check.",
+        "pitfall": "A factorisation is not finished if a common factor remains inside a bracket.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_factoringreview_part1.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-2---rational-expressions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_factoringreview_part1_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "U6FndtdgpcA",
+            "type": "youtube",
+            "title": "How To Factor Polynomials The Easy Way!",
+            "provider": "The Organic Chemistry Tutor",
+            "url": "https://www.youtube.com/watch?v=U6FndtdgpcA",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "cemc-1163",
+            "type": "course",
+            "title": "Factoring - Common and Trinomials",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/147/assignments/1163",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Reverse polynomial multiplication using common factors, grouping, and special products. Multiply back to verify every factorisation.",
+        "courseware": [
+          {
+            "title": "Factoring - Common and Trinomials",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/147/assignments/1163"
+          }
+        ]
+      },
+      {
+        "id": "u2-l4",
+        "section": "2.3",
+        "title": "Factoring simple trinomials",
+        "focus": [
+          "Factor x²+bx+c by finding a product and sum pair.",
+          "Use signs and a multiplication check to catch errors."
+        ],
+        "pause": "Write the two numbers that multiply to c and add to b before splitting the trinomial.",
+        "pitfall": "The signs in the factors must produce both the middle term and the constant.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_factoringreview_part2.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-2---rational-expressions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_factoringreview_part2_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "U6FndtdgpcA",
+            "type": "youtube",
+            "title": "How To Factor Polynomials The Easy Way!",
+            "provider": "The Organic Chemistry Tutor",
+            "url": "https://www.youtube.com/watch?v=U6FndtdgpcA",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-Factoring-4.3-4.3",
+            "type": "video",
+            "title": "Factoring trinomials with a = 1",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/Factoring/4.3/4.3.mp4",
+            "duration": "",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1163",
+            "type": "course",
+            "title": "Factoring - Common and Trinomials",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/147/assignments/1163",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Factor x²+bx+c by finding a product and sum pair. Use signs and a multiplication check to catch errors.",
+        "courseware": [
+          {
+            "title": "Factoring - Common and Trinomials",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/147/assignments/1163"
+          }
+        ]
+      },
+      {
+        "id": "u2-l5",
+        "section": "2.3",
+        "title": "Difference of squares and perfect-square trinomials",
+        "focus": [
+          "Recognise difference-of-squares and perfect-square patterns.",
+          "Multiply back to verify the signs and middle term."
+        ],
+        "pause": "Test a special-product pattern before using a longer method, then multiply back.",
+        "pitfall": "A difference of squares has two terms; a sum of squares does not factor over the real numbers.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_factoringreview_part2.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-2---rational-expressions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_factoringreview_part2_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "U6FndtdgpcA",
+            "type": "youtube",
+            "title": "How To Factor Polynomials The Easy Way!",
+            "provider": "The Organic Chemistry Tutor",
+            "url": "https://www.youtube.com/watch?v=U6FndtdgpcA",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-Factoring-4.5-4.5",
+            "type": "video",
+            "title": "Factoring special cases",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/Factoring/4.5/4.5.mp4",
+            "duration": "",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1164",
+            "type": "course",
+            "title": "Factoring - Difference of Squares and Perfect Squares",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/147/assignments/1164",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Recognise difference-of-squares and perfect-square patterns. Multiply back to verify the signs and middle term.",
+        "courseware": [
+          {
+            "title": "Factoring - Difference of Squares and Perfect Squares",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/147/assignments/1164"
+          }
+        ]
+      },
+      {
+        "id": "u2-l6",
+        "section": "2.3",
+        "title": "Complex trinomials",
+        "focus": [
+          "Factor ax²+bx+c when the leading coefficient is not 1.",
+          "Use a product–sum pair and grouping, then multiply back to verify."
+        ],
+        "pause": "Write the product a·c and the target middle coefficient before splitting the middle term.",
+        "pitfall": "The two numbers must multiply to ac and add to b; checking only one condition is not enough.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_factoringreview_part2.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-2---rational-expressions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_factoringreview_part2_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "U6FndtdgpcA",
+            "type": "youtube",
+            "title": "How To Factor Polynomials The Easy Way!",
+            "provider": "The Organic Chemistry Tutor",
+            "url": "https://www.youtube.com/watch?v=U6FndtdgpcA",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-Factoring-4.4-4.4",
+            "type": "video",
+            "title": "Factoring trinomials with a ≠ 1",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/Factoring/4.4/4.4.mp4",
+            "duration": "",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1163",
+            "type": "course",
+            "title": "Factoring - Common and Trinomials",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/147/assignments/1163",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Factor ax²+bx+c when the leading coefficient is not 1. Use a product–sum pair and grouping, then multiply back to verify.",
+        "courseware": [
+          {
+            "title": "Factoring - Common and Trinomials",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/147/assignments/1163"
+          }
+        ]
+      },
+      {
+        "id": "u2-l7",
+        "section": "2.4",
+        "title": "Simplifying rational expressions and restrictions",
+        "focus": [
+          "Factor before cancelling.",
+          "State restrictions from the original denominators and keep them with the simplified expression."
+        ],
+        "pause": "Write restrictions first. Then factor every numerator and denominator before cancelling.",
+        "pitfall": "Cancelling across addition is invalid: (x+2)/x cannot cancel x.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_simplyfyingrationals.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-2---rational-expressions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_simplifyingrationals_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "hagen-2.4-2.4",
+            "type": "video",
+            "title": "Simplifying rational expressions",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/2.4/2.4.mp4",
+            "duration": "12:09",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1090",
+            "type": "course",
+            "title": "Introduction to Rational Expressions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/134/assignments/1090",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Factor before cancelling. State restrictions from the original denominators and keep them with the simplified expression.",
+        "courseware": [
+          {
+            "title": "Introduction to Rational Expressions",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/134/assignments/1090"
+          }
+        ]
+      },
+      {
+        "id": "u2-l8",
+        "section": "2.5",
+        "title": "Graphs of rational functions",
+        "focus": [
+          "Find holes, intercepts, vertical asymptotes, and end behaviour from a rational rule.",
+          "Connect restrictions and cancelled factors to the graph."
+        ],
+        "pause": "Factor and state restrictions before sketching. Mark the hole separately from an asymptote.",
+        "pitfall": "A hole is a missing point; a vertical asymptote is a boundary the graph approaches.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_rationalexpressions_applicationpractice.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-2---rational-expressions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_rationalexpressions_applicationpractice_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "bWVhwYdSnfk",
+            "type": "youtube",
+            "title": "Graphing Rational Functions Using Transformations With Vertical and Horizontal Asymptotes",
+            "provider": "The Organic Chemistry Tutor",
+            "url": "https://www.youtube.com/watch?v=bWVhwYdSnfk",
+            "note": "Start with the reciprocal parent graph, then connect each transformation to the asymptotes, domain and range."
+          },
+          {
+            "id": "cemc-1202",
+            "type": "course",
+            "title": "Graphing Reciprocal Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/154/assignments/1202",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Find holes, intercepts, vertical asymptotes, and end behaviour from a rational rule. Connect restrictions and cancelled factors to the graph.",
+        "courseware": [
+          {
+            "title": "Graphing Reciprocal Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/154/assignments/1202"
+          }
+        ]
+      },
+      {
+        "id": "u2-l9",
+        "section": "2.6",
+        "title": "Multiplying and dividing rational expressions",
+        "focus": [
+          "Factor numerators and denominators before multiplying.",
+          "Rewrite division as multiplication by a reciprocal and carry forward every restriction."
+        ],
+        "pause": "List restrictions, factor, then cancel. Do not multiply large polynomials before looking for factors.",
+        "pitfall": "A cancelled factor still creates a restriction because it was in the original denominator.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_multiplyingdividingrationals.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-2---rational-expressions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_multiplyingdividingrationals_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "hagen-2.6-2.6",
+            "type": "video",
+            "title": "Multiplying and dividing rationals",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/2.6/2.6.mp4",
+            "duration": "12:00",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1092",
+            "type": "course",
+            "title": "Multiplying and Dividing Rational Expressions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/134/assignments/1092",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Factor numerators and denominators before multiplying. Rewrite division as multiplication by a reciprocal and carry forward every restriction.",
+        "courseware": [
+          {
+            "title": "Multiplying and Dividing Rational Expressions",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/134/assignments/1092"
+          }
+        ]
+      },
+      {
+        "id": "u2-l10",
+        "section": "2.7",
+        "title": "Adding and subtracting rational expressions",
+        "focus": [
+          "Find the least common denominator.",
+          "Combine numerators, factor, simplify, and state restrictions."
+        ],
+        "pause": "Build the LCD yourself and rewrite each numerator before watching the combine step.",
+        "pitfall": "The LCD is a common multiple of the entire denominators, not just their visible constants.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_addingsubtractingrationals.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-2---rational-expressions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_addingsubtractingrationals_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "hagen-2.7-2.7",
+            "type": "video",
+            "title": "Adding and subtracting rationals",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/2.7/2.7.mp4",
+            "duration": "18:34",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1088",
+            "type": "course",
+            "title": "Adding and Subtracting Rational Expressions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/134/assignments/1088",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Find the least common denominator. Combine numerators, factor, simplify, and state restrictions.",
+        "courseware": [
+          {
+            "title": "Adding and Subtracting Rational Expressions",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/134/assignments/1088"
+          }
+        ]
+      }
+    ],
+    "review": [
+      {
+        "label": "Unit summary",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_rationalssummary.doc"
+      },
+      {
+        "label": "Unit quiz",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_rationalexpressionsquiz.pdf"
+      },
+      {
+        "label": "Quiz answer key",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_rationalexpressionsquizsoln.pdf"
+      },
+      {
+        "label": "Lourdes worksheet bank",
+        "url": "https://lourdesmath.weebly.com/unit-2---rational-expressions.html"
+      }
+    ],
+    "readiness": [
+      "I can add, subtract, multiply, and divide polynomials while showing the algebra.",
+      "I can factor and verify by multiplication.",
+      "I can simplify rational expressions and state every excluded value.",
+      "I can add rational expressions using an LCD without losing restrictions."
+    ],
+    "numbering": "Function Room topic order. Your school may use different lesson numbers or teach these topics in a different order.",
+    "symbol": "(x + a)",
+    "time": "Choose one lesson at a time. Allow time for paper practice after watching."
+  },
+  {
+    "id": 3,
+    "title": "Quadratic Functions",
+    "kicker": "THE PARABOLA UNIT",
+    "description": "The full Grade 11 quadratic sequence: properties, max/min, completing the square, inverse quadratics, radicals, equations, zeros, families, and linear–quadratic systems.",
+    "prerequisites": "Unit 2 factoring and completing the square, plus graphing from Unit 1.",
+    "coverage": [
+      "3.1 properties",
+      "3.2 max/min & completing the square",
+      "3.3 inverse quadratics",
+      "3.4 radicals",
+      "3.5–3.8 equations, zeros, families & systems"
+    ],
+    "source": {
+      "label": "Lourdes MCR3U Unit 3 hub",
+      "url": "https://lourdesmath.weebly.com/unit-3---quadratics-functions.html"
+    },
+    "lessons": [
+      {
+        "id": "u3-l1",
+        "section": "3.1",
+        "title": "Properties and forms of quadratic functions",
+        "focus": [
+          "Identify opening direction, axis of symmetry, vertex, intercepts, domain, and range.",
+          "Choose standard, vertex, or factored form for the feature the question asks for."
+        ],
+        "pause": "Given each form, predict which features are immediate before the video translates it.",
+        "pitfall": "The axis of symmetry passes through the vertex; it is not the y-coordinate of the vertex.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_propertiesofquadraticfunctions.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-3---quadratics-functions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_propertiesofquadraticfunctions_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "Q3kKI4ZfSIU",
+            "type": "youtube",
+            "title": "MCR3U/Grade 11 Functions: 3.1 Properties of Quadratic Functions",
+            "provider": "Passionate Minds",
+            "url": "https://www.youtube.com/watch?v=Q3kKI4ZfSIU",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-3.1-3.1",
+            "type": "video",
+            "title": "Properties of quadratic functions",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/3.1/3.1.mp4",
+            "duration": "17:55",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1157",
+            "type": "course",
+            "title": "Introduction to Standard, Factored, and Vertex Forms",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/146/assignments/1157",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          },
+          {
+            "id": "cemc-1158",
+            "type": "course",
+            "title": "Exploring Factored Form",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/146/assignments/1158",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          },
+          {
+            "id": "cemc-1159",
+            "type": "course",
+            "title": "Exploring Vertex Form",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/146/assignments/1159",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Identify opening direction, axis of symmetry, vertex, intercepts, domain, and range. Choose standard, vertex, or factored form for the feature the question asks for.",
+        "courseware": [
+          {
+            "title": "Introduction to Standard, Factored, and Vertex Forms",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/146/assignments/1157"
+          },
+          {
+            "title": "Exploring Factored Form",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/146/assignments/1158"
+          },
+          {
+            "title": "Exploring Vertex Form",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/146/assignments/1159"
+          }
+        ]
+      },
+      {
+        "id": "u3-l2",
+        "section": "3.2",
+        "title": "Maximum and minimum values",
+        "focus": [
+          "Find the vertex and interpret its y-value as a maximum or minimum.",
+          "Model and explain max/min situations with units and a sensible domain."
+        ],
+        "pause": "State the vertex, opening, and range from each equation before graphing.",
+        "pitfall": "The vertex is a point; the maximum or minimum is its y-value.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_maxminvaluesofquadratics.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-3---quadratics-functions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_maxminvaluesofquadratics_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "aRhZ3fRwWBU",
+            "type": "youtube",
+            "title": "MCR3U/Grade 11 Functions: 3.2 Determining Maximum and Minimum Values of a Quadratic Function",
+            "provider": "Passionate Minds",
+            "url": "https://www.youtube.com/watch?v=aRhZ3fRwWBU",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-3.2-3.2",
+            "type": "video",
+            "title": "Maximum and minimum values",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/3.2/3.2.mp4",
+            "duration": "20:35",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1177",
+            "type": "course",
+            "title": "Applications",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/149/assignments/1177",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Find the vertex and interpret its y-value as a maximum or minimum. Model and explain max/min situations with units and a sensible domain.",
+        "courseware": [
+          {
+            "title": "Applications",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/149/assignments/1177"
+          }
+        ]
+      },
+      {
+        "id": "u3-l3",
+        "section": "3.2",
+        "title": "Completing the square",
+        "focus": [
+          "Convert standard form to vertex form.",
+          "Use completing the square to expose the vertex and solve when factoring is awkward."
+        ],
+        "pause": "Add and subtract the needed constant yourself, remembering that the balance must stay equal.",
+        "pitfall": "When the x coefficient is not 1, factor it before completing the square.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_maxminvaluesofquadratics.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-3---quadratics-functions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_maxminvaluesofquadratics_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "2MKigAgPZMQ",
+            "type": "youtube",
+            "title": "Solving Quadratic Equations By Completing The Square",
+            "provider": "The Organic Chemistry Tutor",
+            "url": "https://www.youtube.com/watch?v=2MKigAgPZMQ",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "cemc-1165",
+            "type": "course",
+            "title": "Completing the Square",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/147/assignments/1165",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Convert standard form to vertex form. Use completing the square to expose the vertex and solve when factoring is awkward.",
+        "courseware": [
+          {
+            "title": "Completing the Square",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/147/assignments/1165"
+          }
+        ]
+      },
+      {
+        "id": "u3-l4",
+        "section": "3.3",
+        "title": "The inverse of a quadratic function",
+        "focus": [
+          "Restrict a quadratic domain so its inverse is a function.",
+          "Swap x and y, solve, and connect the inverse graph to y=x."
+        ],
+        "pause": "Choose and state the restricted domain before solving for the inverse.",
+        "pitfall": "A full parabola fails the horizontal-line test; the restriction is part of the inverse function.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_inverseofaquadratic.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-3---quadratics-functions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_inverseofaquadratic_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "GEHFIzcQr-E",
+            "type": "youtube",
+            "title": "MCR3U/Grade 11 Functions: 3.3 The Inverse of a Quadratic Function",
+            "provider": "Passionate Minds",
+            "url": "https://www.youtube.com/watch?v=GEHFIzcQr-E",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "cemc-1196",
+            "type": "course",
+            "title": "Inverses of Quadratic Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/153/assignments/1196",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Restrict a quadratic domain so its inverse is a function. Swap x and y, solve, and connect the inverse graph to y=x.",
+        "courseware": [
+          {
+            "title": "Inverses of Quadratic Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/44/153/assignments/1196"
+          }
+        ]
+      },
+      {
+        "id": "u3-l5",
+        "section": "3.4",
+        "title": "Operations with radicals",
+        "focus": [
+          "Simplify radicals by extracting perfect-square factors.",
+          "Add, subtract, multiply, and divide radicals when the operation is defined."
+        ],
+        "pause": "Simplify every radicand before deciding whether terms are like.",
+        "pitfall": "√(a+b) does not equal √a+√b.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_operationswithradicals.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-3---quadratics-functions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_operationswithradicals_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "dKHY4EwATV4",
+            "type": "youtube",
+            "title": "MCR3U/Grade 11 Functions: 3.4 Operations with Radicals",
+            "provider": "Passionate Minds",
+            "url": "https://www.youtube.com/watch?v=dKHY4EwATV4",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-3.4-3.4",
+            "type": "video",
+            "title": "Operations with radicals",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/3.4/3.4.mp4",
+            "duration": "24:57",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1087",
+            "type": "course",
+            "title": "Introduction to Radicals",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/134/assignments/1087",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          },
+          {
+            "id": "cemc-1091",
+            "type": "course",
+            "title": "Operations With Radicals",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/134/assignments/1091",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Simplify radicals by extracting perfect-square factors. Add, subtract, multiply, and divide radicals when the operation is defined.",
+        "courseware": [
+          {
+            "title": "Introduction to Radicals",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/134/assignments/1087"
+          },
+          {
+            "title": "Operations With Radicals",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/134/assignments/1091"
+          }
+        ]
+      },
+      {
+        "id": "u3-l6",
+        "section": "3.5",
+        "title": "Solving quadratic equations",
+        "focus": [
+          "Choose factoring, completing the square, or the quadratic formula deliberately.",
+          "Verify roots in the original equation and reject extraneous values from a context."
+        ],
+        "pause": "Set the equation equal to zero and choose a method before watching the worked solution.",
+        "pitfall": "The zero-product property only applies after one side is zero.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_solvingquadraticequations.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-3---quadratics-functions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_solvingquadraticequations_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "ibuUziAnnaI",
+            "type": "youtube",
+            "title": "MCR3U/Grade 11 Functions: 3.5 Solving Quadratic Equations",
+            "provider": "Passionate Minds",
+            "url": "https://www.youtube.com/watch?v=ibuUziAnnaI",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-3.5-3.5",
+            "type": "video",
+            "title": "Solving quadratic equations",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/3.5/3.5.mp4",
+            "duration": "18:21",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1178",
+            "type": "course",
+            "title": "Solving Quadratic Equations",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/149/assignments/1178",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          },
+          {
+            "id": "cemc-1174",
+            "type": "course",
+            "title": "Introduction to the Quadratic Formula",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/149/assignments/1174",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Choose factoring, completing the square, or the quadratic formula deliberately. Verify roots in the original equation and reject extraneous values from a context.",
+        "courseware": [
+          {
+            "title": "Solving Quadratic Equations",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/149/assignments/1178"
+          },
+          {
+            "title": "Introduction to the Quadratic Formula",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/149/assignments/1174"
+          }
+        ]
+      },
+      {
+        "id": "u3-l7",
+        "section": "3.6",
+        "title": "Zeros and the discriminant",
+        "focus": [
+          "Connect zeros, x-intercepts, factors, and solutions.",
+          "Use b²−4ac to classify two, one, or zero real zeros before solving."
+        ],
+        "pause": "Calculate or predict the discriminant before you solve. Explain what the sign means on the graph.",
+        "pitfall": "A negative discriminant means no real x-intercepts, not that the algebraic expression is meaningless.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_solvingquadraticequations.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-3---quadratics-functions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_solvingquadraticequations_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "21xO_win0lo",
+            "type": "youtube",
+            "title": "MCR3U/Grade 11 Functions: 3.6 The Zeros of a Quadratic Function",
+            "provider": "Passionate Minds",
+            "url": "https://www.youtube.com/watch?v=21xO_win0lo",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-3.6-3.6",
+            "type": "video",
+            "title": "Zeros and the discriminant",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/3.6/3.6.mp4",
+            "duration": "11:23",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1175",
+            "type": "course",
+            "title": "The Number of Zeros of a Quadratic Relation",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/149/assignments/1175",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Connect zeros, x-intercepts, factors, and solutions. Use b²−4ac to classify two, one, or zero real zeros before solving.",
+        "courseware": [
+          {
+            "title": "The Number of Zeros of a Quadratic Relation",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/149/assignments/1175"
+          }
+        ]
+      },
+      {
+        "id": "u3-l8",
+        "section": "3.7",
+        "title": "Families of quadratic functions",
+        "focus": [
+          "Describe how a parameter changes a family of parabolas.",
+          "Use a shared feature such as a vertex, root, or y-intercept to determine a rule."
+        ],
+        "pause": "Predict which parameter controls the feature before comparing the family graphs.",
+        "pitfall": "A family parameter can change more than one visible feature; test with an equation, not only a sketch.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_familyofquadraticfunctions.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-3---quadratics-functions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_familyofquadraticfunctions_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "OKWI2FopJ4Q",
+            "type": "youtube",
+            "title": "MCR3U/Grade 11 Functions: 3.7 Families of Quadratic Functions",
+            "provider": "Passionate Minds",
+            "url": "https://www.youtube.com/watch?v=OKWI2FopJ4Q",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "cemc-1169",
+            "type": "course",
+            "title": "Graphing and Equations in Factored Form",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/148/assignments/1169",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Describe how a parameter changes a family of parabolas. Use a shared feature such as a vertex, root, or y-intercept to determine a rule.",
+        "courseware": [
+          {
+            "title": "Graphing and Equations in Factored Form",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/148/assignments/1169"
+          }
+        ]
+      },
+      {
+        "id": "u3-l9",
+        "section": "3.8",
+        "title": "Linear–quadratic systems",
+        "focus": [
+          "Solve line–parabola intersections by substitution.",
+          "Interpret zero, one, or two intersection points in a graph and in a context."
+        ],
+        "pause": "Substitute and solve the quadratic before looking at the graph. Then match each root to its y-coordinate.",
+        "pitfall": "A root gives an x-coordinate; use either original equation to find the corresponding y.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_intersectionoflinesandparabolas.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-3---quadratics-functions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_intersectionoflinesandparabolas_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "hagen-3.8-3.8",
+            "type": "video",
+            "title": "Linear–quadratic systems",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/3.8/3.8.mp4",
+            "duration": "16:42",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1176",
+            "type": "course",
+            "title": "Intersections of Linear and Quadratic Relations",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/149/assignments/1176",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Solve line–parabola intersections by substitution. Interpret zero, one, or two intersection points in a graph and in a context.",
+        "courseware": [
+          {
+            "title": "Intersections of Linear and Quadratic Relations",
+            "url": "https://courseware.cemc.uwaterloo.ca/43/149/assignments/1176"
+          }
+        ]
+      }
+    ],
+    "review": [
+      {
+        "label": "Quadratic review worksheet",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_quadraticreview.doc"
+      },
+      {
+        "label": "Review answer key",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_quadraticreviewsolutions.pdf"
+      },
+      {
+        "label": "Quadratic application practice",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_quadraticapplicationreview.pdf"
+      },
+      {
+        "label": "Lourdes lesson bank",
+        "url": "https://lourdesmath.weebly.com/unit-3---quadratics-functions.html"
+      }
+    ],
+    "readiness": [
+      "I can choose a useful quadratic form and read its key features.",
+      "I can determine a maximum or minimum and explain it in context.",
+      "I can solve by factoring, completing the square, or the quadratic formula and justify the choice.",
+      "I can use the discriminant, inverse restrictions, families, and linear–quadratic systems correctly."
+    ],
+    "numbering": "Function Room topic order. Your school may use different lesson numbers or teach these topics in a different order.",
+    "symbol": "ax² + bx + c",
+    "time": "Choose one lesson at a time. Allow time for paper practice after watching."
+  },
+  {
+    "id": 4,
+    "title": "Exponential Functions",
+    "kicker": "GROWTH, DECAY, AND CHANGE",
+    "description": "Build, transform, solve, and interpret exponential models, including growth/decay, half-life, and doubling time.",
+    "prerequisites": "Exponent laws and transformations from Units 1–2.",
+    "coverage": [
+      "4.1 exponent laws",
+      "4.2 rational exponents",
+      "4.3 simplifying expressions",
+      "4.4–4.6 transformations & equations",
+      "4.7 applications"
+    ],
+    "source": {
+      "label": "Lourdes MCR3U Unit 4 hub",
+      "url": "https://lourdesmath.weebly.com/unit-4---exponential-functions.html"
+    },
+    "lessons": [
+      {
+        "id": "u4-l1",
+        "section": "4.1",
+        "title": "Review of exponent laws",
+        "focus": [
+          "Use product, quotient, power, zero, and negative-exponent laws.",
+          "Rewrite an expression in a form that reveals its base and growth factor."
+        ],
+        "pause": "Predict the exponent before the video simplifies. Write the law beside every step.",
+        "pitfall": "A power distributes over multiplication, not addition: (a+b)ⁿ is not aⁿ+bⁿ.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_introtoexponents.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-4---exponential-functions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_introtoexponents_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "uyMeyWA-Fcg",
+            "type": "youtube",
+            "title": "MCR3U - Unit 4 Exponential Functions - Lesson 1 - Review of Exponent Laws",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=uyMeyWA-Fcg",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-4.2-4.2",
+            "type": "video",
+            "title": "Integer exponents",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/4.2/4.2.mp4",
+            "duration": "11:47",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1077",
+            "type": "course",
+            "title": "Negative Bases and Integer Exponents",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/132/assignments/1077",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          },
+          {
+            "id": "cemc-1072",
+            "type": "course",
+            "title": "Exponent Laws All Together",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/132/assignments/1072",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Use product, quotient, power, zero, and negative-exponent laws. Rewrite an expression in a form that reveals its base and growth factor.",
+        "courseware": [
+          {
+            "title": "Negative Bases and Integer Exponents",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/132/assignments/1077"
+          },
+          {
+            "title": "Exponent Laws All Together",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/132/assignments/1072"
+          }
+        ]
+      },
+      {
+        "id": "u4-l2",
+        "section": "4.2",
+        "title": "Rational exponents",
+        "focus": [
+          "Translate between radicals and rational exponents.",
+          "Simplify expressions while respecting powers, roots, and restrictions."
+        ],
+        "pause": "Rewrite each rational exponent as a root before checking the worked simplification.",
+        "pitfall": "The denominator of a rational exponent is the root; the numerator is the power.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_rationalexponents.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-4---exponential-functions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_rationalexponents_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "p2rubTxuzOc",
+            "type": "youtube",
+            "title": "MCR3U - Unit 4 Exponential Functions - Lesson 2 - Rational Exponents",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=p2rubTxuzOc",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-4.3-4.3",
+            "type": "video",
+            "title": "Rational exponents",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/4.3/4.3.mp4",
+            "duration": "15:25",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1071",
+            "type": "course",
+            "title": "Rational Exponents - Part 1",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/132/assignments/1071",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          },
+          {
+            "id": "cemc-1078",
+            "type": "course",
+            "title": "Rational Exponents - Part 2",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/132/assignments/1078",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Translate between radicals and rational exponents. Simplify expressions while respecting powers, roots, and restrictions.",
+        "courseware": [
+          {
+            "title": "Rational Exponents - Part 1",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/132/assignments/1071"
+          },
+          {
+            "title": "Rational Exponents - Part 2",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/132/assignments/1078"
+          }
+        ]
+      },
+      {
+        "id": "u4-l3",
+        "section": "4.3",
+        "title": "Simplifying exponential expressions",
+        "focus": [
+          "Combine exponent laws in multi-step expressions.",
+          "Keep coefficients, bases, and exponents separate while simplifying."
+        ],
+        "pause": "Name the single exponent law you will use next before watching the line.",
+        "pitfall": "Only like bases combine through exponent laws; different bases cannot be merged by adding exponents.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_simplifyingexponentialexpressions.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-4---exponential-functions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_simplifyingrationalexpressions_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "QivMTcC-pCQ",
+            "type": "youtube",
+            "title": "MCR3U - Unit 4 Exponential Functions - Lesson 3 - Simplifying Exponential Expressions",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=QivMTcC-pCQ",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-4.4-4.4",
+            "type": "video",
+            "title": "Algebraic exponential expressions",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/4.4/4.4.mp4",
+            "duration": "11:19",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1072",
+            "type": "course",
+            "title": "Exponent Laws All Together",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/132/assignments/1072",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Combine exponent laws in multi-step expressions. Keep coefficients, bases, and exponents separate while simplifying.",
+        "courseware": [
+          {
+            "title": "Exponent Laws All Together",
+            "url": "https://courseware.cemc.uwaterloo.ca/41/132/assignments/1072"
+          }
+        ]
+      },
+      {
+        "id": "u4-l4",
+        "section": "4.4",
+        "title": "Transformations of exponentials: part 1",
+        "focus": [
+          "Read y=a·bˣ+c and identify vertical stretch, reflection, and translation.",
+          "Use a table or parent graph to check a transformed model."
+        ],
+        "pause": "List the parent, scale, reflection, and vertical shift before plotting.",
+        "pitfall": "The horizontal asymptote is y=c, not automatically y=0.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_transformationsofexponentials_part1.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-4---exponential-functions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_transformationsofexponentials_part1_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "CdfoSvTepnE",
+            "type": "youtube",
+            "title": "MCR3U - Unit 4 Exponentials - Lesson 4 - Transformations of Exponentials: Part 1",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=CdfoSvTepnE",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "cemc-1255",
+            "type": "course",
+            "title": "Properties of Basic Exponential Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/164/assignments/1255",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          },
+          {
+            "id": "cemc-1262",
+            "type": "course",
+            "title": "Transformations of Exponential Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/164/assignments/1262",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Read y=a·bˣ+c and identify vertical stretch, reflection, and translation. Use a table or parent graph to check a transformed model.",
+        "courseware": [
+          {
+            "title": "Properties of Basic Exponential Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/164/assignments/1255"
+          },
+          {
+            "title": "Transformations of Exponential Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/164/assignments/1262"
+          }
+        ]
+      },
+      {
+        "id": "u4-l5",
+        "section": "4.5",
+        "title": "Transformations of exponentials: part 2",
+        "focus": [
+          "Handle inside changes and horizontal stretches/compressions.",
+          "Connect each parameter in y=a·bᵏ⁽ˣ⁻ᵈ⁾+c to the graph."
+        ],
+        "pause": "Make a five-point sketch using the parent before checking the transformed graph.",
+        "pitfall": "The horizontal scale is 1/|k|, not |k|.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_transformationsofexponentials_part2.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-4---exponential-functions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_transformationsofexponentials_part2_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "yBmLYKiAa3A",
+            "type": "youtube",
+            "title": "MCR3U - Unit 4 Exponentials - Lesson 5 - Transformations of Exponential: Part 2",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=yBmLYKiAa3A",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "cemc-1262",
+            "type": "course",
+            "title": "Transformations of Exponential Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/164/assignments/1262",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Handle inside changes and horizontal stretches/compressions. Connect each parameter in y=a·bᵏ⁽ˣ⁻ᵈ⁾+c to the graph.",
+        "courseware": [
+          {
+            "title": "Transformations of Exponential Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/164/assignments/1262"
+          }
+        ]
+      },
+      {
+        "id": "u4-l6",
+        "section": "4.6",
+        "title": "Solving exponential equations and tables",
+        "focus": [
+          "Match bases when possible and use a table or graph to verify.",
+          "Explain why a solution is exact or an approximation."
+        ],
+        "pause": "Try rewriting both sides with the same base before using a calculator.",
+        "pitfall": "Do not equate exponents until the bases are truly equal and valid.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_solvingexponentialequationsandtableofvalues.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-4---exponential-functions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_solvingexponentialequationsandtableofvalues_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "90jaeyJDf_Y",
+            "type": "youtube",
+            "title": "MCR3U - Unit 4 Exponentials - Lesson 6 - Solving Exponential Equations and Table of Values",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=90jaeyJDf_Y",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "cemc-1257",
+            "type": "course",
+            "title": "Identifying Exponential Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/164/assignments/1257",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          },
+          {
+            "id": "cemc-1258",
+            "type": "course",
+            "title": "Comparing Exponential Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/164/assignments/1258",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Match bases when possible and use a table or graph to verify. Explain why a solution is exact or an approximation.",
+        "courseware": [
+          {
+            "title": "Identifying Exponential Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/164/assignments/1257"
+          },
+          {
+            "title": "Comparing Exponential Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/164/assignments/1258"
+          }
+        ]
+      },
+      {
+        "id": "u4-l7",
+        "section": "4.7",
+        "title": "Growth and decay applications",
+        "focus": [
+          "Build a model from an initial value and percent change.",
+          "Interpret every variable with units and check the scale of the answer."
+        ],
+        "pause": "Write what t=0 means and convert every percent to a multiplier before solving.",
+        "pitfall": "A 6% increase uses 1.06, while a 6% decrease uses 0.94.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_applicationsofexponentials_part1.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-4---exponential-functions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_applicationsofexponentials_part1_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "yDO-9H9C_ns",
+            "type": "youtube",
+            "title": "MCR3U - Unit 4  Exponentials - Lesson 7 - Applications of Exponential Functions: Part 1",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=yDO-9H9C_ns",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-4.7-4.7",
+            "type": "video",
+            "title": "Exponential applications",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/4.7/4.7.mp4",
+            "duration": "19:03",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1260",
+            "type": "course",
+            "title": "Modelling With Exponential Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/164/assignments/1260",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Build a model from an initial value and percent change. Interpret every variable with units and check the scale of the answer.",
+        "courseware": [
+          {
+            "title": "Modelling With Exponential Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/164/assignments/1260"
+          }
+        ]
+      },
+      {
+        "id": "u4-l8",
+        "section": "4.7",
+        "title": "Half-life and doubling time",
+        "focus": [
+          "Use a model to solve for time, amount, half-life, or doubling time.",
+          "Report an answer with a sensible unit and interpretation."
+        ],
+        "pause": "Estimate whether the answer should be a short or long time before calculating.",
+        "pitfall": "Half-life is the time for the amount to halve; it is not half of the decay factor.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_applicationsofexponentials_part2.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-4---exponential-functions.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_applicationsofexponentials_part2_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "NfFFCLwLRHs",
+            "type": "youtube",
+            "title": "MCR3U - Unit 4 Exponentials - Lesson 8 - Applications of Exponential Functions: Part 2",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=NfFFCLwLRHs",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "cemc-1260",
+            "type": "course",
+            "title": "Modelling With Exponential Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/164/assignments/1260",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Use a model to solve for time, amount, half-life, or doubling time. Report an answer with a sensible unit and interpretation.",
+        "courseware": [
+          {
+            "title": "Modelling With Exponential Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/164/assignments/1260"
+          }
+        ]
+      }
+    ],
+    "review": [
+      {
+        "label": "Exponential review worksheet",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_exponentials_review_worksheet.docx"
+      },
+      {
+        "label": "Review answer key",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_exponentials_review_worksheet_soln.pdf"
+      },
+      {
+        "label": "Unit summary",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_exponentials_unitsummary.docx"
+      },
+      {
+        "label": "Lourdes lesson bank",
+        "url": "https://lourdesmath.weebly.com/unit-4---exponential-functions.html"
+      }
+    ],
+    "readiness": [
+      "I can simplify exponent expressions and translate rational exponents.",
+      "I can build and transform an exponential model from a table or context.",
+      "I can solve exponential equations and verify the result.",
+      "I can explain growth, decay, half-life, doubling time, and units in context."
+    ],
+    "numbering": "Function Room topic order. Your school may use different lesson numbers or teach these topics in a different order.",
+    "symbol": "a · bˣ",
+    "time": "Choose one lesson at a time. Allow time for paper practice after watching."
+  },
+  {
+    "id": 5,
+    "title": "Trigonometric Ratios",
+    "kicker": "TRIG GEOMETRY",
+    "description": "Acute and special angles, all-quadrant ratios, reciprocal ratios, identities, the sine/cosine laws, ambiguous cases, and 3D problems.",
+    "prerequisites": "Right-triangle vocabulary, Pythagorean theorem, and a scientific calculator in degree mode.",
+    "coverage": [
+      "5.1 acute ratios",
+      "5.2 special angles",
+      "5.3–5.4 Cartesian grid & CAST",
+      "5.5 identities",
+      "5.6–5.8 laws, ambiguous case & 3D"
+    ],
+    "source": {
+      "label": "Lourdes MCR3U Unit 5 hub",
+      "url": "https://lourdesmath.weebly.com/unit-5---trigonometric-ratios.html"
+    },
+    "lessons": [
+      {
+        "id": "u5-l1",
+        "section": "5.1",
+        "title": "Acute ratios and reciprocals",
+        "focus": [
+          "Choose sine, cosine, or tangent from a labelled right triangle.",
+          "Use secant, cosecant, and cotangent as reciprocal ratios."
+        ],
+        "pause": "Label opposite, adjacent, and hypotenuse before touching the calculator.",
+        "pitfall": "The side names depend on the chosen angle; opposite and adjacent can switch.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_trigratiosofacuteangles_and_trigreciprocals.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-5---trigonometric-ratios.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_trigratiosofacuteangles_and_trigreciprocals_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "VQxCSJHPXQI",
+            "type": "youtube",
+            "title": "MCR3U - Unit 5 - Trigonometry - Lesson 1 - Acute Angles and Reciprocal Trigonometric Functions",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=VQxCSJHPXQI",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-5.1-5.1",
+            "type": "video",
+            "title": "Acute trigonometric ratios",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/5.1/5.1.mp4",
+            "duration": "12:49",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1247",
+            "type": "course",
+            "title": "Sine and Cosine Ratios",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/161/assignments/1247",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          },
+          {
+            "id": "cemc-1253",
+            "type": "course",
+            "title": "Reciprocal Trigonometric Ratios",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/162/assignments/1253",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Choose sine, cosine, or tangent from a labelled right triangle. Use secant, cosecant, and cotangent as reciprocal ratios.",
+        "courseware": [
+          {
+            "title": "Sine and Cosine Ratios",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/161/assignments/1247"
+          },
+          {
+            "title": "Reciprocal Trigonometric Ratios",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/162/assignments/1253"
+          }
+        ]
+      },
+      {
+        "id": "u5-l2",
+        "section": "5.2",
+        "title": "Special triangles and exact values",
+        "focus": [
+          "Build 30–60–90 and 45–45–90 triangles.",
+          "Use exact values instead of decimal approximations."
+        ],
+        "pause": "Derive the ratios before memorising them, then test 30°, 45°, and 60°.",
+        "pitfall": "Exact-value questions need fractions and radicals, not rounded decimals.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_specialtriangles_and_exactvalues.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-5---trigonometric-ratios.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_specialtriangles_and_exactvalues_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "Y8kCay3lOU4",
+            "type": "youtube",
+            "title": "MCR3U - Unit 5 Trigonometry - Lesson 2 - Special Triangles and Exact Values",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=Y8kCay3lOU4",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-5.2-5.2",
+            "type": "video",
+            "title": "Special triangles",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/5.2/5.2.mp4",
+            "duration": "11:02",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1251",
+            "type": "course",
+            "title": "Trigonometric Ratios of Special Angles",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/162/assignments/1251",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Build 30–60–90 and 45–45–90 triangles. Use exact values instead of decimal approximations.",
+        "courseware": [
+          {
+            "title": "Trigonometric Ratios of Special Angles",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/162/assignments/1251"
+          }
+        ]
+      },
+      {
+        "id": "u5-l3",
+        "section": "5.3",
+        "title": "Trig ratios on the Cartesian grid",
+        "focus": [
+          "Place an angle in standard position.",
+          "Use a point on the terminal arm to find all three ratios and the reference angle."
+        ],
+        "pause": "Draw the terminal arm and label x, y, and r before calculating.",
+        "pitfall": "The radius r is positive; the signs come from x and y.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_trigonometryandthecartesiangrid.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-5---trigonometric-ratios.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_trigonometryandthecartesiangrid_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "m_WZUzHFpWA",
+            "type": "youtube",
+            "title": "MCR3U - Unit 5 Trigonometry - Lesson 3 - Trigonometry and the Cartesian Grid",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=m_WZUzHFpWA",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-5.4a-5.4a",
+            "type": "video",
+            "title": "Trigonometric ratios beyond 90°",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/5.4a/5.4a.mp4",
+            "duration": "21:09",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1248",
+            "type": "course",
+            "title": "Trigonometric Ratios of Angles in Standard Position",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/162/assignments/1248",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Place an angle in standard position. Use a point on the terminal arm to find all three ratios and the reference angle.",
+        "courseware": [
+          {
+            "title": "Trigonometric Ratios of Angles in Standard Position",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/162/assignments/1248"
+          }
+        ]
+      },
+      {
+        "id": "u5-l4",
+        "section": "5.4",
+        "title": "The CAST rule and angles from 0° to 360°",
+        "focus": [
+          "Use the quadrant sign pattern to evaluate exact and approximate ratios.",
+          "Find every angle in a specified interval."
+        ],
+        "pause": "Draw the quadrant and reference angle before using the calculator.",
+        "pitfall": "Inverse trig returns a principal angle; it is not the complete answer on 0°–360°.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_thecastrule.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-5---trigonometric-ratios.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_thecastrule_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "z-1kohZtMsU",
+            "type": "youtube",
+            "title": "MCR3U - Unit 5 Trigonometry - Lesson 4 - The C.A.S.T. Rule",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=z-1kohZtMsU",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-5.4b-5.4b",
+            "type": "video",
+            "title": "Angles and quadrants",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/5.4b/5.4b.mp4",
+            "duration": "12:27",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1249",
+            "type": "course",
+            "title": "Related and Coterminal Angles",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/162/assignments/1249",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Use the quadrant sign pattern to evaluate exact and approximate ratios. Find every angle in a specified interval.",
+        "courseware": [
+          {
+            "title": "Related and Coterminal Angles",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/162/assignments/1249"
+          }
+        ]
+      },
+      {
+        "id": "u5-l5",
+        "section": "5.5",
+        "title": "Proving trigonometric identities: part 1",
+        "focus": [
+          "Use reciprocal, quotient, and Pythagorean identities.",
+          "Change one side at a time until it matches the other side."
+        ],
+        "pause": "Choose the more complicated side and name the identity that moves it toward the other.",
+        "pitfall": "Checking one angle is not a proof of an identity.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_provingidentities_part1.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-5---trigonometric-ratios.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_provingidentities_part1_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "iAZPw9iN60s",
+            "type": "youtube",
+            "title": "MCR3U - Unit 5 Trigonometry - Lesson 5 - Proving Trigonometric Identities: Part 1",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=iAZPw9iN60s",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-5.5-5.5",
+            "type": "video",
+            "title": "Trigonometric identities",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/5.5/5.5.mp4",
+            "duration": "18:22",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1250",
+            "type": "course",
+            "title": "Trigonometric Identities",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/162/assignments/1250",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Use reciprocal, quotient, and Pythagorean identities. Change one side at a time until it matches the other side.",
+        "courseware": [
+          {
+            "title": "Trigonometric Identities",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/162/assignments/1250"
+          }
+        ]
+      },
+      {
+        "id": "u5-l6",
+        "section": "5.5",
+        "title": "Proving trigonometric identities: part 2",
+        "focus": [
+          "Simplify complex identity proofs without changing both sides at once.",
+          "Recognise when factoring or a common denominator is the next useful move."
+        ],
+        "pause": "Write the target form and one legal algebraic move before watching.",
+        "pitfall": "Never divide by an expression without considering where it could be zero.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_provingidentities_part2.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-5---trigonometric-ratios.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_provingidentities_part2_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "8NrXNFRkgFc",
+            "type": "youtube",
+            "title": "MCR3U - Unit 5 Trigonometry - Lesson 6 - Proving Trigonometric Identities: Part 2",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=8NrXNFRkgFc",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "cemc-1250",
+            "type": "course",
+            "title": "Trigonometric Identities",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/162/assignments/1250",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Simplify complex identity proofs without changing both sides at once. Recognise when factoring or a common denominator is the next useful move.",
+        "courseware": [
+          {
+            "title": "Trigonometric Identities",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/162/assignments/1250"
+          }
+        ]
+      },
+      {
+        "id": "u5-l7",
+        "section": "5.6–5.7",
+        "title": "Sine law, cosine law, and the ambiguous case",
+        "focus": [
+          "Choose sine law or cosine law from the information given.",
+          "Detect zero, one, or two possible triangles and report only valid solutions."
+        ],
+        "pause": "Name the known side–angle pair and sketch the diagram before choosing a law.",
+        "pitfall": "The largest side is opposite the largest angle; use this check to catch a wrong diagram.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_sinelawcosinelaw_and_ambiguouscase.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-5---trigonometric-ratios.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_sinelawcosinelaw_and_ambiguouscase_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "_iwmJLabjqk",
+            "type": "youtube",
+            "title": "MCR3U - Unit 5 Trigonometry - Lesson 7 - Sine Law/ Cosine Law and the Ambiguous Case",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=_iwmJLabjqk",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-5.6-5.6",
+            "type": "video",
+            "title": "Sine law",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/5.6/5.6.mp4",
+            "duration": "19:11",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "hagen-5.7-5.7",
+            "type": "video",
+            "title": "Cosine law",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/5.7/5.7.mp4",
+            "duration": "8:50",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1240",
+            "type": "course",
+            "title": "The Sine Law",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/161/assignments/1240",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          },
+          {
+            "id": "cemc-1237",
+            "type": "course",
+            "title": "The Cosine Law",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/161/assignments/1237",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          },
+          {
+            "id": "cemc-1241",
+            "type": "course",
+            "title": "Oblique Triangles",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/161/assignments/1241",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Choose sine law or cosine law from the information given. Detect zero, one, or two possible triangles and report only valid solutions.",
+        "courseware": [
+          {
+            "title": "The Sine Law",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/161/assignments/1240"
+          },
+          {
+            "title": "The Cosine Law",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/161/assignments/1237"
+          },
+          {
+            "title": "Oblique Triangles",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/161/assignments/1241"
+          }
+        ]
+      },
+      {
+        "id": "u5-l8",
+        "section": "5.8",
+        "title": "Three-dimensional trigonometry",
+        "focus": [
+          "Split a 3D diagram into useful right triangles.",
+          "Use a clear auxiliary line and keep the requested angle or distance attached to the diagram."
+        ],
+        "pause": "Draw the hidden right triangle before calculating any ratio.",
+        "pitfall": "A 3D diagonal is not automatically a side of the visible face triangle.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_threedimensionalproblems.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-5---trigonometric-ratios.html"
+          }
+        ],
+        "solutions": [],
+        "videos": [
+          {
+            "id": "NHrng7rSm2c",
+            "type": "youtube",
+            "title": "MCR3U - Unit 5 Trigonometry - Lesson 8 - Using Trigonometry to Solve Three Dimensional Problems",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=NHrng7rSm2c",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-5.8-5.8",
+            "type": "video",
+            "title": "Three-dimensional trigonometry",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/5.8/5.8.mp4",
+            "duration": "10:06",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1238",
+            "type": "course",
+            "title": "Applications in Three-Dimensional Settings",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/161/assignments/1238",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Split a 3D diagram into useful right triangles. Use a clear auxiliary line and keep the requested angle or distance attached to the diagram.",
+        "courseware": [
+          {
+            "title": "Applications in Three-Dimensional Settings",
+            "url": "https://courseware.cemc.uwaterloo.ca/46/161/assignments/1238"
+          }
+        ]
+      }
+    ],
+    "review": [
+      {
+        "label": "Trigonometry review worksheet",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_trigonometricfunctions_reviewworksheet.docx"
+      },
+      {
+        "label": "Review answer key",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_trigonometricfunctions_reviewworksheet_soln.pdf"
+      },
+      {
+        "label": "Unit quiz",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_trigonometryquiz.doc"
+      },
+      {
+        "label": "Lourdes lesson bank",
+        "url": "https://lourdesmath.weebly.com/unit-5---trigonometric-ratios.html"
+      }
+    ],
+    "readiness": [
+      "I can give exact special-angle values and use degree mode correctly.",
+      "I can solve every trig equation on 0°–360° with all valid answers.",
+      "I can select and apply a triangle law from a labelled diagram.",
+      "I can explain an ambiguous case, prove a basic identity, and solve a 3D problem."
+    ],
+    "numbering": "Function Room topic order. Your school may use different lesson numbers or teach these topics in a different order.",
+    "symbol": "sin θ",
+    "time": "Choose one lesson at a time. Allow time for paper practice after watching."
+  },
+  {
+    "id": 6,
+    "title": "Sinusoidal Functions",
+    "kicker": "MODELLING PERIODIC CHANGE",
+    "description": "Read periodic behaviour, graph sine and cosine, reverse-engineer equations, and model real cycles with amplitude, period, phase shift, and midline.",
+    "prerequisites": "Unit 5 trig ratios, transformations from Unit 1, and a graphing calculator or Desmos.",
+    "coverage": [
+      "6.1 periodic behaviour",
+      "6.2 sine & cosine curves",
+      "6.3 key features",
+      "6.4–6.5 transformations & graphing",
+      "6.6–6.7 models and solving"
+    ],
+    "source": {
+      "label": "Lourdes MCR3U Unit 6 hub",
+      "url": "https://lourdesmath.weebly.com/unit-6---graphing-sinusoidals.html"
+    },
+    "lessons": [
+      {
+        "id": "u6-l1",
+        "section": "6.1",
+        "title": "Modelling periodic behaviour",
+        "focus": [
+          "Identify cycle, period, amplitude, and midline from a context.",
+          "Connect repeated data to a sinusoidal graph."
+        ],
+        "pause": "Describe one full cycle in words before looking at the equation.",
+        "pitfall": "The period is one complete cycle, not the distance from a maximum to a minimum.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_modelingperiodicbehaviour.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-6---graphing-sinusoidals.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_modelingperiodicbehaviour_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "n-IpGWIAPII",
+            "type": "youtube",
+            "title": "MCR3U - Unit 6 Sinusoidal Functions - Lesson 1 - Modeling Periodic Behaviour",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=n-IpGWIAPII",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-6.1-6.1",
+            "type": "video",
+            "title": "Periodic functions",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/6.1/6.1.mp4",
+            "duration": "15:28",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1269",
+            "type": "course",
+            "title": "Periodic Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/165/assignments/1269",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Identify cycle, period, amplitude, and midline from a context. Connect repeated data to a sinusoidal graph.",
+        "courseware": [
+          {
+            "title": "Periodic Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/165/assignments/1269"
+          }
+        ]
+      },
+      {
+        "id": "u6-l2",
+        "section": "6.2",
+        "title": "The sine and cosine curves",
+        "focus": [
+          "Use five key points over one cycle.",
+          "Compare sine and cosine starting positions and signs."
+        ],
+        "pause": "Mark the quarter-period points before connecting the curve.",
+        "pitfall": "Amplitude is a distance from the midline, so it is always nonnegative.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_introductiontothesineandcosinecurve.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-6---graphing-sinusoidals.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_introductiontothesineandcosinecurve_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "PNV_qIRpQu0",
+            "type": "youtube",
+            "title": "MCR3U - Unit 6 Sinusoidal Functions - Lesson 2 - Introduction to the Sine and Cosine Curve",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=PNV_qIRpQu0",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-6.2-6.2",
+            "type": "video",
+            "title": "Graphing sinusoidal functions",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/6.2/6.2.mp4",
+            "duration": "34:08",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1268",
+            "type": "course",
+            "title": "The Sine and Cosine Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/165/assignments/1268",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Use five key points over one cycle. Compare sine and cosine starting positions and signs.",
+        "courseware": [
+          {
+            "title": "The Sine and Cosine Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/165/assignments/1268"
+          }
+        ]
+      },
+      {
+        "id": "u6-l3",
+        "section": "6.3",
+        "title": "Reading features of periodic functions",
+        "focus": [
+          "Read amplitude, period, maximum, minimum, and midline from a graph.",
+          "Explain what each feature means in a real situation."
+        ],
+        "pause": "Label one cycle and the midline yourself before checking the interpretation.",
+        "pitfall": "The midline is the average of the maximum and minimum, not the minimum.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_sinusoidalfunctionssummary.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-6---graphing-sinusoidals.html"
+          }
+        ],
+        "solutions": [],
+        "videos": [
+          {
+            "id": "hagen-6.1-6.1",
+            "type": "video",
+            "title": "Reading periodic graphs",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/6.1/6.1.mp4",
+            "duration": "15:28",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1269",
+            "type": "course",
+            "title": "Periodic Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/165/assignments/1269",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Read amplitude, period, maximum, minimum, and midline from a graph. Explain what each feature means in a real situation.",
+        "courseware": [
+          {
+            "title": "Periodic Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/165/assignments/1269"
+          }
+        ]
+      },
+      {
+        "id": "u6-l4",
+        "section": "6.4",
+        "title": "Transformations of sinusoidals: part 1",
+        "focus": [
+          "Read a, k, d, and c from y=a sin(k(x-d))+c.",
+          "Connect amplitude, period, phase shift, and midline to graph changes."
+        ],
+        "pause": "Fill in the four parameters before plotting any points.",
+        "pitfall": "In degree mode, period is 360°/|k|; it is not 360°|k|.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_transformationsofsinusoidalspart1.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-6---graphing-sinusoidals.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_transformationsofsinusoidalspart1_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "3TwbyYU-9uQ",
+            "type": "youtube",
+            "title": "MCR3U - Unit 6 Sinusoidal Functions - Lesson 3 - Transformations of Sinusoidal Functions: Part 1",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=3TwbyYU-9uQ",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "cemc-1263",
+            "type": "course",
+            "title": "Investigate Transformations of Sinusoidal Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/165/assignments/1263",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Read a, k, d, and c from y=a sin(k(x-d))+c. Connect amplitude, period, phase shift, and midline to graph changes.",
+        "courseware": [
+          {
+            "title": "Investigate Transformations of Sinusoidal Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/165/assignments/1263"
+          }
+        ]
+      },
+      {
+        "id": "u6-l5",
+        "section": "6.5",
+        "title": "Transformations of sinusoidals: part 2",
+        "focus": [
+          "Sketch a transformed sine or cosine graph accurately.",
+          "Use a table of five key points to check reflections and phase shifts."
+        ],
+        "pause": "Choose sine or cosine and plot the first cycle before watching the finished sketch.",
+        "pitfall": "A negative a reflects across the midline; it does not make amplitude negative.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_transformationsofsinusoidalspart2.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-6---graphing-sinusoidals.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_transformationsofsinusoidalspart2_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "mu4CFULWzUo",
+            "type": "youtube",
+            "title": "MCR3U - Unit 6 Sinusoidal Functions - Lesson 5 - Transformations of Sinusoidal Functions: Part 2",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=mu4CFULWzUo",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "cemc-1266",
+            "type": "course",
+            "title": "Graphing Sinusoidal Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/165/assignments/1266",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Sketch a transformed sine or cosine graph accurately. Use a table of five key points to check reflections and phase shifts.",
+        "courseware": [
+          {
+            "title": "Graphing Sinusoidal Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/165/assignments/1266"
+          }
+        ]
+      },
+      {
+        "id": "u6-l6",
+        "section": "6.6",
+        "title": "Finding an equation from a graph",
+        "focus": [
+          "Find midline and amplitude from extrema.",
+          "Use a maximum or minimum to choose a convenient sine/cosine phase shift and verify a key point."
+        ],
+        "pause": "Read the four parameters from the graph before checking the equation.",
+        "pitfall": "A graph can have many equivalent equations; verify with a key point and the period.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_sinusoidalfunctionsworksheet.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-6---graphing-sinusoidals.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_sinusoidalfunctionsworksheet_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "hagen-6.6-6.6",
+            "type": "video",
+            "title": "Creating sinusoidal equations",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/6.6/6.6.mp4",
+            "duration": "28:14",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1264",
+            "type": "course",
+            "title": "Modelling Periodic Behaviour",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/165/assignments/1264",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Find midline and amplitude from extrema. Use a maximum or minimum to choose a convenient sine/cosine phase shift and verify a key point.",
+        "courseware": [
+          {
+            "title": "Modelling Periodic Behaviour",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/165/assignments/1264"
+          }
+        ]
+      },
+      {
+        "id": "u6-l7",
+        "section": "6.7",
+        "title": "Sinusoidal applications and solving",
+        "focus": [
+          "Build a model from data or a graph.",
+          "Solve for times when a target value is reached and report every answer in the requested interval."
+        ],
+        "pause": "Sketch the cycle and mark the target line before solving.",
+        "pitfall": "A target height may occur twice in a cycle; report every valid time.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_applicationsofsinusoidalfunctions.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-6---graphing-sinusoidals.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_applicationsofsinusoidalfunctions_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "G04daK3Yy0Q",
+            "type": "youtube",
+            "title": "MCR3U - Unit 6 Sinusoidal Functions - Lesson 5 - Applications of Sinusoidal Functions",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=G04daK3Yy0Q",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "cemc-1265",
+            "type": "course",
+            "title": "Applications of Sinusoidal Functions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/165/assignments/1265",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Build a model from data or a graph. Solve for times when a target value is reached and report every answer in the requested interval.",
+        "courseware": [
+          {
+            "title": "Applications of Sinusoidal Functions",
+            "url": "https://courseware.cemc.uwaterloo.ca/47/165/assignments/1265"
+          }
+        ]
+      }
+    ],
+    "review": [
+      {
+        "label": "Sinusoidal review worksheet",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_sinusoidalfunctionsworksheet.docx"
+      },
+      {
+        "label": "Review answer key",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_sinusoidalfunctionsworksheet_soln.pdf"
+      },
+      {
+        "label": "Unit summary",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_sinusoidalfunctionssummary.docx"
+      },
+      {
+        "label": "Lourdes lesson bank",
+        "url": "https://lourdesmath.weebly.com/unit-6---graphing-sinusoidals.html"
+      }
+    ],
+    "readiness": [
+      "I can read amplitude, period, midline, and phase shift from a graph or equation.",
+      "I can draw one accurate cycle with labelled key points.",
+      "I can create a sinusoidal model from a context and explain every parameter.",
+      "I can solve a target-value question and include all times in the required interval."
+    ],
+    "numbering": "Function Room topic order. Your school may use different lesson numbers or teach these topics in a different order.",
+    "symbol": "a sin(kx) + c",
+    "time": "Choose one lesson at a time. Allow time for paper practice after watching."
+  },
+  {
+    "id": 7,
+    "title": "Discrete Functions",
+    "kicker": "SEQUENCES, SERIES, AND PATTERNS",
+    "description": "Sequences, sums, recursion, Pascal’s triangle, and financial applications of geometric series.",
+    "prerequisites": "Exponent laws, algebraic rearranging, and comfort with a scientific calculator.",
+    "coverage": [
+      "7.1 arithmetic sequences",
+      "7.2 geometric sequences",
+      "7.3–7.4 rules & recursion",
+      "7.5–7.6 series",
+      "7.7 binomial theorem"
+    ],
+    "source": {
+      "label": "Lourdes MCR3U Unit 7 hub",
+      "url": "https://lourdesmath.weebly.com/unit-7---sequences--series.html"
+    },
+    "lessons": [
+      {
+        "id": "u7-l1",
+        "section": "7.1",
+        "title": "Arithmetic sequences",
+        "focus": [
+          "Find a common difference and the explicit rule.",
+          "Use aₙ=a₁+(n−1)d and explain what n represents."
+        ],
+        "pause": "Classify the pattern and write the recursive rule before using the explicit formula.",
+        "pitfall": "A common difference adds; a common ratio multiplies. Do not swap d and r.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_arithmeticsequences.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-7---sequences--series.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_arithmeticsequences_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "4GR-O32W6dc",
+            "type": "youtube",
+            "title": "MCR3U - Unit 7 Sequences and Series - Lesson 1 - Arithmetic Sequences",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=4GR-O32W6dc",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-7.1-7.1",
+            "type": "video",
+            "title": "Arithmetic sequences",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/7.1/7.1.mp4",
+            "duration": "18:55",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1207",
+            "type": "course",
+            "title": "Arithmetic Sequences",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/157/assignments/1207",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Find a common difference and the explicit rule. Use aₙ=a₁+(n−1)d and explain what n represents.",
+        "courseware": [
+          {
+            "title": "Arithmetic Sequences",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/157/assignments/1207"
+          }
+        ]
+      },
+      {
+        "id": "u7-l2",
+        "section": "7.2",
+        "title": "Geometric sequences",
+        "focus": [
+          "Find a common ratio and the explicit rule.",
+          "Use aₙ=a₁rⁿ⁻¹ and interpret growth or decay in a discrete context."
+        ],
+        "pause": "Divide consecutive terms to find r before checking the formula.",
+        "pitfall": "A common ratio can be negative or fractional; it is still multiplication, not addition.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_geometricsequences.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-7---sequences--series.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_geometricsequences_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "kkrhzVXko8g",
+            "type": "youtube",
+            "title": "MCR3U - Unit 7 Sequences and Series - Lesson 2 - Geometric Sequences",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=kkrhzVXko8g",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-7.2-7.2",
+            "type": "video",
+            "title": "Geometric sequences",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/7.2/7.2.mp4",
+            "duration": "7:37",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1216",
+            "type": "course",
+            "title": "Geometric Sequences",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/157/assignments/1216",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Find a common ratio and the explicit rule. Use aₙ=a₁rⁿ⁻¹ and interpret growth or decay in a discrete context.",
+        "courseware": [
+          {
+            "title": "Geometric Sequences",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/157/assignments/1216"
+          }
+        ]
+      },
+      {
+        "id": "u7-l3",
+        "section": "7.5",
+        "title": "Arithmetic series",
+        "focus": [
+          "Distinguish a sequence from its sum.",
+          "Use Sₙ=n/2[2a₁+(n−1)d] and identify the first, last, and number of terms."
+        ],
+        "pause": "Write the first and last terms and count n before substituting.",
+        "pitfall": "The number of terms is not automatically the last term's value.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_arithmeticseries.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-7---sequences--series.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_arithmeticseries_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "hagen-7.5-7.5",
+            "type": "video",
+            "title": "Arithmetic series",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/7.5/7.5.mp4",
+            "duration": "11:04",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1211",
+            "type": "course",
+            "title": "Arithmetic Series",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/157/assignments/1211",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Distinguish a sequence from its sum. Use Sₙ=n/2[2a₁+(n−1)d] and identify the first, last, and number of terms.",
+        "courseware": [
+          {
+            "title": "Arithmetic Series",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/157/assignments/1211"
+          }
+        ]
+      },
+      {
+        "id": "u7-l4",
+        "section": "7.6",
+        "title": "Geometric series",
+        "focus": [
+          "Use finite geometric series formulas.",
+          "Interpret a sum in a repeated-payment or pattern context."
+        ],
+        "pause": "Write a₁, r, and n beside the formula before calculating.",
+        "pitfall": "The finite formula requires the correct first term and number of terms; do not use the last term as n.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_geometricseries.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-7---sequences--series.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_geometricseries_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "6nDHDFEknSM",
+            "type": "youtube",
+            "title": "MCR3U - Unit 7 Sequences and Series - Lesson 4 - Geometric Series",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=6nDHDFEknSM",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "hagen-7.6-7.6",
+            "type": "video",
+            "title": "Geometric series",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/7.6/7.6.mp4",
+            "duration": "7:25",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1213",
+            "type": "course",
+            "title": "Geometric Series",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/157/assignments/1213",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Use finite geometric series formulas. Interpret a sum in a repeated-payment or pattern context.",
+        "courseware": [
+          {
+            "title": "Geometric Series",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/157/assignments/1213"
+          }
+        ]
+      },
+      {
+        "id": "u7-l5",
+        "section": "7.3–7.4",
+        "title": "Recursive definitions",
+        "focus": [
+          "Read an initial value and recurrence together.",
+          "Generate terms and convert between recursive and explicit descriptions."
+        ],
+        "pause": "Generate the first five terms yourself, then compare each transition.",
+        "pitfall": "A recurrence without its initial value is incomplete.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_recursion.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-7---sequences--series.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_recursion_soln.docx"
+          }
+        ],
+        "videos": [
+          {
+            "id": "UYibLAPfIx4",
+            "type": "youtube",
+            "title": "MCR3U - Unit 7  Sequences and Series - Lesson 5 - Recursion",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=UYibLAPfIx4",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "cemc-1205",
+            "type": "course",
+            "title": "Introducing Sequences",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/156/assignments/1205",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Read an initial value and recurrence together. Generate terms and convert between recursive and explicit descriptions.",
+        "courseware": [
+          {
+            "title": "Introducing Sequences",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/156/assignments/1205"
+          }
+        ]
+      },
+      {
+        "id": "u7-l6",
+        "section": "7.7",
+        "title": "The binomial theorem",
+        "focus": [
+          "Use Pascal coefficients and binomial coefficients to expand powers.",
+          "Check that the powers and coefficients match the exponent."
+        ],
+        "pause": "Build the coefficient row before expanding, then check the powers add to n.",
+        "pitfall": "The first Pascal row is usually numbered 0; match the row to the exponent.",
+        "practice": [
+          {
+            "label": "Student worksheet",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_binomialtheorem.docx"
+          },
+          {
+            "label": "Unit resource bank",
+            "url": "https://lourdesmath.weebly.com/unit-7---sequences--series.html"
+          }
+        ],
+        "solutions": [
+          {
+            "label": "Answer key",
+            "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_binomialtheorem_soln.pdf"
+          }
+        ],
+        "videos": [
+          {
+            "id": "y9uANs16jbY",
+            "type": "youtube",
+            "title": "MCR3U - Unit 7 Sequences and Series - Lesson 6 - Binomial Theorem",
+            "provider": "Peter Jones",
+            "url": "https://www.youtube.com/watch?v=y9uANs16jbY",
+            "note": "Work each example on paper before the solution appears."
+          },
+          {
+            "id": "cemc-1206",
+            "type": "course",
+            "title": "Pascal’s Triangle and Binomial Expansions",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/156/assignments/1206",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "summary": "Use Pascal coefficients and binomial coefficients to expand powers. Check that the powers and coefficients match the exponent.",
+        "courseware": [
+          {
+            "title": "Pascal’s Triangle and Binomial Expansions",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/156/assignments/1206"
+          }
+        ]
+      },
+      {
+        "id": "u7-l7",
+        "section": "7.F1",
+        "title": "Simple interest",
+        "summary": "Calculate I = Prt and A = P(1 + rt). Express rates as decimals and time in years.",
+        "focus": [
+          "Calculate I = Prt and A = P(1 + rt).",
+          "Express rates as decimals and time in years."
+        ],
+        "pause": "Draw the payment timeline before substituting. Check the rate per period and payment timing.",
+        "pitfall": "Annual rates and elapsed time must use consistent units.",
+        "videos": [
+          {
+            "id": "hagen-8.1-8.1",
+            "type": "video",
+            "title": "Simple interest",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/8.1/8.1.mp4",
+            "duration": "7:19",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1208",
+            "type": "course",
+            "title": "Banking and Simple Interest",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/157/assignments/1208",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "courseware": [
+          {
+            "title": "Banking and Simple Interest",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/157/assignments/1208"
+          }
+        ],
+        "practice": [],
+        "solutions": []
+      },
+      {
+        "id": "u7-l8",
+        "section": "7.F2",
+        "title": "Compound interest and present value",
+        "summary": "Calculate future value A = P(1 + i)ⁿ. Find P = A/(1 + i)ⁿ and match the period rate with the number of periods.",
+        "focus": [
+          "Calculate future value A = P(1 + i)ⁿ.",
+          "Find P = A/(1 + i)ⁿ and match the period rate with the number of periods."
+        ],
+        "pause": "Draw the payment timeline before substituting. Check the rate per period and payment timing.",
+        "pitfall": "Divide the nominal annual rate by compounding periods per year.",
+        "videos": [
+          {
+            "id": "hagen-8.2-8.2",
+            "type": "video",
+            "title": "Compound interest and present value",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/8.2/8.2.mp4",
+            "duration": "13:20",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "hagen-8.3-8.3",
+            "type": "video",
+            "title": "Compound interest: present value",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/8.3/8.3.mp4",
+            "duration": "6:18",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1210",
+            "type": "course",
+            "title": "Compound Interest",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/157/assignments/1210",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "courseware": [
+          {
+            "title": "Compound Interest",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/157/assignments/1210"
+          }
+        ],
+        "practice": [],
+        "solutions": []
+      },
+      {
+        "id": "u7-l9",
+        "section": "7.F3",
+        "title": "Annuities and regular payments",
+        "summary": "Connect equal payments to a geometric series. Find the future value of an ordinary annuity and compare it with present value.",
+        "focus": [
+          "Connect equal payments to a geometric series.",
+          "Find the future value of an ordinary annuity and compare it with present value."
+        ],
+        "pause": "Draw the payment timeline before substituting. Check the rate per period and payment timing.",
+        "pitfall": "Ordinary annuity payments happen at the end of each period; the first deposit earns interest for n − 1 periods.",
+        "videos": [
+          {
+            "id": "hagen-8.4-8.4",
+            "type": "video",
+            "title": "Annuities and regular payments",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/8.4/8.4.mp4",
+            "duration": "11:16",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "hagen-8.5-8.5",
+            "type": "video",
+            "title": "Annuities: present value",
+            "provider": "Mr Hagen · Ontario MCR3U",
+            "url": "https://splash.tdchristian.ca/classes/math/Hagen/11U/Videos/8.5/8.5.mp4",
+            "duration": "9:07",
+            "note": "A complete public classroom video. Lesson numbers follow this teacher’s sequence."
+          },
+          {
+            "id": "cemc-1214",
+            "type": "course",
+            "title": "Solving Annuity Problems as Geometric Series",
+            "provider": "University of Waterloo · CEMC",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/157/assignments/1214",
+            "note": "Open Watch for narrated visual instruction, then Practise for questions with full solutions."
+          }
+        ],
+        "courseware": [
+          {
+            "title": "Solving Annuity Problems as Geometric Series",
+            "url": "https://courseware.cemc.uwaterloo.ca/45/157/assignments/1214"
+          }
+        ],
+        "practice": [],
+        "solutions": []
+      }
+    ],
+    "review": [
+      {
+        "label": "Sequences and series practice",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_sequencesseries_practiceworksheet.docx"
+      },
+      {
+        "label": "Practice answer key",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_sequencesseries_practiceworksheet_soln.pdf"
+      },
+      {
+        "label": "Unit summary",
+        "url": "https://lourdesmath.weebly.com/uploads/5/9/7/7/5977474/mcr3u_sequencesandseries_summary.docx"
+      }
+    ],
+    "readiness": [
+      "I can classify a pattern as arithmetic, geometric, recursive, or neither.",
+      "I can find a term or sum and explain what n means.",
+      "I can move between a context, a recurrence, and an explicit formula.",
+      "I can expand a binomial and justify the coefficients."
+    ],
+    "numbering": "Function Room topic order. Your school may use different lesson numbers or teach these topics in a different order.",
+    "symbol": "aₙ",
+    "time": "Choose one lesson at a time. Allow time for paper practice after watching."
+  }
+]
