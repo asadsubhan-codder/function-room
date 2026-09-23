@@ -567,7 +567,7 @@
       "I can state domain and range in interval notation, including restrictions.",
       "I can sketch a transformed parent and find an inverse when it exists."
     ],
-    "numbering": "Function Room topic order. Your school may use different lesson numbers or teach these topics in a different order.",
+    "numbering": "Topic order. Your school may use different lesson numbers or teach these topics in a different order.",
     "symbol": "ƒ(x)",
     "time": "Choose one lesson at a time. Allow time for paper practice after watching."
   },
@@ -1145,7 +1145,7 @@
       "I can simplify rational expressions and state every excluded value.",
       "I can add rational expressions using an LCD without losing restrictions."
     ],
-    "numbering": "Function Room topic order. Your school may use different lesson numbers or teach these topics in a different order.",
+    "numbering": "Topic order. Your school may use different lesson numbers or teach these topics in a different order.",
     "symbol": "(x + a)",
     "time": "Choose one lesson at a time. Allow time for paper practice after watching."
   },
@@ -1754,7 +1754,7 @@
       "I can solve by factoring, completing the square, or the quadratic formula and justify the choice.",
       "I can use the discriminant, inverse restrictions, families, and linear–quadratic systems correctly."
     ],
-    "numbering": "Function Room topic order. Your school may use different lesson numbers or teach these topics in a different order.",
+    "numbering": "Topic order. Your school may use different lesson numbers or teach these topics in a different order.",
     "symbol": "ax² + bx + c",
     "time": "Choose one lesson at a time. Allow time for paper practice after watching."
   },
@@ -2301,7 +2301,7 @@
       "I can solve exponential equations and verify the result.",
       "I can explain growth, decay, half-life, doubling time, and units in context."
     ],
-    "numbering": "Function Room topic order. Your school may use different lesson numbers or teach these topics in a different order.",
+    "numbering": "Topic order. Your school may use different lesson numbers or teach these topics in a different order.",
     "symbol": "a · bˣ",
     "time": "Choose one lesson at a time. Allow time for paper practice after watching."
   },
@@ -2867,7 +2867,7 @@
       "I can select and apply a triangle law from a labelled diagram.",
       "I can explain an ambiguous case, prove a basic identity, and solve a 3D problem."
     ],
-    "numbering": "Function Room topic order. Your school may use different lesson numbers or teach these topics in a different order.",
+    "numbering": "Topic order. Your school may use different lesson numbers or teach these topics in a different order.",
     "symbol": "sin θ",
     "time": "Choose one lesson at a time. Allow time for paper practice after watching."
   },
@@ -3293,7 +3293,7 @@
       "I can create a sinusoidal model from a context and explain every parameter.",
       "I can solve a target-value question and include all times in the required interval."
     ],
-    "numbering": "Function Room topic order. Your school may use different lesson numbers or teach these topics in a different order.",
+    "numbering": "Topic order. Your school may use different lesson numbers or teach these topics in a different order.",
     "symbol": "a sin(kx) + c",
     "time": "Choose one lesson at a time. Allow time for paper practice after watching."
   },
@@ -3811,7 +3811,7 @@
       "I can move between a context, a recurrence, and an explicit formula.",
       "I can expand a binomial and justify the coefficients."
     ],
-    "numbering": "Function Room topic order. Your school may use different lesson numbers or teach these topics in a different order.",
+    "numbering": "Topic order. Your school may use different lesson numbers or teach these topics in a different order.",
     "symbol": "aₙ",
     "time": "Choose one lesson at a time. Allow time for paper practice after watching."
   }

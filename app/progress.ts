@@ -1,4 +1,4 @@
-import { allLessons, lessonById, VERSION } from "./curriculum";
+import { allLessons, lessonById } from "./curriculum";
 import type { Check } from "./checks";
 export type Phase = "diagnostic" | "exit" | "retention" | "unit";
 export type Attempt = {
@@ -48,7 +48,7 @@ export type Progress = {
   feedback: Feedback[];
   legacyImported?: boolean;
 };
-export const KEY = "function-room-v6";
+export const KEY = "open-functions-v1";
 export const uid = () => crypto.randomUUID();
 export const blankRecord = (): RecordState => ({
   watched: [],
@@ -74,7 +74,7 @@ const num = (x: unknown, max = 1e15) =>
     : 0;
 export function validateState(raw: unknown): Progress {
   if (!raw || typeof raw !== "object" || (raw as Progress).version !== 6)
-    throw Error("Choose a Function Room progress backup (version 6).");
+    throw Error("Choose an Open Functions progress backup.");
   const r = raw as Progress,
     base = fresh();
   base.participant = text(r.participant, 100) || base.participant;
@@ -157,9 +157,7 @@ export function loadProgress(): { data: Progress; warning: string } {
     if (saved) return { data: validateState(JSON.parse(saved)), warning: "" };
     const base = fresh();
     for (const key of [
-      "function-room-mastery-v5",
-      "function-room-mastery-v4",
-      "function-room-mastery-v3",
+      "open-functions-v0",
     ]) {
       const old = localStorage.getItem(key);
       if (!old) continue;
@@ -279,44 +277,4 @@ export function download(
   a.download = name;
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-export type PilotReport = {
-  type: "function-room-pilot";
-  version: 1;
-  courseVersion: string;
-  participant: string;
-  created: number;
-  attempts: Attempt[];
-  feedback: Feedback[];
-};
-export const pilotReport = (s: Progress): PilotReport => ({
-  type: "function-room-pilot",
-  version: 1,
-  courseVersion: VERSION,
-  participant: s.participant,
-  created: Date.now(),
-  attempts: s.attempts,
-  feedback: s.feedback,
-});
-export function validateReport(raw: unknown): PilotReport {
-  const r = raw as PilotReport;
-  if (
-    !r ||
-    r.type !== "function-room-pilot" ||
-    r.version !== 1 ||
-    !Array.isArray(r.attempts) ||
-    !Array.isArray(r.feedback)
-  )
-    throw Error("Choose a participant study report, not a progress backup.");
-  const p = validateState({
-    ...fresh(),
-    participant: r.participant,
-    attempts: r.attempts,
-    feedback: r.feedback,
-  });
-  return {
-    ...pilotReport(p),
-    courseVersion: text(r.courseVersion, 50),
-    created: num(r.created),
-  };
 }

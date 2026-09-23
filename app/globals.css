@@ -1835,41 +1835,6 @@ details > p {
   background: transparent;
   padding: 5px 7px;
 }
-.project-banner {
-  border-radius: 13px;
-  background: #e5f1e9;
-  border: 1px solid #cedfd2;
-  padding: 30px;
-}
-.project-banner .tag {
-  background: #cfe5d7;
-  color: #245d3f;
-  margin-bottom: 16px;
-}
-.project-banner p {
-  max-width: 760px;
-  color: #536d59;
-}
-.pilot-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  margin: 24px 0;
-}
-.pilot-stats strong {
-  font:
-    700 1.8rem Manrope,
-    sans-serif;
-  color: #286145;
-  display: block;
-}
-.pilot-stats span {
-  font-size: 0.71rem;
-  line-height: 1.4;
-  color: #67796b;
-  display: block;
-  margin-top: 7px;
-}
 .timeline-item {
   display: flex;
   gap: 30px;
@@ -2517,15 +2482,6 @@ details > p {
   }
   .error-item .button {
     font-size: 0.78rem;
-  }
-  .project-banner {
-    padding: 24px 22px;
-  }
-  .pilot-stats {
-    gap: 10px;
-  }
-  .pilot-stats strong {
-    font-size: 1.6rem;
   }
   .timeline-item {
     display: block;

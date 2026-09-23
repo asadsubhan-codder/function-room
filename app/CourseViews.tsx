@@ -276,7 +276,7 @@ export function Sources() {
         <p>
           Seven units organize Ontario MCR3U topics into a study route. Begin
           with relations, notation, domain and range, parent functions,
-          transformations and inverses. These are Function Room lesson numbers;
+          transformations and inverses. These are site lesson numbers;
           your teacher’s order and textbook chapter numbers may differ.
         </p>
         <p>
@@ -286,9 +286,8 @@ export function Sources() {
           discriminant, families and linear–quadratic systems.
         </p>
         <p>
-          This is an independent study project, not an official school-board
-          course or a credit. Your teacher’s current outline determines what
-          will be assessed.
+          This resource is not an official school-board course or a credit.
+          Your teacher’s current outline determines what will be assessed.
         </p>
       </section>
       <section className="panel">
@@ -331,33 +330,24 @@ export function Sources() {
           link or an alternate explanation if a player fails.
         </p>
         <p>
-          Instruction and linked worksheets belong to their creators. Function
-          Room links to them and does not claim their work as original. Its
-          interface and original practice checks were built with AI assistance.
-          Short checks are skill samples, not validated assessments; classroom
-          testing and teacher review remain pending.
+          Instruction and linked worksheets belong to their creators. Short
+          checks are skill samples, not validated assessments. Use your
+          teacher’s instructions for graded work.
         </p>
-        <External
-          href="https://github.com/asadsubhan-codder/function-room/issues/new"
-          className="button"
-        >
-          Report a broken link or content error
-        </External>
       </section>
       <section className="panel">
         <h2>Your progress & privacy</h2>
         <p>
-          Progress, private notes, feedback and imported pilot reports stay in
-          this browser. They do not automatically sync between an iPad and
-          laptop. Export a backup and import it on the other device. Clearing
-          browser data can erase local progress.
+          Progress, private notes and feedback stay in this browser. They do
+          not automatically sync between an iPad and laptop. Export a backup
+          and import it on the other device. Clearing browser data can erase
+          local progress.
         </p>
         <p>
           No account is required. There is no central analytics collection or
           automatic feedback submission. Google Fonts, YouTube thumbnails,
           played videos and external pages connect to their providers, which
-          have their own privacy practices. A pilot report is shared only when
-          you download it and choose to send the file.
+          have their own privacy practices.
         </p>
       </section>
     </div>

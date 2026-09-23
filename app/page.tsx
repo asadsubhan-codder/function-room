@@ -18,7 +18,6 @@ import { UnitPage, CourseMap, UnitCards, Sources } from "./CourseViews";
 import Lesson from "./Lesson";
 import Review from "./Review";
 import Quiz from "./Quiz";
-import Project from "./Project";
 
 export default function Home() {
   const initial = useMemo(loadProgress, []),
@@ -68,7 +67,7 @@ export default function Home() {
     document.title =
       (route.startsWith("lesson/")
         ? lessonById[route.split("/")[1]]?.title + " · "
-        : "") + "Function Room · Ontario Grade 11";
+        : "") + "Open Functions · Ontario Grade 11";
   }, [route]);
   function go(r: string) {
     if (location.hash === "#" + r) {
@@ -113,7 +112,6 @@ export default function Home() {
     ["desk", "▦", "My study desk"],
     ["course", "▤", "Course map"],
     ["review", "↺", "Review & errors"],
-    ["project", "◇", "The project"],
     ["sources", "ⓘ", "Sources & standards"],
   ];
   async function restore(file: File | undefined) {
@@ -121,7 +119,7 @@ export default function Home() {
     try {
       if (file.size > 5e6) throw Error("Backup is too large. Maximum 5 MB.");
       const next = validateState(JSON.parse(await file.text()));
-      download("function-room-before-import.json", state);
+      download("open-functions-before-import.json", state);
       update(() => next);
       N(
         "Backup restored. A copy of your previous progress was downloaded first.",
@@ -148,11 +146,11 @@ export default function Home() {
           <button
             className="brand"
             onClick={() => go("desk")}
-            aria-label="Function Room home"
+            aria-label="Open Functions home"
           >
             <span className="brand-mark">ƒ</span>
             <span>
-              function<span className="brand-second">room.</span>
+              open<span className="brand-second">functions.</span>
             </span>
           </button>
           <div className="course-badge">
@@ -259,7 +257,7 @@ export default function Home() {
                   <p>Move between devices with a backup.</p>
                   <button
                     onClick={() =>
-                      download("function-room-progress.json", state)
+                      download("open-functions-progress.json", state)
                     }
                   >
                     Export progress ↓
@@ -455,16 +453,13 @@ export default function Home() {
                     </p>
                   </div>
                   <div>
-                    <h3>Built by a student. Better with feedback.</h3>
+                    <h3>Return to what you missed.</h3>
                     <p>
-                      Help shape a free Ontario math resource, one useful lesson
-                      at a time.
+                      Use the review list to correct errors and revisit skills
+                      after a delay.
                     </p>
-                    <button
-                      className="text-button"
-                      onClick={() => go("project")}
-                    >
-                      Explore the project →
+                    <button className="text-button" onClick={() => go("review")}>
+                      Open review & errors →
                     </button>
                   </div>
                 </div>
@@ -489,8 +484,6 @@ export default function Home() {
               <CourseMap state={state} query={query} setQuery={Q} go={go} />
             ) : route === "review" ? (
               <Review state={state} update={update} go={go} launch={launch} />
-            ) : route === "project" ? (
-              <Project state={state} />
             ) : route === "sources" ? (
               <Sources />
             ) : (
@@ -505,7 +498,7 @@ export default function Home() {
           </main>
           <footer className="footer">
             <span>
-              function room. <small>Ontario Grade 11 · MCR3U</small>
+              open functions. <small>Ontario Grade 11 · MCR3U</small>
             </span>
             <button onClick={() => go("sources")}>
               Sources, credits & privacy

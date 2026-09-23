@@ -411,8 +411,8 @@ export default function Lesson({
                 <section className="panel">
                   <h2>Make this lesson better.</h2>
                   <p className="small muted">
-                    Optional feedback saves here. Share it by downloading a
-                    study report in Project. Please omit personal details.
+                    Optional feedback saves only in this browser. Please omit
+                    personal details.
                   </p>
                   <form
                     onSubmit={(e) => {
